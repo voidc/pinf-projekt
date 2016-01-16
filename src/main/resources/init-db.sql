@@ -1,0 +1,1 @@
+insert into gweuser(id,email,first_name,last_name,password) values (0,'admin@example.com','Admin','Istrator','$2a$10$BC1UyAAdpolxJktRByaJHOpgrEdV18r.7.4U.u48MxfbFYy.1YKHW');

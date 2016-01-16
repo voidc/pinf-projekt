@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Anmelden</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="panel panel-signin">
+            <h2 class="panel-heading form-signin-heading">Anmelden</h2>
+            <div class="alert alert-danger" th:if="${param.error != null}" role="alert">Anmeldung fehlgeschlagen</div>
+            <form th:action="@{/login}" method="post" class="form-signin">
+                <div class="form-group">
+                    <label for="username" class="sr-only">Email</label>
+                    <input type="text" name="username" id="username" placeholder="Email" class="form-control" required="true" autofocus="true" />
+                    <label for="password" class="sr-only">Passwort</label>
+                    <input type="password" name="password" id="password" placeholder="Passwort" class="form-control" required="true" />
+                </div>
+                <button type="submit" class="btn btn-lg btn-primary btn-block">Anmelden</button>
+            </form>
+            <a href="/signup" class="btn btn-link" id="create-account">Registrieren</a>
+        </div>
+    </div>
+</body>
+
+</html>
