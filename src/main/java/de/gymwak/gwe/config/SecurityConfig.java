@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.permitAll()
 			.and()
 		.authorizeRequests()
-			.antMatchers("/resources/**", "/css/**", "/signup").permitAll()
+			.antMatchers("/resources/**", "/css/**", "/img/**", "/signup").permitAll()
 			.anyRequest().authenticated();
 	}
 	
