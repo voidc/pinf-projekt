@@ -22,7 +22,12 @@ public class UserController {
 		this.userRepository = userRepository;
 	}
 	
-	@RequestMapping(method=RequestMethod.GET)
+	@RequestMapping(path="/", method=RequestMethod.GET)
+	public String get() {
+		return "redirect:/user";
+	}
+	
+	@RequestMapping(path="/user", method=RequestMethod.GET)
 	public ModelAndView userDetails() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if(auth == null || !auth.isAuthenticated()) {

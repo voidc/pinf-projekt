@@ -17,7 +17,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import de.gymwak.gwe.data.GWERepository;
 import de.gymwak.gwe.model.GWEUser;
@@ -40,13 +39,12 @@ public class SignupController {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
-	public String signup(@Valid GWEUser user, BindingResult result, RedirectAttributes redirect) {
+	public String signup(@Valid GWEUser user, BindingResult result) {
 		if (result.hasErrors()) {
-            return "signup";
+            return get();
         }
 		user.setPassword(encoder.encode(user.getPassword()));
         user = userRepository.save(user);
-        redirect.addFlashAttribute("globalMessage", "Successfully signed up");
 
         List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_USER");
         UserDetails userDetails = new User(user.getEmail(),user.getPassword(), authorities);
