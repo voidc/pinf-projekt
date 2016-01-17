@@ -50,13 +50,14 @@ public class EditController {
 		}
 		GWEUser gweUser = userRepository.findByEmail(auth.getName());
 		
+		boolean changedUsername = !userEdit.getEmail().equals(gweUser.getEmail());
 		gweUser.setEmail(userEdit.getEmail());
 		gweUser.setFirstName(userEdit.getFirstName());
 		gweUser.setLastName(userEdit.getLastName());
 		
 		userRepository.save(gweUser);
 		
-        return "redirect:/user";
+        return changedUsername ? "redirect:/logout" : "redirect:/user";
 	}
 
 }
