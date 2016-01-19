@@ -57,7 +57,7 @@ public class EditController {
 		
 		userRepository.save(gweUser);
 		
-        return changedUsername ? "redirect:/logout" : "redirect:/user";
+                return changedUsername ? "redirect:/logout" : "redirect:/user";
 	}
 
 }
