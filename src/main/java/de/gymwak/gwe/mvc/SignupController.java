@@ -40,9 +40,11 @@ public class SignupController {
 	
 	@RequestMapping(method=RequestMethod.POST)
 	public String signup(@Valid GWEUser user, BindingResult result) {
-		if (result.hasErrors()) {
-            return get();
+		if (result.hasErrors() ||
+			userRepository.findByEmail(user.getEmail()) != null) {
+            return "redirect:/signup?error";
         }
+
 		user.setPassword(encoder.encode(user.getPassword()));
         user = userRepository.save(user);
 

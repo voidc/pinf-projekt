@@ -41,16 +41,21 @@ public class EditController {
 	@RequestMapping(method=RequestMethod.POST)
 	public String edit(@Valid GWEUserEdit userEdit, BindingResult result) {
 		if (result.hasErrors()) {
-			return "redirect:/edit";
+			return "redirect:/edit?error";
 		}
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if(auth == null || !auth.isAuthenticated()) {
 			return "redirect:/login?error";
 		}
-		GWEUser gweUser = userRepository.findByEmail(auth.getName());
 		
+		GWEUser gweUser = userRepository.findByEmail(auth.getName());
 		boolean changedUsername = !userEdit.getEmail().equals(gweUser.getEmail());
+		
+		if(changedUsername && userRepository.findByEmail(userEdit.getEmail()) != null) {
+			return "redirect:/edit?error";
+		}
+		
 		gweUser.setEmail(userEdit.getEmail());
 		gweUser.setFirstName(userEdit.getFirstName());
 		gweUser.setLastName(userEdit.getLastName());
