@@ -29,7 +29,7 @@ public class GWERepositoryService implements UserDetailsService {
 		}
 		return new GWEUserDetails(user);
 	}
-	
+
 	private final class GWEUserDetails extends GWEUser implements UserDetails {
 
 		GWEUserDetails(GWEUser user) {

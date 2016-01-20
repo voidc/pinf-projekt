@@ -10,7 +10,7 @@ public class GWEUserEdit implements Serializable {
 	@Email(message = "Please provide a valid email address.")
 	@NotEmpty(message = "Email is required.")
 	private String email;
-	
+
 	@NotEmpty(message = "First name is required.")
 	private String firstName;
 

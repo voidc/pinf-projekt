@@ -16,29 +16,20 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable()
-		.formLogin()
-			.loginPage("/login")
-			.defaultSuccessUrl("/user")
-			.permitAll()
-			.and()
-		.logout()
-			.logoutSuccessUrl("/login")
-			.permitAll()
-			.and()
-		.authorizeRequests()
-			.antMatchers("/resources/**", "/css/**", "/img/**", "/signup").permitAll()
-			.anyRequest().authenticated();
+		http.csrf().disable().formLogin().loginPage("/login").defaultSuccessUrl("/user").permitAll().and().logout()
+				.logoutSuccessUrl("/login").permitAll().and().authorizeRequests()
+				.antMatchers("/resources/**", "/css/**", "/img/**", "/signup").permitAll().anyRequest().authenticated();
 	}
-	
+
 	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth, UserDetailsService service, PasswordEncoder encoder) throws Exception {
+	public void configureGlobal(AuthenticationManagerBuilder auth, UserDetailsService service, PasswordEncoder encoder)
+			throws Exception {
 		auth.userDetailsService(service).passwordEncoder(encoder);
 	}
-	
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();

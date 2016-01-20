@@ -26,34 +26,33 @@ import de.gymwak.gwe.model.GWEUser;
 public class SignupController {
 	private GWERepository userRepository;
 	private PasswordEncoder encoder;
-	
+
 	@Autowired
 	public SignupController(GWERepository userRepository, PasswordEncoder encoder) {
 		this.userRepository = userRepository;
 		this.encoder = encoder;
 	}
-	
-	@RequestMapping(method=RequestMethod.GET)
+
+	@RequestMapping(method = RequestMethod.GET)
 	public String get() {
 		return "signup";
 	}
-	
-	@RequestMapping(method=RequestMethod.POST)
+
+	@RequestMapping(method = RequestMethod.POST)
 	public String signup(@Valid GWEUser user, BindingResult result) {
-		if (result.hasErrors() ||
-			userRepository.findByEmail(user.getEmail()) != null) {
-            return "redirect:/signup?error";
-        }
+		if (result.hasErrors() || userRepository.findByEmail(user.getEmail()) != null) {
+			return "redirect:/signup?error";
+		}
 
 		user.setPassword(encoder.encode(user.getPassword()));
-        user = userRepository.save(user);
+		user = userRepository.save(user);
 
-        List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_USER");
-        UserDetails userDetails = new User(user.getEmail(),user.getPassword(), authorities);
-        Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, user.getPassword(), authorities);
-        SecurityContextHolder.getContext().setAuthentication(auth);
-        return "redirect:/user";
-		
+		List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_USER");
+		UserDetails userDetails = new User(user.getEmail(), user.getPassword(), authorities);
+		Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, user.getPassword(), authorities);
+		SecurityContextHolder.getContext().setAuthentication(auth);
+		return "redirect:/user";
+
 	}
 
 }

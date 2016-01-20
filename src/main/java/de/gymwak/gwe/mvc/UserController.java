@@ -13,30 +13,30 @@ import de.gymwak.gwe.data.GWERepository;
 import de.gymwak.gwe.model.GWEUser;
 
 @Controller
-@RequestMapping({"/user", "/"})
+@RequestMapping({ "/user", "/" })
 public class UserController {
 	private GWERepository userRepository;
-	
+
 	@Autowired
 	public UserController(GWERepository userRepository) {
 		this.userRepository = userRepository;
 	}
-	
-	@RequestMapping(path="/", method=RequestMethod.GET)
+
+	@RequestMapping(path = "/", method = RequestMethod.GET)
 	public String get() {
 		return "redirect:/user";
 	}
-	
-	@RequestMapping(path="/user", method=RequestMethod.GET)
+
+	@RequestMapping(path = "/user", method = RequestMethod.GET)
 	public ModelAndView userDetails() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if(auth == null || !auth.isAuthenticated()) {
+		if (auth == null || !auth.isAuthenticated()) {
 			return new ModelAndView("redirect:/login?error");
 		}
-		
+
 		Assert.notNull(auth.getName(), "username");
 		Assert.notNull(userRepository, "repo");
-		
+
 		GWEUser gweUser = userRepository.findByEmail(auth.getName());
 		ModelAndView mav = new ModelAndView("user");
 		mav.addObject("currentUser", gweUser);
