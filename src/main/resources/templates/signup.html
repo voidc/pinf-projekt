@@ -12,7 +12,9 @@
 <body>
     <div class="container">
         <div class="page-header row">
-            <div class="col-md-2"><img title="Gymnasium Waldkraiburg" src="img/logo120px.png" /></div>
+            <div class="col-md-2">
+                <a href="/"><img title="Gymnasium Waldkraiburg" src="img/logo120px.png" /></a>
+            </div>
             <h1 class="col-md-10">Ehemalige<br/><small>des Gymnasiums Waldkraiburg</small></h1>
         </div>
         <form class="form-horizontal form-signup" th:action="@{/signup}" method="post">
@@ -45,10 +47,10 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <input name="acceptPrivacyPolicy" type="checkbox" id="inputAcceptPrivacyPolicy" required="true" />
-                                <!-- To do: Link hinzufügen -->
-                                Ich akzeptiere die <a>Datenschutzvereinbarung</a> der Schule.
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" required="true"> Ich akzeptiere die <a href="/impressum#datenschutz">Datenschutzvereinbarung</a> der Schule
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -63,18 +65,18 @@
             </div>
         </form>
     </div>
-    
+
     <!-- Footer -->
     <div class="footer">
         <div class="container">
             <div class="textbox">
                 <p class="text-faded text-aligned-left">&copy; Gymnasium Waldkraiburg 2016</p>
-                <p class="text-faded text-aligned-right"><a>Kontakt</a> - <a>Datenschutz</a> - <a>Feedback geben</a></p>
+                <p class="text-faded text-aligned-right"><a href="/impressum#kontakt">Kontakt</a> - <a>Datenschutz</a> - <a>Feedback geben</a></p>
                 <div style="clear: both;"></div>
             </div>
         </div>
     </div>
-    
+
 </body>
 
 </html>
