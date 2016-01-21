@@ -1,7 +1,26 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
 body {
     padding-top: 40px;
     padding-bottom: 40px;
     background-color: #eee;
+    
+    /* Footer-Bereich */
+    margin-bottom: 60px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    
+    /* Footer-Höhe (sollte mit margin-bottom bei body übereinstimmen) */
+    height: 60px;
+    
+    background-color: #f5f5f5;
 }
 
 .panel-signin {
@@ -45,4 +64,16 @@ body {
 
 .form-signup .form-group {
     margin-bottom: 10px;
+}
+
+.text-aligned-left {
+    float: left;
+}
+
+.text-aligned-right {
+    float: right;
+}
+
+.container .text-faded {
+    margin: 20px 0;
 }
