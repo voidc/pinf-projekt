@@ -20,7 +20,7 @@ body {
     /* Footer-Höhe (sollte mit margin-bottom bei body übereinstimmen) */
     height: 60px;
     
-    background-color: #f5f5f5;
+    background-color: #e0e0eb;
 }
 
 .panel-signin {
