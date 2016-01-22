@@ -28,8 +28,7 @@ public class SignupController {
 	private PasswordEncoder encoder;
 
 	@Autowired
-	public SignupController(GWERepository userRepository,
-			PasswordEncoder encoder) {
+	public SignupController(GWERepository userRepository, PasswordEncoder encoder) {
 		this.userRepository = userRepository;
 		this.encoder = encoder;
 	}
@@ -46,20 +45,16 @@ public class SignupController {
 		}
 
 		if (userRepository.findByEmail(user.getEmail()) != null) {
-			return "redirect:/signup?error=email&email=" + user.getEmail()
-					+ "&firstname=" + user.getFirstName() + "&lastname="
-					+ user.getLastName();
+			return "redirect:/signup?error=email&email=" + user.getEmail() + "&firstname=" + user.getFirstName()
+					+ "&lastname=" + user.getLastName();
 		}
 
 		user.setPassword(encoder.encode(user.getPassword()));
 		user = userRepository.save(user);
 
-		List<GrantedAuthority> authorities = AuthorityUtils
-				.createAuthorityList("ROLE_USER");
-		UserDetails userDetails = new User(user.getEmail(), user.getPassword(),
-				authorities);
-		Authentication auth = new UsernamePasswordAuthenticationToken(
-				userDetails, user.getPassword(), authorities);
+		List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_USER");
+		UserDetails userDetails = new User(user.getEmail(), user.getPassword(), authorities);
+		Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, user.getPassword(), authorities);
 		SecurityContextHolder.getContext().setAuthentication(auth);
 		return "redirect:/user";
 

@@ -2,26 +2,16 @@
 <html lang="en">
 
 <head>
-<meta charset="UTF-8" />
-<title>Impressum</title>
-<link rel="stylesheet"
-    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
-<link rel="stylesheet" href="css/style.css" />
-<link rel="icon" href="img/favicon.png" type="image/png" />
+    <meta charset="UTF-8" />
+    <title>Impressum</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" href="img/favicon.png" type="image/png" />
 </head>
 
 <body>
     <div class="container">
-        <div class="page-header row">
-            <div class="col-md-2">
-                <a href="/"><img title="Gymnasium Waldkraiburg"
-                    src="img/logo120px.png" /></a>
-            </div>
-            <h1 class="col-md-10">
-                Ehemalige
-                <br />
-                <small>des Gymnasiums Waldkraiburg</small>
-            </h1>
+        <div th:replace="fragments :: header">
         </div>
         <div class="panel panel-primary">
             <div class="panel-heading">Impressum</div>
@@ -33,93 +23,35 @@
                         <li><b>Gymnasium Waldkraiburg</b></li>
                         <li>Ritter von Gluck Weg 3a</li>
                         <li>84478 Waldkraiburg</li>
-                        <li><br /></li>
+                        <li>
+                            <br />
+                        </li>
                         <li>Telefon: 08638/9419-0</li>
                         <li>Fax: 08638/941929</li>
-                        <li>E-Mail: <a
-                            href="mailto:gymnasium.waldkraiburg@t-online.de">gymnasium.waldkraiburg@t-online.de</a></li>
+                        <li>E-Mail: <a href="mailto:gymnasium.waldkraiburg@t-online.de">gymnasium.waldkraiburg@t-online.de</a></li>
                         <li>Homepage: <a href="http://www.gymnasiumwaldkraiburg.de">www.gymnasiumwaldkraiburg.de</a></li>
                     </ul>
                     <br />
                     <h3 id="datenschutz">Datenschutz</h3>
-                    <p>Durch die Nutzung dieser Seite stimmen Sie den folgenden
-                        Bestimmungen zum Datenschutz zu.</p>
+                    <p>Durch die Nutzung dieser Seite stimmen Sie den folgenden Bestimmungen zum Datenschutz zu.</p>
                     <h4>Erhebung von Daten</h4>
-                    <p>Die Nutzung unserer Webseite ist in der Regel ohne Angabe
-                        personenbezogener Daten möglich. Soweit auf unseren Seiten
-                        personenbezogene Daten (beispielsweise Name, Anschrift oder
-                        eMail-Adressen) erhoben werden, erfolgt dies, soweit möglich,
-                        stets auf freiwilliger Basis. Wir erfassen keine Daten, die Sie
-                        uns nicht konkret mitteilen, das heißt, dass wir keine Daten über
-                        von Ihnen genutzte Dienste oder die Art der Nutzung speichern.</p>
+                    <p>Die Nutzung unserer Webseite ist in der Regel ohne Angabe personenbezogener Daten möglich. Soweit auf unseren Seiten personenbezogene Daten (beispielsweise Name, Anschrift oder eMail-Adressen) erhoben werden, erfolgt dies, soweit möglich, stets auf freiwilliger Basis. Wir erfassen keine Daten, die Sie uns nicht konkret mitteilen, das heißt, dass wir keine Daten über von Ihnen genutzte Dienste oder die Art der Nutzung speichern.</p>
                     <h4>Nutzung der Daten</h4>
                     <p>Wir verwenden Ihre Daten ausschließlich für interne Zwecke.</p>
                     <h4>Weitergabe von Daten an Dritte</h4>
-                    <p>Personenbezogene Daten werden ohne Ihre ausdrückliche
-                        Zustimmung nicht an Dritte weitergegeben. Wir weisen darauf hin,
-                        dass die Datenübertragung im Internet (z.B. bei der Kommunikation
-                        per E-Mail) Sicherheitslücken aufweisen kann. Ein lückenloser
-                        Schutz der Daten vor dem Zugriff durch Dritte ist nicht möglich.</p>
-                    <p>Der Nutzung von im Rahmen der Impressumspflicht
-                        veröffentlichten Kontaktdaten durch Dritte zur Übersendung von
-                        nicht ausdrücklich angeforderter Werbung und
-                        Informationsmaterialien wird hiermit ausdrücklich widersprochen.
-                        Die Betreiber der Seiten behalten sich ausdrücklich rechtliche
-                        Schritte im Falle der unverlangten Zusendung von
-                        Werbeinformationen, etwa durch Spam-Mails, vor.</p>
+                    <p>Personenbezogene Daten werden ohne Ihre ausdrückliche Zustimmung nicht an Dritte weitergegeben. Wir weisen darauf hin, dass die Datenübertragung im Internet (z.B. bei der Kommunikation per E-Mail) Sicherheitslücken aufweisen kann. Ein lückenloser Schutz der Daten vor dem Zugriff durch Dritte ist nicht möglich.</p>
+                    <p>Der Nutzung von im Rahmen der Impressumspflicht veröffentlichten Kontaktdaten durch Dritte zur Übersendung von nicht ausdrücklich angeforderter Werbung und Informationsmaterialien wird hiermit ausdrücklich widersprochen. Die Betreiber der Seiten behalten sich ausdrücklich rechtliche Schritte im Falle der unverlangten Zusendung von Werbeinformationen, etwa durch Spam-Mails, vor.</p>
                     <h4>Löschen von Informationen</h4>
-                    <p>Die von Ihnen bereitgestellten Daten können jederzeit von
-                        uns auf Ihre Aufforderung hin gelöscht werden. Personenbezogene
-                        Daten, die Sie selbstständig entfernt haben, werden frühstmöglich
-                        vollständig gelöscht. Personenbezogene Daten, die von Dritten
-                        gegen Ihre Einwilligung eingestellt wurden, können auf Ihre
-                        Aufforderung hin nach eingehender Prüfung, ob eine
-                        Rechtsverletzung vorliegt, entfernt werden. Wir behalten uns vor,
-                        bei solchen Fällen keine rechtlichen Schritte einzuleiten.</p>
+                    <p>Die von Ihnen bereitgestellten Daten können jederzeit von uns auf Ihre Aufforderung hin gelöscht werden. Personenbezogene Daten, die Sie selbstständig entfernt haben, werden frühstmöglich vollständig gelöscht. Personenbezogene Daten, die von Dritten gegen Ihre Einwilligung eingestellt wurden, können auf Ihre Aufforderung hin nach eingehender Prüfung, ob eine Rechtsverletzung vorliegt, entfernt werden. Wir behalten uns vor, bei solchen Fällen keine rechtlichen Schritte einzuleiten.</p>
                     <small><a href="#top">Nach oben</a></small>
                     <br />
                     <h3 id="haftung">Haftungsausschluss</h3>
-                    <p>Die Inhalte unserer Seiten wurden mit größter Sorgfalt
-                        erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der
-                        Inhalte können wir jedoch keine Gewähr übernehmen. Als
-                        Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte
-                        auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich.
-                        Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht
-                        verpflichtet, übermittelte oder gespeicherte fremde Informationen
-                        zu überwachen oder nach Umständen zu forschen, die auf eine
-                        rechtswidrige Tätigkeit hinweisen. Verpflichtungen zur Entfernung
-                        oder Sperrung der Nutzung von Informationen nach den allgemeinen
-                        Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung
-                        ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten
-                        Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden
-                        Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.</p>
-                    <p>Unser Angebot enthält Links zu externen Webseiten Dritter,
-                        auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir
-                        für diese fremden Inhalte auch keine Gewähr übernehmen. Für die
-                        Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter
-                        oder Betreiber der Seiten verantwortlich. Die verlinkten Seiten
-                        wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße
-                        überprüft. Rechtswidrige Inhalte waren zum Zeitpunkt der
-                        Verlinkung nicht erkennbar. Eine permanente inhaltliche Kontrolle
-                        der verlinkten Seiten ist jedoch ohne konkrete Anhaltspunkte einer
-                        Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von
-                        Rechtsverletzungen werden wir derartige Links umgehend entfernen.</p>
+                    <p>Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.</p>
+                    <p>Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft. Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar. Eine permanente inhaltliche Kontrolle der verlinkten Seiten ist jedoch ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links umgehend entfernen.</p>
                     <small><a href="#top">Nach oben</a></small>
                     <br />
                     <h3 id="urheber">Urheberrecht</h3>
-                    <p>Die durch die Seitenbetreiber erstellten Inhalte und Werke
-                        auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die
-                        Vervielfältigung, Bearbeitung, Verbreitung und jede Art der
-                        Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der
-                        schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.
-                        Downloads und Kopien dieser Seite sind nur für den privaten, nicht
-                        kommerziellen Gebrauch gestattet. Soweit die Inhalte auf dieser
-                        Seite nicht vom Betreiber erstellt wurden, werden die
-                        Urheberrechte Dritter beachtet. Insbesondere werden Inhalte
-                        Dritter als solche gekennzeichnet. Sollten Sie trotzdem auf eine
-                        Urheberrechtsverletzung aufmerksam werden, bitten wir um einen
-                        entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen
-                        werden wir derartige Inhalte umgehend entfernen.</p>
+                    <p>Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet. Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden, werden die Urheberrechte Dritter beachtet. Insbesondere werden Inhalte Dritter als solche gekennzeichnet. Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen.</p>
                     <small><a href="#top">Nach oben</a></small>
                     <br />
                     <h3 id="feedback">Feedback</h3>
@@ -130,8 +62,7 @@
                 <!-- Sidebar-Navigation -->
                 <div class="col-md-3">
                     <h4>Navigation</h4>
-                    <nav
-                        class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix-top">
+                    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix-top">
                         <ul class="nav bs-docs-sidenav">
                             <li class=""><a href="#kontakt">Kontakt</a></li>
                             <li class=""><a href="#datenschutz">Datenschutz</a></li>
@@ -146,20 +77,7 @@
 
     </div>
 
-    <!-- Footer -->
-    <div class="footer hidden-print hidden-xs hidden-sm">
-        <div class="container">
-            <div class="textbox text-muted">
-                <p class="text-faded text-aligned-left">&copy; 2016 Gymnasium Waldkraiburg</p>
-                <p class="text-faded text-aligned-right">
-                    <a href="/login">Anmelden</a> &bull; 
-                    <a href="/impressum">Impressum</a> &bull; 
-                    <a href="/impressum#datenschutz">Datenschutz</a> &bull; 
-                    <a href="/impressum#feedback">Feedback geben</a>
-                </p>
-                <div style="clear: both;"></div>
-            </div>
-        </div>
+    <div th:replace="fragments :: footer">
     </div>
 
 </body>
