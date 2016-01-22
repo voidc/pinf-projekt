@@ -21,11 +21,18 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">Registrieren</div>
                 <div class="panel-body">
-                    <div class="alert alert-danger" th:if="${param.error != null}" role="alert">Registrierung fehlgeschlagen</div>
+                    <div class="alert alert-danger" th:if="${(param.error != null) and (param.error[0] != 'email')}" role="alert">
+                        <!-- <small><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></small>  -->
+                        Registrierung fehlgeschlagen
+                    </div>
+                    <div class="alert alert-danger" th:if="${(param.error != null) and (param.error[0] == 'email')}" role="alert">
+                        <!-- <small><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></small>  -->
+                        Email bereits in Verwendung
+                    </div>
                     <div class="form-group">
                         <label for="inputEmail" class="col-sm-2 control-label">Email</label>
                         <div class="col-sm-10">
-                            <input name="email" type="email" class="form-control" id="inputEmail" placeholder="Email" required="true" autofocus="true" />
+                            <input name="email" type="email" class="form-control" id="inputEmail" placeholder="Email" required="true" autofocus="true" th:value="${param.email != null} ? ${param.email[0]}" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -37,13 +44,13 @@
                     <div class="form-group">
                         <label for="inputFirstName" class="col-sm-2 control-label">Vorname</label>
                         <div class="col-sm-10">
-                            <input name="firstName" type="text" class="form-control" id="inputFirstName" placeholder="Vorname" required="true" />
+                            <input name="firstName" type="text" class="form-control" id="inputFirstName" placeholder="Vorname" required="true" th:value="${param.firstname != null} ? ${param.firstname[0]}" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="inputLastName" class="col-sm-2 control-label">Nachname</label>
                         <div class="col-sm-10">
-                            <input name="lastName" type="text" class="form-control" id="inputLastName" placeholder="Nachname" required="true" />
+                            <input name="lastName" type="text" class="form-control" id="inputLastName" placeholder="Nachname" required="true" th:value="${param.lastname} != null ? ${param.lastname[0]}" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -73,7 +80,7 @@
                 <p class="text-faded text-aligned-left">&copy; 2016 Gymnasium Waldkraiburg</p>
                 <p class="text-faded text-aligned-right">
                     <a href="/login">Anmelden</a> &bull; 
-                    <a href="/impressum#kontakt">Kontakt</a> &bull; 
+                    <a href="/impressum">Impressum</a> &bull; 
                     <a href="/impressum#datenschutz">Datenschutz</a> &bull; 
                     <a href="/impressum#feedback">Feedback geben</a>
                 </p>
