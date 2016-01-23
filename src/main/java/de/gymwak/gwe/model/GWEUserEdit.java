@@ -18,7 +18,7 @@ public class GWEUserEdit implements Serializable {
 
 	@NotEmpty(message = "Last name is required.")
 	private String lastName;
-	
+
 	@Min(1940)
 	private int graduationYear;
 

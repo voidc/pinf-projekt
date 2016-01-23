@@ -51,7 +51,7 @@ public class GWEUser implements Serializable {
 		this.graduationYear = user.graduationYear;
 		this.occupation = user.occupation;
 	}
-	
+
 	public void applyUserEdit(GWEUserEdit edit) {
 		this.email = edit.getEmail();
 		this.firstName = edit.getFirstName();
