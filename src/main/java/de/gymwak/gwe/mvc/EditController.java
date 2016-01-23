@@ -56,9 +56,7 @@ public class EditController {
 			return "redirect:/edit?error";
 		}
 
-		gweUser.setEmail(userEdit.getEmail());
-		gweUser.setFirstName(userEdit.getFirstName());
-		gweUser.setLastName(userEdit.getLastName());
+		gweUser.applyUserEdit(userEdit);
 
 		userRepository.save(gweUser);
 

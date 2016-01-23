@@ -2,6 +2,8 @@ package de.gymwak.gwe.model;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Min;
+
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -17,6 +19,12 @@ public class GWEUserEdit implements Serializable {
 	@NotEmpty(message = "Last name is required.")
 	private String lastName;
 
+	@Min(1940)
+	private int graduationYear;
+
+	@NotEmpty(message = "Occupation is required.")
+	private String occupation;
+
 	public GWEUserEdit() {
 	}
 
@@ -24,6 +32,14 @@ public class GWEUserEdit implements Serializable {
 		this.firstName = user.firstName;
 		this.lastName = user.lastName;
 		this.email = user.email;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getFirstName() {
@@ -42,12 +58,20 @@ public class GWEUserEdit implements Serializable {
 		this.lastName = lastName;
 	}
 
-	public String getEmail() {
-		return email;
+	public int getGraduationYear() {
+		return graduationYear;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setGraduationYear(int graduationYear) {
+		this.graduationYear = graduationYear;
+	}
+
+	public String getOccupation() {
+		return occupation;
+	}
+
+	public void setOccupation(String occupation) {
+		this.occupation = occupation;
 	}
 
 	private static final long serialVersionUID = -6037756829879653917L;
