@@ -15,9 +15,19 @@ body {
     position: absolute;
     bottom: 0;
     width: 100%;
-    /* Footer-HÃ¶he (sollte mit margin-bottom bei body Ã¼bereinstimmen) */
+    /* Footer-Höhe (sollte mit margin-bottom bei body übereinstimmen) */
     height: 60px;
     background-color: #e0e0eb;
+}
+
+.sidebar .highlight-color {
+    background-color: #f5f5fa;
+}
+
+.navbar-heading {
+	padding-left: 10px;
+	padding-right: 10px;
+    background-color: #ffffff;
 }
 
 .panel-signin {
@@ -63,14 +73,13 @@ body {
     margin-bottom: 10px;
 }
 
-.text-aligned-left {
-    float: left;
-}
-
-.text-aligned-right {
-    float: right;
-}
-
 .container .text-faded {
     margin: 20px 0;
+}
+
+.img-sized-down {
+    height: 46px;
+    display: block;
+    margin-top: 2px;
+    margin-right: 14px;
 }
