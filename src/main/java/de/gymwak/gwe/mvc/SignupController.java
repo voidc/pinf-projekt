@@ -51,7 +51,7 @@ public class SignupController {
 					+ user.getOccupation();
 		}
 		
-		if (user.getGraduationYear() < 2000 || user.getGraduationYear() > Calendar.getInstance().get(Calendar.YEAR) + 2) {
+		if (user.getGraduationYear() < 2001 || user.getGraduationYear() > Calendar.getInstance().get(Calendar.YEAR) + 2) {
 			return "redirect:/signup?error=year&email=" + user.getEmail() + "&firstname=" + user.getFirstName()
 					+ "&lastname=" + user.getLastName() + "&gradyear=" + user.getGraduationYear() + "&occupation"
 					+ user.getOccupation();
