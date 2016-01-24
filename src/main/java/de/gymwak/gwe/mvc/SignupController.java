@@ -1,5 +1,6 @@
 package de.gymwak.gwe.mvc;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -46,7 +47,14 @@ public class SignupController {
 
 		if (userRepository.findByEmail(user.getEmail()) != null) {
 			return "redirect:/signup?error=email&email=" + user.getEmail() + "&firstname=" + user.getFirstName()
-					+ "&lastname=" + user.getLastName();
+					+ "&lastname=" + user.getLastName() + "&gradyear=" + user.getGraduationYear() + "&occupation"
+					+ user.getOccupation();
+		}
+		
+		if (user.getGraduationYear() < 2000 || user.getGraduationYear() > Calendar.getInstance().get(Calendar.YEAR) + 2) {
+			return "redirect:/signup?error=year&email=" + user.getEmail() + "&firstname=" + user.getFirstName()
+					+ "&lastname=" + user.getLastName() + "&gradyear=" + user.getGraduationYear() + "&occupation"
+					+ user.getOccupation();
 		}
 
 		user.setPassword(encoder.encode(user.getPassword()));

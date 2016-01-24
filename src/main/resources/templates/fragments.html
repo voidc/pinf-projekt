@@ -40,20 +40,38 @@
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="/user">Benutzerdaten</a></li>
-                                <li><a href="/edit">Einstellungen</a></li>
+                                <li class="dropdown-header">
+                                    <h5>
+                                        <span>Angemeldet als </span>
+                                        <b>
+                                            <span class="text-muted" th:text="${currentUser.firstName} + ' ' + ${currentUser.lastName}">Admin</span>
+                                        </b>
+                                    </h5>
+                                </li>
+                                <li>
+                                    <a href="/user">Benutzerdaten</a>
+                                </li>
+                                <li>
+                                    <a href="/edit">Einstellungen</a>
+                                </li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="/logout" disabled="disabled">Abmelden</a></li>
+                                <li>
+                                    <a href="/logout">Abmelden</a>
+                                </li>
                             </ul>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
+    </div>
+
+    <!-- Bootstrap-Script -->
+    <div th:fragment="bootstrap-script">
         <script src="http://code.jquery.com/jquery.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
     </div>
-    
+
     <!-- Header -->
     <div class="page-header row" th:fragment="header">
         <div class="col-md-2">
@@ -74,11 +92,35 @@
     <div class="footer hidden-print" th:fragment="footer">
         <div class="container">
         
+            <div class="textbox text-muted" th:with="currentUser=${#httpServletRequest.userPrincipal?.principal}">
+                <p class="text-faded pull-left">&copy; 2016 Gymnasium Waldkraiburg</p>
+                
+                <p class="text-faded pull-right">
+                    <a href="/login" th:if="${currentUser == null}">
+                        <strong>Anmelden</strong>
+                    </a>
+                    <span th:if="${currentUser != null}">
+                        Angemeldet als 
+                        <span th:text="${currentUser.firstName} + ' ' + ${currentUser.lastName}"></span> &bull;
+                        <a href="/logout">
+                            <strong>Abmelden</strong>
+                        </a> &emsp;
+                    </span>
+                    <a href="/impressum">Impressum</a> &emsp;
+                    <a href="/impressum#datenschutz">Datenschutz</a> &emsp;
+                    <a href="/impressum#feedback">Feedback geben</a>
+                </p>
+                <div style="clear: both;"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer hidden-print" th:fragment="footer-login">
+        <div class="container">
             <div class="textbox text-muted">
                 <p class="text-faded pull-left">&copy; 2016 Gymnasium Waldkraiburg</p>
                 
                 <p class="text-faded pull-right">
-                    <a href="/login">Anmelden</a> &emsp;
                     <a href="/impressum">Impressum</a> &emsp;
                     <a href="/impressum#datenschutz">Datenschutz</a> &emsp;
                     <a href="/impressum#feedback">Feedback geben</a>
