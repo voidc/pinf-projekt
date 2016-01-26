@@ -33,7 +33,7 @@ public class GWEUser implements Serializable {
 	@NotEmpty(message = "Last name is required.")
 	private String lastName;
 
-	@Min(1940)
+	@Min(-1)
 	private int graduationYear;
 
 	@NotEmpty(message = "Occupation is required.")

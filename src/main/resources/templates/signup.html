@@ -166,11 +166,13 @@
                                     </label>
                                 </div>
                             </div>
+                            <input type="hidden" name="graduationYear" th:value="-1"></input>
+                            <input type="hidden" name="occupation" th:value="GymLehrer"></input>
                         </div>
                         <div class="panel-footer">
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
-                                    <button id="signup-submit" type="submit" class="btn btn-success" disabled="disabled" data-loading-text="Registriere..." autocomplete="off">Registrieren</button>
+                                    <button id="signup-submit" type="submit" class="btn btn-success" data-loading-text="Registriere..." autocomplete="off">Registrieren</button>
                                     <a href="/login" class="btn btn-default">Abbrechen</a>
                                 </div>
                             </div>
