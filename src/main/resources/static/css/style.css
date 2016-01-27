@@ -42,6 +42,15 @@ body {
     line-height: 20px;
 }
 
+.panel {
+    border-radius: 0px;
+}
+
+.panel-heading {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
 .panel-signin {
     max-width: 330px;
     padding: 15px;
