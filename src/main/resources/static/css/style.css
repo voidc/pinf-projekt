@@ -27,17 +27,20 @@ body {
     border-color: #ffffff;
     -webkit-box-shadow: 0px 5px 5px 4px rgba(181,181,181,0.71);
     box-shadow: 0px 5px 5px 4px rgba(181,181,181,0.71);
+    background-color: #EFEFEF;
+    border-color: #ffffff;
+    -webkit-box-shadow: 0px 5px 5px 4px rgba(181, 181, 181, 0.71);
+    box-shadow: 0px 5px 5px 4px rgba(181, 181, 181, 0.71);
 }
 
 .navbar-heading {
-	padding-left: 10px;
-	padding-right: 10px;
-    background-color: #ffffff;
+    padding-left: 10px;
+    padding-right: 10px;
     min-width: 165px;
 }
 
 .navbar-height {
-	height: 50px;
+    height: 50px;
 }
 
 .navbar-brand {
@@ -130,7 +133,8 @@ body {
 }
 
 @media all {
-    .logo, .logo-login {
+    .logo,
+    .logo-login {
         position: relative;
         display: block;
         padding-right: 15px;
@@ -139,38 +143,33 @@ body {
         width: 15rem;
         float: none;
     }
-    
     .logo-text {
         text-align: center;
     }
-    
     .page-header {
-	    padding-bottom: 9px;
+        padding-bottom: 9px;
         margin: 0 0 0;
         border-bottom: 1px solid #eee;
-	}
+    }
 }
 
 @media all and (min-width: 992px) {
-	.logo {
+    .logo {
         width: auto;
         height: auto;
         float: left;
     }
-    
     .logo-login {
         margin-left: 25%;
         float: left;
         width: 16.66666667%;
     }
-    
     .logo-text {
         text-align: left;
     }
-	
-	.page-header {
-	    padding-bottom: 9px;
+    .page-header {
+        padding-bottom: 9px;
         margin: 40px 0 20px;
         border-bottom: 1px solid #eee;
-	}
+    }
 }
