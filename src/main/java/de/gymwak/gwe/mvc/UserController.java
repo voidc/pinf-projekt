@@ -32,6 +32,9 @@ public class UserController {
 	@RequestMapping(path = "/user/{userId}", method = RequestMethod.GET)
 	public ModelAndView userProfile(@PathVariable int userId) {
 		GWEUser user = userRepository.findOne((long) userId);
+		if (user == null) {
+			return new ModelAndView("redirect:/error?type=noSearchResults");
+		}
 		ModelAndView mav = new ModelAndView("profile");
 		mav.addObject("user", user);
 		return mav;
