@@ -41,9 +41,7 @@
                 </tr>
             </table>
             <div class="panel-footer">
-                <form>
-                    <button class="btn btn-success" disabled="true">Nachricht</button>
-                </form>
+                <a th:href="@{'mailto:' + ${user.email}}" class="btn btn-success">Nachricht</a>
             </div>
         </div>
 
