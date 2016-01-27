@@ -8,7 +8,7 @@
 <body>
     <!-- Navbar -->
     <div th:fragment="navbar">
-        <nav class="navbar navbar-default highlight-color">
+        <nav class="navbar navbar-default highlight-color no-border-radius">
             <div class="container-fluid">
                 <div class="navbar-header navbar-height">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
@@ -74,24 +74,23 @@
 
     <!-- Header -->
     <div class="page-header row" th:fragment="header">
-        <div class="col-md-2">
+        <div class="logo">
             <a href="/"><img title="Gymnasium Waldkraiburg" src="img/logo120px.png" /></a>
         </div>
-        <h1 class="col-md-10">Ehemalige<br/><small>des Gymnasiums Waldkraiburg</small></h1>
+        <h1 class="logo-text col-md-10">Ehemalige<br/><small>des Gymnasiums Waldkraiburg</small></h1>
     </div>
 
     <div class="page-header row" th:fragment="header-login">
-        <div class="col-md-offset-3 col-md-2">
+        <div class="col-md-offset-3 logo-login col-md-2">
             <a href="/"><img title="Gymnasium Waldkraiburg" src="img/logo120px.png" /></a>
         </div>
-        <h1 class="col-md-7">Ehemalige<br/><small>des Gymnasiums Waldkraiburg</small></h1>
+        <h1 class="logo-text col-md-7">Ehemalige<br/><small>des Gymnasiums Waldkraiburg</small></h1>
     </div>
 
 
     <!-- Footer -->
-    <div class="footer hidden-print" th:fragment="footer">
+    <footer class="footer hidden-print" th:fragment="footer">
         <div class="container">
-        
             <div class="textbox text-muted" th:with="currentUser=${#httpServletRequest.userPrincipal?.principal}">
                 <p class="text-faded pull-left">&copy; 2016 Gymnasium Waldkraiburg</p>
                 
@@ -105,7 +104,7 @@
                 <div style="clear: both;"></div>
             </div>
         </div>
-    </div>
+    </footer>
     
     <div class="footer hidden-print" th:fragment="footer-login">
         <div class="container">

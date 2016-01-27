@@ -1,27 +1,26 @@
 html {
     position: relative;
     min-height: 100%;
+    background-color: #e0e0eb;
 }
 
 body {
     padding-top: 40px;
-    padding-bottom: 40px;
     background-color: #eee;
-    /* Footer-Bereich */
-    margin-bottom: 60px;
 }
 
 .footer {
-    position: absolute;
     bottom: 0;
     width: 100%;
-    /* Footer-Höhe (sollte mit margin-bottom bei body übereinstimmen) */
-    height: 60px;
+    margin-top: 40px;
     background-color: #e0e0eb;
 }
 
 .highlight-color {
     background-color: #f5f5fa;
+    border-color: #f5f5fa;
+    -webkit-box-shadow: 0px 5px 5px 4px rgba(181,181,181,0.71);
+    box-shadow: 0px 5px 5px 4px rgba(181,181,181,0.71);
 }
 
 .navbar-heading {
@@ -96,4 +95,54 @@ body {
 
 .container .text-faded {
     margin: 20px 0;
+}
+
+.no-border-radius {
+    border-radius: 0px;
+}
+
+@media all {
+    .logo, .logo-login {
+        position: relative;
+        display: block;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin: 0 auto;
+        width: 15rem;
+        float: none;
+    }
+    
+    .logo-text {
+        text-align: center;
+    }
+    
+    .page-header {
+	    padding-bottom: 9px;
+        margin: 0 0 0;
+        border-bottom: 1px solid #eee;
+	}
+}
+
+@media all and (min-width: 992px) {
+	.logo {
+        width: auto;
+        height: auto;
+        float: left;
+    }
+    
+    .logo-login {
+        margin-left: 25%;
+        float: left;
+        width: 16.66666667%;
+    }
+    
+    .logo-text {
+        text-align: left;
+    }
+	
+	.page-header {
+	    padding-bottom: 9px;
+        margin: 40px 0 20px;
+        border-bottom: 1px solid #eee;
+	}
 }
