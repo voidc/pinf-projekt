@@ -91,15 +91,15 @@
     <!-- Footer -->
     <footer class="footer hidden-print" th:fragment="footer">
         <div class="container">
-            <div class="textbox text-muted" th:with="currentUser=${#httpServletRequest.userPrincipal?.principal}">
-                <p class="text-faded pull-left">&copy; 2016 Gymnasium Waldkraiburg</p>
+            <div class="textbox" th:with="currentUser=${#httpServletRequest.userPrincipal?.principal}">
+                <p class="text-faded text-muted pull-left">&copy; 2016 Gymnasium Waldkraiburg</p>
                 
                 <p class="text-faded pull-right">
-                    <a href="/login" th:if="${currentUser == null}"><strong>Anmelden</strong></a>
-                    <a href="/logout" th:if="${currentUser != null}"><strong>Abmelden</strong></a> &emsp;
-                    <a href="/impressum">Impressum</a> &emsp;
-                    <a href="/impressum#datenschutz">Datenschutz</a> &emsp;
-                    <a href="/impressum#feedback">Feedback geben</a>
+                    <a style="color: #333244;" href="/login" th:if="${currentUser == null}"><strong>Anmelden</strong></a>
+                    <a style="color: #333244;" href="/logout" th:if="${currentUser != null}"><strong>Abmelden</strong></a> &emsp;
+                    <a style="color: #333244;" href="/impressum">Impressum</a> &emsp;
+                    <a style="color: #333244;" href="/impressum#datenschutz">Datenschutz</a> &emsp;
+                    <a style="color: #333244;" href="/impressum#feedback">Feedback geben</a>
                 </p>
                 <div style="clear: both;"></div>
             </div>
