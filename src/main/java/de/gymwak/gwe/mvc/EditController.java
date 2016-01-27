@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import de.gymwak.gwe.data.GWERepository;
 import de.gymwak.gwe.model.GWEUser;
@@ -26,16 +25,8 @@ public class EditController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView get() {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth == null || !auth.isAuthenticated()) {
-			return new ModelAndView("redirect:/login?error");
-		}
-		GWEUser gweUser = userRepository.findByEmail(auth.getName());
-
-		ModelAndView mav = new ModelAndView("edit");
-		mav.addObject("currentUser", gweUser);
-		return mav;
+	public String get() {
+		return "edit";
 	}
 
 	@RequestMapping(method = RequestMethod.POST)

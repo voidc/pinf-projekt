@@ -17,19 +17,19 @@ public class ImpressumController {
 	public String get() {
 		return "impressum";
 	}
-	
+
 	@RequestMapping(method = RequestMethod.POST)
 	public String reportBug(@Valid GWEMessage message, BindingResult result) {
 		if (result.hasErrors()) {
 			return "redirect:/impressum?error#feedback";
 		}
-		
+
 		if (message.getMessage().isEmpty()) {
 			return "redirect:/impressum?error=message#feedback";
 		}
-		
+
 		// TODO Daten in eine (temporäre?) Datenbank(?) speichern
-		
+
 		return "redirect:/impressum?action=success#feedback";
 
 	}

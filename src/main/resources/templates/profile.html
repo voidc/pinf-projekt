@@ -17,33 +17,32 @@
         <!-- <div th:replace="fragments :: header">
         </div> -->
         <div class="panel panel-primary">
-            <div class="panel-heading">Benutzerdaten</div>
+            <div class="panel-heading" th:inline="text">Benutzerprofil von [[${user.firstName}]] [[${user.lastName}]]</div>
             <table class="table table-hover">
                 <tr>
                     <td>Email</td>
-                    <td th:text="${currentUser.email}">GWEUser.email</td>
+                    <td th:text="${user.email}">GWEUser.email</td>
                 </tr>
                 <tr>
                     <td>Vorname</td>
-                    <td th:text="${currentUser.firstName}">GWEUser.firstName</td>
+                    <td th:text="${user.firstName}">GWEUser.firstName</td>
                 </tr>
                 <tr>
                     <td>Nachname</td>
-                    <td th:text="${currentUser.lastName}">GWEUser.lastName</td>
+                    <td th:text="${user.lastName}">GWEUser.lastName</td>
                 </tr>
                 <tr>
                     <td>Abiturjahr</td>
-                    <td th:text="${currentUser.graduationYear}">GWEUser.graduationYear</td>
+                    <td th:text="${user.graduationYear}">GWEUser.graduationYear</td>
                 </tr>
                 <tr>
                     <td>Beschäftigung</td>
-                    <td th:text="${currentUser.occupation}">GWEUser.occupation</td>
+                    <td th:text="${user.occupation}">GWEUser.occupation</td>
                 </tr>
             </table>
             <div class="panel-footer">
-                <form th:action="@{/logout}" method="post">
-                    <button class="btn btn-warning" type="submit">Abmelden</button>
-                    <a href="/edit" class="btn btn-success">Bearbeiten</a>
+                <form>
+                    <button class="btn btn-success" disabled="true">Nachricht</button>
                 </form>
             </div>
         </div>
