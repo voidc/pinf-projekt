@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
@@ -17,7 +17,8 @@
         <!-- <div th:replace="fragments :: header">
         </div> -->
         <div class="panel panel-primary">
-            <div class="panel-heading" th:inline="text">Benutzerprofil von [[${user.firstName}]] [[${user.lastName}]]</div>
+            <div class="panel-heading" th:inline="text">Benutzerprofil von [[${user.firstName}]] [[${user.lastName}]]
+            </div>
             <table class="table table-hover">
                 <tr>
                     <td>Email</td>
