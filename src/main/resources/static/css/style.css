@@ -10,7 +10,7 @@ body {
 }
 
 .footer {
-	vertical-align: middle;
+    vertical-align: middle;
     bottom: 0;
     width: auto;
     box-sizing: border-box;
@@ -25,8 +25,8 @@ body {
 .highlight-color {
     background-color: #EFEFEF;
     border-color: #ffffff;
-    -webkit-box-shadow: 0px 5px 5px 4px rgba(181,181,181,0.71);
-    box-shadow: 0px 5px 5px 4px rgba(181,181,181,0.71);
+    -webkit-box-shadow: 0px 5px 5px 4px rgba(181, 181, 181, 0.71);
+    box-shadow: 0px 5px 5px 4px rgba(181, 181, 181, 0.71);
     background-color: #EFEFEF;
     border-color: #ffffff;
     -webkit-box-shadow: 0px 5px 5px 4px rgba(181, 181, 181, 0.71);

@@ -2,68 +2,38 @@ package de.gymwak.gwe.model;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
-@Entity
 public class GWEMessage implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private long recipientId;
 
-	@Email(message = "Please provide a valid email address.")
-	@NotEmpty(message = "Email is required.")
-	@Column(unique = true, nullable = false)
-	private String email;
-
-	@NotEmpty(message = "First name is required.")
-	private String message;
+	@NotEmpty(message = "Text is required.")
+	private String content;
 
 	public GWEMessage() {
 	}
 
 	public GWEMessage(GWEMessage message) {
-		this.id = message.getId();
-		this.email = message.getEmail();
-		this.message = message.getMessage();
+		this.recipientId = message.recipientId;
 	}
 
-	public GWEMessage(String email, String message) {
-		this.email = email;
-		this.message = message;
+	public long getRecipientId() {
+		return recipientId;
 	}
 
-	public Long getId() {
-		return id;
+	public void setRecipientId(long recipientId) {
+		this.recipientId = recipientId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public String getContent() {
+		return content;
 	}
 
-	public String getEmail() {
-		return email;
+	public void setContent(String content) {
+		this.content = content;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	private static final long serialVersionUID = 822638085876787423L;
+	private static final long serialVersionUID = -7772217675815839488L;
 
 }

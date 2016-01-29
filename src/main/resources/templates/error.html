@@ -14,12 +14,12 @@
         <div th:replace="fragments :: header">
         </div>
         <p class="lead">Ein Fehler ist aufgetreten.</p>
-        
+
         <!-- Ausschließlich temporäre Fehlermeldung -->
         <h4 style="color: grey;" th:if="${(param.type != null) and (param.type[0] == 'noSearchResults')}">Profil nicht gefunden</h4>
         <br />
         <!-- Ende -->
-        
+
         <a class="btn btn-default" href="javascript:history.back()">Zurück</a>
     </div>
 

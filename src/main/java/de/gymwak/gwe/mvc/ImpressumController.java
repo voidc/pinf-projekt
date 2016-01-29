@@ -24,7 +24,7 @@ public class ImpressumController {
 			return "redirect:/impressum?error#feedback";
 		}
 
-		if (message.getMessage().isEmpty()) {
+		if (message.getContent().isEmpty()) {
 			return "redirect:/impressum?error=message#feedback";
 		}
 

@@ -42,7 +42,11 @@
                 </tr>
             </table>
             <div class="panel-footer">
-                <a th:href="@{'mailto:' + ${user.email}}" class="btn btn-success">Nachricht</a>
+                <form th:action="@{/send}" method="post">
+                    <input type="hidden" name="recipientId" th:value="${user.id}" />
+                    <input type="hidden" name="content" value="Test" />
+                    <button type="submit" class="btn btn-success">Nachricht</button>
+                </form>
             </div>
         </div>
 

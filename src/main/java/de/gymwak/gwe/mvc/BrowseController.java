@@ -1,6 +1,5 @@
 package de.gymwak.gwe.mvc;
 
-import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +23,7 @@ public class BrowseController {
 		model.addAttribute("browse", userRepository.findAll());
 		return "browse";
 	}
-	
+
 	@RequestMapping(path = "/browse/search", method = RequestMethod.GET)
 	public String browseSearch(Model model, @RequestParam("text") String searchText) {
 		model.addAttribute("browse", userRepository.findByEmail(searchText));
