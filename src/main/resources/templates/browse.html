@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="de" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta charset="UTF-8" />
+    <title>Benutzer</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="icon" href="/img/favicon.png" type="image/png" />
+</head>
+
+<body>
+    <div class="container">
+        <div th:replace="fragments :: navbar">
+        </div>
+        <!-- <div th:replace="fragments :: header">
+        </div> -->
+        <div class="panel panel-primary" style="min-height: 320px">
+        	<div class="panel-heading">
+        		Einträge
+        	</div>
+        	<div class="panel-body">
+        		<div class="alert alert-info no-border-radius" style="min-width: 196px; max-width: 256px;" role="alert" th:if="${param.text != null}">
+        			<a href="/browse" class="button close" aria-label="Suche löschen">
+    					<span aria-hidden="true">&times;</span>
+    				</a>
+        			Suche für "<span th:text="${param.text[0]}"></span>"
+        		</div>
+        		
+        		<h4 class="text-muted text-center" style="margin-top: 100px;" th:if="${#lists.isEmpty(browse)}">Es wurden keine Ergebnisse gefunden</h4>
+        		
+        		<div class="list-group" th:each="user : ${browse}">
+        			<form th:action="${'/user/' + user.id}">
+        				<button class="list-group-item">
+    						<div class="media-left">
+        						<a th:href="${'/user/' + user.id}">
+        							<img class="media-object" src="/img/logo120px.png" alt="64x64" style="width: 64px; height: 64px; border: 1px solid; border-color: #cccccc;" />
+        						</a>
+    						</div>
+    						<div class="media-body">
+      							<h4 class="media-heading" th:text="${user.firstName} + ' ' + ${user.lastName}">Benutzer</h4>
+        						...
+    						</div>
+    					</button>
+    				</form>
+				</div>
+        	</div>
+        </div>
+
+    </div>
+
+    <div th:replace="fragments :: footer">
+    </div>
+    <div th:replace="fragments :: bootstrap-script">
+    </div>
+</body>
+
+</html>

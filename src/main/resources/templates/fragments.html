@@ -23,16 +23,14 @@
                         </a>
                     </div>
                     <div class="pull-left navbar-heading navbar-height">
-                        <h5>Ehemalige<br />
-                            <small>des Gymnasiums Waldkraiburg</small>
-                        </h5>
+                        <h5>Ehemalige<br/><small>des Gymnasiums Waldkraiburg</small></h5>
                     </div>
                 </div>
 
                 <div class="collapse navbar-collapse" id="navbar-collapse">
                     <form class="navbar-form navbar-left" role="search" action="/search" method="post">
                         <div class="input-group" role="group">
-                            <input class="form-control" type="text" name="search" placeholder="User ID" />
+                            <input class="form-control" type="text" name="search" placeholder="Email" required="true" />
                             <span class="input-group-btn">
                                 <button type="submit" class="btn btn-default">Suchen</button>
                             </span>
@@ -79,32 +77,40 @@
         <div class="logo">
             <a href="/"><img title="Gymnasium Waldkraiburg" src="img/logo120px.png" /></a>
         </div>
-        <h1 class="logo-text col-md-10">Ehemalige<br />
-            <small>des Gymnasiums Waldkraiburg</small>
-        </h1>
+        <h1 class="logo-text col-md-10">Ehemalige<br/><small>des Gymnasiums Waldkraiburg</small></h1>
     </div>
 
     <div class="page-header row" th:fragment="header-login">
         <div class="col-md-offset-3 logo-login col-md-2">
             <a href="/"><img title="Gymnasium Waldkraiburg" src="img/logo120px.png" /></a>
         </div>
-        <h1 class="logo-text col-md-7">Ehemalige<br />
-            <small>des Gymnasiums Waldkraiburg</small>
-        </h1>
+        <h1 class="logo-text col-md-7">Ehemalige<br/><small>des Gymnasiums Waldkraiburg</small></h1>
     </div>
 
 
     <!-- Footer -->
     <footer class="footer hidden-print" th:fragment="footer">
         <div class="container">
-            <div class="textbox" th:with="currentUser=${#httpServletRequest.userPrincipal?.principal}">
+            <div class="textbox">
                 <p class="text-faded text-muted pull-left">&copy; 2016 Gymnasium Waldkraiburg</p>
-
+                
                 <p class="text-faded pull-right">
-                    <a style="color: #333244;" href="/login" th:if="${currentUser == null}"><strong>Anmelden</strong></a>
-                    <a style="color: #333244;" href="/logout" th:if="${currentUser != null}"><strong>Abmelden</strong></a> &emsp;
+                    <!-- Anmelden -->
+                    <a style="color: #333244;" href="/login" th:if="${currentUser == null}">
+                        <strong>Anmelden</strong>
+                    </a>
+                    <!-- Angemeldet -->
+                    <span style="color: #333244;" th:if="${currentUser != null}">Angemeldet als </span>
+                    <strong>
+                        <a style="color: #333244;" href="/user" th:if="${currentUser != null}" th:text="${currentUser.firstName} + ' ' + ${currentUser.lastName}">
+                            invalid-user
+                        </a>
+                    </strong> &emsp;
+                    <!-- Impressum -->
                     <a style="color: #333244;" href="/impressum">Impressum</a> &emsp;
+                    <!-- Datenschutz -->
                     <a style="color: #333244;" href="/impressum#datenschutz">Datenschutz</a> &emsp;
+                    <!-- Feedback -->
                     <a style="color: #333244;" href="/impressum#feedback">Feedback geben</a>
                 </p>
                 <div style="clear: both;"></div>
