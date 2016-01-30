@@ -27,10 +27,6 @@ body {
     border-color: #ffffff;
     -webkit-box-shadow: 0px 5px 5px 4px rgba(181, 181, 181, 0.71);
     box-shadow: 0px 5px 5px 4px rgba(181, 181, 181, 0.71);
-    background-color: #EFEFEF;
-    border-color: #ffffff;
-    -webkit-box-shadow: 0px 5px 5px 4px rgba(181, 181, 181, 0.71);
-    box-shadow: 0px 5px 5px 4px rgba(181, 181, 181, 0.71);
 }
 
 .navbar-heading {

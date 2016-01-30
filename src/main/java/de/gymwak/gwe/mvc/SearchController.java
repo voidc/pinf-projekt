@@ -11,7 +11,7 @@ public class SearchController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String search(@RequestParam("search") String searchTerm) {
-		return "redirect:/browse/search?text=" + searchTerm;
+		return "redirect:/browse?searchtext=" + searchTerm;
 	}
 
 }
