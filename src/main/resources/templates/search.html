@@ -8,17 +8,17 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="icon" href="/img/favicon.png" type="image/png" />
-    
+
     <script type="text/javascript">
         function removeURLParameter(url, parameter) {
-            var urlparts = url.split('?');   
-            if (urlparts.length>=2) {
+            var urlparts = url.split('?');
+            if (urlparts.length >= 2) {
 
                 var param = encodeURIComponent(parameter) + '=';
                 var params = urlparts[1].split(/[&;]/g);
 
-                for (var i = params.length; i-- > 0;) {    
-                    if (params[i].lastIndexOf(param, 0) !== -1) {  
+                for (var i = params.length; i-- > 0;) {
+                    if (params[i].lastIndexOf(param, 0) !== -1) {
                         params.splice(i, 1);
                     }
                 }
@@ -26,7 +26,7 @@
                 url = urlparts[0] + '?' + params.join(/[&;]/g);
                 window.location = url;
             } else {
-            	window.location = url;
+                window.location = url;
             }
         }
     </script>
@@ -50,11 +50,11 @@
                         <h4>Filter</h4>
                         <nav class="bs-docs-sidebar affix-top">
                             <ul class="nav sidenav">
-                                <li class=""><a th:href="@{''(gradYear=2001)}">2001</a></li>
-                                <li class=""><a th:href="@{''(gradYear=2002)}">2002</a></li>
-                                <li class=""><a th:href="@{''(gradYear=2003)}">2003</a></li>
-                                <li class=""><a th:href="@{''(gradYear=2004)}">2004</a></li>
-                                <li class=""><a th:href="@{''(gradYear=2005)}">2005</a></li>
+                                <li class=""><a th:href="@{''(y=2001)}">2001</a></li>
+                                <li class=""><a th:href="@{''(y=2002)}">2002</a></li>
+                                <li class=""><a th:href="@{''(y=2003)}">2003</a></li>
+                                <li class=""><a th:href="@{''(y=2004)}">2004</a></li>
+                                <li class=""><a th:href="@{''(y=2005)}">2005</a></li>
                             </ul>
                         </nav>
                         <br />
@@ -63,31 +63,31 @@
                 <div class="col-md-9 col-md-pull-3">
                     <!-- Eingrenzungen -->
                     <form class="form-inline" style="margin-bottom: 10px;">
-                        <div class="form-group alert alert-info no-border-radius" style="min-width: 196px;" role="alert" th:if="${param.searchtext != null}">
-                            <a th:onclick="'removeURLParameter(\'' + ${#httpServletRequest.requestURI} + '\', \'text\');'" class="button close" aria-label="Suche löschen">
+                        <div class="form-group alert alert-info no-border-radius" style="min-width: 196px;" role="alert" th:if="${param.q != null}">
+                            <a th:onclick="'removeURLParameter(\'' + ${#httpServletRequest.requestURI} + '\', \'q\');'" class="button close" aria-label="Suche löschen">
                                 <span aria-hidden="true">&times;</span>
                             </a>
-                            Suche für "<span th:text="${param.searchtext[0]}"></span>"
+                            Suche für "<span th:text="${param.q[0]}"></span>"
                         </div>
-                        <div class="form-group alert alert-info no-border-radius" style="min-width: 196px;" role="alert" th:if="${param.gradYear != null}">
-                            <a th:onclick="'removeURLParameter(\'' + ${#httpServletRequest.requestURI} + '\', \'gradYear\');'" class="button close" aria-label="Suche löschen">
+                        <div class="form-group alert alert-info no-border-radius" style="min-width: 196px;" role="alert" th:if="${param.y != null}">
+                            <a th:onclick="'removeURLParameter(\'' + ${#httpServletRequest.requestURI} + '\', \'y\');'" class="button close" aria-label="Suche löschen">
                                 <span aria-hidden="true">&times;</span>
                             </a>
-                            Abschlussjahr "<span th:text="${param.gradYear[0]}"></span>"
+                            Abschlussjahr "<span th:text="${param.y[0]}"></span>"
                         </div>
                     </form>
                     <!-- Keine Ergebnisse -->
-                    <h4 class="text-muted text-center" style="margin-top: 100px; margin-bottom: 70px;" th:if="${#lists.isEmpty(browse)}">Es wurden keine Ergebnisse gefunden</h4>
+                    <h4 class="text-muted text-center" style="margin-top: 100px; margin-bottom: 70px;" th:if="${#lists.isEmpty(results)}">Es wurden keine Ergebnisse gefunden</h4>
                     <!-- Ergebnisse -->
                     <div class="list-group">
-                        <a class="list-group-item" th:each="user : ${browse}" th:href="${'/user/' + user.id}">
+                        <a class="list-group-item" th:each="user : ${results}" th:href="${'/user/' + user.id}">
                             <span class="media-left">
                                 <img class="media-object" src="/img/logo-default.png" alt="64x64" style="width: 64px; height: 64px;" />
                             </span>
                             <span class="media-body">
                                 <h4 class="media-heading" th:text="${user.firstName} + ' ' + ${user.lastName}">Benutzer</h4>
                                 Abiturjahrgang <span th:text="${user.graduationYear}">invalid-graduation-year</span>
-                                <p>Beschäftigung: <span th:text="${user.occupation}">invalid-occupation</span></p>
+                            <p>Beschäftigung: <span th:text="${user.occupation}">invalid-occupation</span></p>
                             </span>
                         </a>
                     </div>
