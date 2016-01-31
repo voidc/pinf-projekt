@@ -54,7 +54,9 @@ public class SearchController {
 			int year = Integer.parseInt(query);
 			return user.getGraduationYear() == year;
 		} catch(NumberFormatException e) {
-			return user.getFirstName().equals(query) || user.getLastName().equals(query) || user.getOccupation().equals(query);
+			return user.getFirstName().equalsIgnoreCase(query)
+					|| user.getLastName().equalsIgnoreCase(query)
+					|| user.getOccupation().equalsIgnoreCase(query);
 		}
 	}
 
