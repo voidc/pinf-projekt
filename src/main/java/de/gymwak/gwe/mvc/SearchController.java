@@ -5,6 +5,7 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,8 +31,28 @@ public class SearchController {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public String browseSearch(Model model, @RequestParam(value = "q", required = false) String q, @RequestParam(value = "y", required = false) String y) {
-		Stream<GWEUser> users = StreamSupport.stream(userRepository.findAll().spliterator(), false);
+	public String browseSearch(Model model, @RequestParam(value = "q", required = false) String q, @RequestParam(value = "y", required = false) String y,
+			@RequestParam(value = "sort", required = false) String sort) {
+		Sort s = new Sort("lastName", "firstName", "graduationYear", "occupation", "id");
+
+		if (sort != null) {
+			switch (sort) {
+			case "y":
+				s = new Sort("graduationYear", "lastName", "firstName", "occupation", "id");
+				model.addAttribute("sort", "Abschlussjahr");
+				break;
+			case "o":
+				s = new Sort("occupation", "lastName", "firstName", "graduationYear", "id");
+				model.addAttribute("sort", "Beschäftigung");
+				break;
+			case "n":
+				s = new Sort("lastName", "firstName", "graduationYear", "occupation", "id");
+				model.addAttribute("sort", "Name");
+				break;
+			}
+		}
+
+		Stream<GWEUser> users = StreamSupport.stream(userRepository.findAll(s).spliterator(), false);
 
 		if (y != null && y.length() > 0) {
 			try {

@@ -129,6 +129,12 @@ body {
     border-radius: 0px;
 }
 
+.form-inline>.alert-info {
+	min-width: 196px;
+	margin-bottom: 4px;
+	background-color: #eeeeee;
+}
+
 @media all {
     .logo,
     .logo-login {

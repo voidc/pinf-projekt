@@ -10,23 +10,20 @@
     <link rel="icon" href="/img/favicon.png" type="image/png" />
 
     <script type="text/javascript">
-        function removeURLParameter(url, parameter) {
-            var urlparts = url.split('?');
-            if (urlparts.length >= 2) {
+        function removeURLParameter(url, queryString, parameter) {
+            var param = encodeURIComponent(parameter) + '=';
+            var params = queryString.split(/[&;]/g);
 
-                var param = encodeURIComponent(parameter) + '=';
-                var params = urlparts[1].split(/[&;]/g);
-
-                for (var i = params.length; i-- > 0;) {
-                    if (params[i].lastIndexOf(param, 0) !== -1) {
-                        params.splice(i, 1);
-                    }
+            for (var i = params.length; i-- > 0;) {
+                if (params[i].lastIndexOf(param, 0) !== -1) {
+                    params.splice(i, 1);
                 }
-
-                url = urlparts[0] + '?' + params.join(/[&;]/g);
-                window.location = url;
+            }
+            
+            if (params.length > 0) {
+                window.location = url + '?' + params.join(/[&;]/g);
             } else {
-                window.location = url;
+            	window.location = url;
             }
         }
     </script>
@@ -43,41 +40,69 @@
                 Einträge
             </div>
             <div class="panel-body">
+
                 <!-- Sidebar-Filter (noch nicht implimentiert) -->
                 <div class="col-md-3 col-md-push-9 highlight-color hidden-print" style="margin-bottom: 20px;">
                     <div class="col-md-12">
                         <br />
                         <h4>Filter</h4>
                         <nav class="bs-docs-sidebar affix-top">
-                            <ul class="nav sidenav">
-                                <li class=""><a th:href="@{''(y=2001)}">2001</a></li>
-                                <li class=""><a th:href="@{''(y=2002)}">2002</a></li>
-                                <li class=""><a th:href="@{''(y=2003)}">2003</a></li>
-                                <li class=""><a th:href="@{''(y=2004)}">2004</a></li>
-                                <li class=""><a th:href="@{''(y=2005)}">2005</a></li>
-                            </ul>
+                            <form>
+                                <ul class="nav sidenav">
+                                    <li>
+                                        <label>Sortierung</label>
+                                        <select class="form-control" name="sort" id="sort">
+                                            <option th:selected="${sort} == 'Name'" value="n">Name</option>
+                                            <option th:selected="${sort} == 'Abschlussjahr'" value="y">Abschlussjahr</option>
+                                            <option th:selected="${sort} == 'Beschäftigung'" value="o">Beschäftigung</option>
+                                        </select>
+                                    </li>
+                                    <li>
+                                        <label>Abschlussjahr</label>
+                                        <select class="form-control" name="value" id="value" disabled="disabled">
+                                            <option th:each="value : ${values}" th:text="${value}" th:value="(${value} == 'Alle') ? null : ${value}">Alle</option>
+                                        </select>
+                                    </li>
+                                </ul>
+                                <button style="margin-top: 12px;" class="btn btn-primary" type="submit">
+                                    Anwenden
+                                </button>
+                            </form>
                         </nav>
                         <br />
                     </div>
                 </div>
+
+
+                <!-- Ergebnisse -->
                 <div class="col-md-9 col-md-pull-3">
+
                     <!-- Eingrenzungen -->
                     <form class="form-inline" style="margin-bottom: 10px;">
-                        <div class="form-group alert alert-info no-border-radius" style="min-width: 196px;" role="alert" th:if="${param.q != null}">
-                            <a th:onclick="'removeURLParameter(\'' + ${#httpServletRequest.requestURI} + '\', \'q\');'" class="button close" aria-label="Suche löschen">
+                        <h3 style="margin-top: 8px;">Ergebnisse: </h3>
+                        <div class="form-group alert alert-info no-border-radius" style="min-width: 196px;" role="alert" th:if="${sort != null} and param.sort[0] != ''">
+                            <a style="padding-left: 12px;" th:onclick="'removeURLParameter(\'' + ${#httpServletRequest.requestURI} + '\', \'' + ${#httpServletRequest.queryString} + '\', \'sort\');'" class="button close" aria-label="Sortierung löschen">
+                                <span aria-hidden="true">&times;</span>
+                            </a>
+                            Sortierung: <span th:text="${sort}"></span>
+                        </div>
+                        <div class="form-group alert alert-info no-border-radius" style="min-width: 196px;" role="alert" th:if="${param.q != null and param.q[0] != ''}">
+                            <a style="padding-left: 12px;" th:onclick="'removeURLParameter(\'' + ${#httpServletRequest.requestURI} + '\', \'' + ${#httpServletRequest.queryString} + '\', \'q\');'" class="button close" aria-label="Suche löschen">
                                 <span aria-hidden="true">&times;</span>
                             </a>
                             Suche für "<span th:text="${param.q[0]}"></span>"
                         </div>
-                        <div class="form-group alert alert-info no-border-radius" style="min-width: 196px;" role="alert" th:if="${param.y != null}">
-                            <a th:onclick="'removeURLParameter(\'' + ${#httpServletRequest.requestURI} + '\', \'y\');'" class="button close" aria-label="Suche löschen">
+                        <div class="form-group alert alert-info no-border-radius" style="min-width: 196px;" role="alert" th:if="${param.y != null and param.y[0] != ''}">
+                            <a style="padding-left: 12px;" th:onclick="'removeURLParameter(\'' + ${#httpServletRequest.requestURI} + '\', \'' + ${#httpServletRequest.queryString} + '\', \'y\');'" class="button close" aria-label="Suche löschen">
                                 <span aria-hidden="true">&times;</span>
                             </a>
                             Abschlussjahr "<span th:text="${param.y[0]}"></span>"
                         </div>
                     </form>
+
                     <!-- Keine Ergebnisse -->
                     <h4 class="text-muted text-center" style="margin-top: 100px; margin-bottom: 70px;" th:if="${#lists.isEmpty(results)}">Es wurden keine Ergebnisse gefunden</h4>
+
                     <!-- Ergebnisse -->
                     <div class="list-group">
                         <a class="list-group-item" th:each="user : ${results}" th:href="${'/user/' + user.id}">
