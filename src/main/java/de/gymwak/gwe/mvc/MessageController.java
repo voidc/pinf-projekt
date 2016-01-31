@@ -3,6 +3,7 @@ package de.gymwak.gwe.mvc;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
@@ -27,7 +28,7 @@ public class MessageController {
 		this.userRepository = userRepository;
 		this.mailSender = mailSender;
 	}
-	
+
 	@RequestMapping(value = "/message", method = RequestMethod.GET)
 	public ModelAndView get(@RequestParam String to) {
 		ModelAndView mav = new ModelAndView("message");
@@ -55,7 +56,12 @@ public class MessageController {
 				+ "%s hat dir über das Ehemaligen Portal des Gymnsiums Waldkraiburg eine Nachricht gesendet:\n" + "%s",
 				ruName, cuName, gweMessage.getContent()));
 
-		mailSender.send(mail);
+		try {
+			mailSender.send(mail);
+		} catch (MailException e) {
+			e.printStackTrace();
+		}
+
 		return "redirect:/user/" + recipientUser.getId();
 	}
 
