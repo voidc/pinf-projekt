@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="de" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta charset="UTF-8" />
+    <title>Nachricht</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="icon" href="/img/favicon.png" type="image/png" />
+</head>
+
+<body>
+    <div class="container">
+        <div th:replace="fragments :: navbar"></div>
+        <form class="form-horizontal form-signup" th:action="@{/send}" method="post">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Neue Nachricht</div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="inputRecipient" class="col-sm-2 control-label">Empfänger</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputRecipient" th:value="${recipient.firstName + ' ' + recipient.lastName}" disabled="true" />
+                            <input type="hidden" name="recipientId" th:value="${recipient.id}" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputContent" class="col-sm-2 control-label">Nachricht</label>
+                        <div class="col-sm-10">
+                            <textarea id="inputContent" class="form-control" name="content" rows="10" autofocus="true" required="true" style="resize: none" />
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-success">Senden</button>
+                            <a th:href="@{/user/{id}(id=${recipient.id})}" class="btn btn-default">Abbrechen</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+    <div th:replace="fragments :: footer">
+    </div>
+
+</body>
+
+</html>

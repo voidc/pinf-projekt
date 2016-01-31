@@ -4,7 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
     <meta charset="UTF-8" />
-    <title>Benutzer</title>
+    <title>Suchergebnisse</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="icon" href="/img/favicon.png" type="image/png" />
@@ -19,11 +19,11 @@
                     params.splice(i, 1);
                 }
             }
-            
+
             if (params.length > 0) {
                 window.location = url + '?' + params.join(/[&;]/g);
             } else {
-            	window.location = url;
+                window.location = url;
             }
         }
     </script>
@@ -36,12 +36,8 @@
         <!-- <div th:replace="fragments :: header">
         </div> -->
         <div class="panel panel-primary" style="min-height: 320px">
-            <div class="panel-heading">
-                Einträge
-            </div>
+            <div class="panel-heading">Suchergebnisse</div>
             <div class="panel-body">
-
-                <!-- Sidebar-Filter (noch nicht implimentiert) -->
                 <div class="col-md-3 col-md-push-9 highlight-color hidden-print" style="margin-bottom: 20px;">
                     <div class="col-md-12">
                         <br />
@@ -79,7 +75,6 @@
 
                     <!-- Eingrenzungen -->
                     <form class="form-inline" style="margin-bottom: 10px;">
-                        <h3 style="margin-top: 8px;">Ergebnisse: </h3>
                         <div class="form-group alert alert-info no-border-radius" style="min-width: 196px;" role="alert" th:if="${sort != null} and param.sort[0] != ''">
                             <a style="padding-left: 12px;" th:onclick="'removeURLParameter(\'' + ${#httpServletRequest.requestURI} + '\', \'' + ${#httpServletRequest.queryString} + '\', \'sort\');'" class="button close" aria-label="Sortierung löschen">
                                 <span aria-hidden="true">&times;</span>
@@ -105,7 +100,7 @@
 
                     <!-- Ergebnisse -->
                     <div class="list-group">
-                        <a class="list-group-item" th:each="user : ${results}" th:href="${'/user/' + user.id}">
+                        <a class="list-group-item" th:each="user : ${results}" th:href="@{/user/{id}(id=${user.id})}">
                             <span class="media-left">
                                 <img class="media-object" src="/img/logo-default.png" alt="64x64" style="width: 64px; height: 64px;" />
                             </span>

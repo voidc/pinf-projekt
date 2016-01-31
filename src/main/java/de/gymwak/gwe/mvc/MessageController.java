@@ -3,7 +3,6 @@ package de.gymwak.gwe.mvc;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
@@ -11,14 +10,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import de.gymwak.gwe.data.GWERepository;
 import de.gymwak.gwe.model.GWEMessage;
 import de.gymwak.gwe.model.GWEUser;
 
 @Controller
-@RequestMapping("/send")
 public class MessageController {
 	private GWERepository userRepository;
 	private JavaMailSender mailSender;
@@ -28,10 +27,18 @@ public class MessageController {
 		this.userRepository = userRepository;
 		this.mailSender = mailSender;
 	}
+	
+	@RequestMapping(value = "/message", method = RequestMethod.GET)
+	public ModelAndView get(@RequestParam String to) {
+		ModelAndView mav = new ModelAndView("message");
+		long recipientId = Long.parseLong(to);
+		GWEUser recipient = userRepository.findOne(recipientId);
+		mav.addObject("recipient", recipient);
+		return mav;
+	}
 
-	@RequestMapping(method = RequestMethod.POST)
-	@ResponseStatus(value = HttpStatus.OK)
-	public void sendMessage(@Valid GWEMessage gweMessage) {
+	@RequestMapping(value = "/send", method = RequestMethod.POST)
+	public String sendMessage(@Valid GWEMessage gweMessage) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		GWEUser currentUser = userRepository.findByEmail(auth.getName());
 		GWEUser recipientUser = userRepository.findOne(gweMessage.getRecipientId());
@@ -49,6 +56,7 @@ public class MessageController {
 				ruName, cuName, gweMessage.getContent()));
 
 		mailSender.send(mail);
+		return "redirect:/user/" + recipientUser.getId();
 	}
 
 }

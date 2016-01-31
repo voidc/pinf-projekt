@@ -42,11 +42,7 @@
                 </tr>
             </table>
             <div class="panel-footer">
-                <form th:action="@{/send}" method="post">
-                    <input type="hidden" name="recipientId" th:value="${user.id}" />
-                    <input type="hidden" name="content" value="Test" />
-                    <button type="submit" class="btn btn-success">Nachricht</button>
-                </form>
+                <a class="btn btn-success" th:href="@{/message(to=${user.id})}">Nachricht</a>
             </div>
         </div>
 
