@@ -15,12 +15,19 @@ Unser derzeitiger Plan ist es, eine Java basierte Web Anwendung zu erstellen. Di
 - Link in der Mail um über GWE zu antworten (keine direkte Antwort per Mail -> E-Mails bleiben privat)
 - Deployment auf den Schulserver
 
+## Roadmap
+- Buxfixes
+- Nachricht an mehere Nutzer (an ganzen Jahrgang)
+- Weitere Einstellungen für Nutzer: E-Mail für andere sichtbar machen, Nachrichten zulassen, E-Mail-Benachrichtigungs-Einstellungen, Account löschen ...
+- Link in der Mail um über GWE zu antworten (keine direkte Antwort per Mail -> E-Mails bleiben privat)
+- Deployment auf den Schulserver
+
 ## Projekt Setup
 Diese Version des Prototypen verwendet keine In-Memory Datenbank, sondern eine "richtige" SQL Datenbank
 
 1. Vorraussetzung: [Java](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (JRE und JDK)
 3. Installiere die [PostgreSQL](http://www.enterprisedb.com/products-services-training/pgdownload#windows) Datenbank
-  - Wähle während der Installation "admin" als Username und "47bVZ7nt8#c6" als Passwort (Es ist wichtig, dass wir alle die gleichen Daten verwenden)
+  - Wähle während der Installation "47bVZ7nt8#c6" als Passwort
   - Lasse den vorgegebenen Wert 5432 als Port
   - Starte nach der Installation das Programm "pgAdmin III"
   - Wähle links im Objektbrowser den "PostgreSQL 9.5 (localhost:5432)" Server aus und verbinde dich mit einem Rechtsklick
