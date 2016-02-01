@@ -6,28 +6,14 @@ INSERT INTO gweuser(id,email,password,first_name,last_name,graduation_year,occup
     'Admin','Istrator'
     ,2000,
     'Administrator'
-<<<<<<< HEAD
 ),
 (
     1,
-=======
-);
-insert into gweuser(id,email,password,first_name,last_name,graduation_year,occupation)
-values (
-    -1,
-<<<<<<< Upstream, based on origin/master
-=======
->>>>>>> branch 'master' of https://github.com/voidc/pinf-projekt.git
->>>>>>> 2235c3d Änderung der Generierung der IDs
     'user@test',
     '$2a$10$BC1UyAAdpolxJktRByaJHOpgrEdV18r.7.4U.u48MxfbFYy.1YKHW',
     'Looser','User'
     ,2000,
     'DAU'
-<<<<<<< Upstream, based on origin/master
-);
-=======
-<<<<<<< HEAD
 ),
 (
     2,
@@ -37,8 +23,5 @@ values (
     ,2017,
     'Schüler'
 );
+
 SELECT setval('hibernate_sequence', 2, true)
-=======
-);
->>>>>>> branch 'master' of https://github.com/voidc/pinf-projekt.git
->>>>>>> 2235c3d Änderung der Generierung der IDs
