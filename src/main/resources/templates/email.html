@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+    <p>
+        Hello <i th:text="${recipient}">Recipient</i>,
+        <br/>
+        <i th:text="${sender}">Sender</i> hat dir über das Ehemaligen Portal des Gymnsiums Waldkraiburg eine Nachricht gesendet:
+    </p>
+    <p th:utext="${message}"></p>
+    <hr/>
+    <a th:href="${replyUrl}">Antworten</a>
+</body>
+
+</html>

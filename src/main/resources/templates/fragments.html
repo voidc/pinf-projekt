@@ -44,7 +44,7 @@
                                     <h5>
                                         <span>Angemeldet als </span>
                                         <b>
-                                            <span class="text-muted" th:text="${currentUser.firstName} + ' ' + ${currentUser.lastName}">Admin</span>
+                                            <span class="text-muted" th:text="|${currentUser.firstName} ${currentUser.lastName}|">Admin</span>
                                         </b>
                                     </h5>
                                 </li>
@@ -102,7 +102,7 @@
                     <!-- Angemeldet -->
                     <span style="color: #333244;" th:if="${currentUser != null}">Angemeldet als </span>
                     <strong>
-                        <a style="color: #333244;" href="/user" th:if="${currentUser != null}" th:text="${currentUser.firstName} + ' ' + ${currentUser.lastName}">
+                        <a style="color: #333244;" href="/user" th:if="${currentUser != null}" th:text="|${currentUser.firstName} ${currentUser.lastName}|">
                             invalid-user
                         </a>
                     </strong> &emsp;
