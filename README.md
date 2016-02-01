@@ -1,17 +1,17 @@
 # Projekt im P-Seminar Informatik
 
-Unser derzeitiger Plan ist es, eine Java basierte Web Anwendung zu erstellen. Diese soll ehemaligen Schülern die Möglichkeit geben sich zu registrieren, um mit dem Gymnasium Waldkraiburg in Kontakt zu bleiben. Das Portal könnte beispielsweise dazu genutzt werden, um Ehemalige Schüler mit interessanten Berufen in den Unterricht einzuladen.
+Unser derzeitiger Plan ist es, eine Java basierte Web Anwendung zu erstellen. Diese soll ehemaligen Schülern die Möglichkeit geben sich zu registrieren, um mit dem Gymnasium Waldkraiburg in Kontakt zu bleiben. Das Portal könnte beispielsweise dazu genutzt werden, um Ehemalige Schüler mit interessanten Berufen in den Unterricht oder zu Veranstaltungen, wie dem Berufsinformationsnachmittag, einzuladen.
 
 ## Gruppen
-- Java Entwicklung im Back-End Bereich
-- Design des Front-Ends
-- Datenschutz, etc.
+- Java Entwicklung im Back-End Bereich und HTML-Entwicklung im Front-End Bereich
+- Datenschutz, Nutzungsrichtlinien, etc.
 - Dokumentation, Protokollierung des Projekts
 - Testing
 
 ## Roadmap
 - Buxfixes
 - Nachricht an mehere Nutzer (an ganzen Jahrgang)
+- Weitere Einstellungen für Nutzer: E-Mail für andere sichtbar machen, Nachrichten zulassen, E-Mail-Benachrichtigungs-Einstellungen, Account löschen ...
 - Link in der Mail um über GWE zu antworten (keine direkte Antwort per Mail -> E-Mails bleiben privat)
 - Deployment auf den Schulserver
 
