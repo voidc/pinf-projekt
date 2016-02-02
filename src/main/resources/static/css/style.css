@@ -24,6 +24,11 @@ body {
     vertical-align: middle;
     box-sizing: border-box;
     background-color: #bbb;
+    color: #777 !important;
+}
+
+.footer a {
+    color: #777;
 }
 
 .highlight-color {

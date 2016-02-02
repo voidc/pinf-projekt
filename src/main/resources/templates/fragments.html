@@ -96,46 +96,22 @@
 
 
     <!-- Footer -->
-    <footer class="footer hidden-print" th:fragment="footer">
-        <div class="container">
-            <div class="textbox">
-                <p class="text-faded text-muted pull-left">&copy; 2016 Gymnasium Waldkraiburg</p>
-
-                <p class="text-faded pull-right">
-                    <!-- Anmelden -->
-                    <a style="color: #333244;" href="/login" th:if="${currentUser == null}">
-                        <strong>Anmelden</strong>
-                    </a>
-                    <!-- Angemeldet -->
-                    <span style="color: #333244;" th:if="${currentUser != null}">Angemeldet als </span>
-                    <strong>
-                        <a style="color: #333244;" href="/user" th:if="${currentUser != null}" th:text="|${currentUser.firstName} ${currentUser.lastName}|">
-                            invalid-user
-                        </a>
-                    </strong> &emsp;
-                    <!-- Impressum -->
-                    <a style="color: #333244;" href="/impressum">Impressum</a> &emsp;
-                    <!-- Datenschutz -->
-                    <a style="color: #333244;" href="/impressum#datenschutz">Datenschutz</a> &emsp;
-                    <!-- Feedback -->
-                    <a style="color: #333244;" href="/impressum#feedback">Feedback geben</a>
-                </p>
-                <div style="clear: both;"></div>
-            </div>
-        </div>
-    </footer>
-
-    <footer class="footer footer-login hidden-print" th:fragment="footer-login">
+    <footer class="footer footer-login hidden-print" th:fragment="footer">
         <div class="container">
             <div class="textbox text-muted">
                 <p class="text-faded pull-left">&copy; 2016 Gymnasium Waldkraiburg</p>
-
-                <p class="text-faded pull-right">
-                    <a href="/impressum">Impressum</a> &emsp;
-                    <a href="/impressum#datenschutz">Datenschutz</a> &emsp;
-                    <a href="/impressum#feedback">Feedback geben</a>
-                </p>
-                <div style="clear: both;"></div>
+                <ul class="list-inline text-faded pull-right">
+                    <li th:if="${currentUser}">
+                        <span>Angemeldet als </span>
+                        <a href="/user"><strong th:text="|${currentUser.firstName} ${currentUser.lastName}|">User Name</strong></a>
+                    </li>
+                    <li th:unless="${currentUser}">
+                        <a href="/login"><strong>Anmelden</strong></a>
+                    </li>
+                    <li><a href="/impressum">Impressum</a></li>
+                    <li><a href="/impressum#datenschutz">Datenschutz</a></li>
+                    <li><a href="/impressum#feedback">Feedback</a></li>
+                </ul>
             </div>
         </div>
     </footer>
