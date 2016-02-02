@@ -1,33 +1,7 @@
 <!DOCTYPE html>
 <html lang="de" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-    <meta charset="UTF-8" />
-    <title>Suchergebnisse</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/css/style.css" />
-    <link rel="icon" href="/img/favicon.png" type="image/png" />
-
-    <script type="text/javascript">
-        function removeURLParameter(url, queryString, parameter) {
-            var param = encodeURIComponent(parameter) + '=';
-            var params = queryString.split(/[&;]/g);
-
-            for (var i = params.length; i-- > 0;) {
-                if (params[i].lastIndexOf(param, 0) !== -1) {
-                    params.splice(i, 1);
-                }
-            }
-
-            if (params.length > 0) {
-                window.location = url + '?' + params.join(/[&;]/g);
-            } else {
-                window.location = url;
-            }
-        }
-    </script>
-</head>
+<head th:replace="fragments :: head ('Suchergebnisse')"></head>
 
 <body>
     <div class="container">
@@ -116,10 +90,26 @@
         </div>
     </div>
 
-    <div th:replace="fragments :: footer">
-    </div>
-    <div th:replace="fragments :: bootstrap-script">
-    </div>
+    <div th:replace="fragments :: footer"></div>
+    <script type="text/javascript">
+        function removeURLParameter(url, queryString, parameter) {
+            var param = encodeURIComponent(parameter) + '=';
+            var params = queryString.split(/[&;]/g);
+
+            for (var i = params.length; i-- > 0;) {
+                if (params[i].lastIndexOf(param, 0) !== -1) {
+                    params.splice(i, 1);
+                }
+            }
+
+            if (params.length > 0) {
+                window.location = url + '?' + params.join(/[&;]/g);
+            } else {
+                window.location = url;
+            }
+        }
+    </script>
+    <div th:replace="fragments :: bootstrap-script"></div>
 </body>
 
 </html>
