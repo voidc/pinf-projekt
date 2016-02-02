@@ -14,16 +14,10 @@
     <div class="container">
         <div th:replace="fragments :: navbar">
         </div>
-        <!-- <div th:replace="fragments :: header">
-        </div> -->
         <div class="panel panel-primary">
             <div class="panel-heading" th:inline="text">Benutzerprofil von [[${user.firstName}]] [[${user.lastName}]]
             </div>
             <table class="table table-hover">
-                <tr>
-                    <td>Email</td>
-                    <td th:text="${user.email}">GWEUser.email</td>
-                </tr>
                 <tr>
                     <td>Vorname</td>
                     <td th:text="${user.firstName}">GWEUser.firstName</td>

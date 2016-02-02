@@ -15,13 +15,6 @@ Unser derzeitiger Plan ist es, eine Java basierte Web Anwendung zu erstellen. Di
 - Link in der Mail um über GWE zu antworten (keine direkte Antwort per Mail -> E-Mails bleiben privat)
 - Deployment auf den Schulserver
 
-## Roadmap
-- Buxfixes
-- Nachricht an mehere Nutzer (an ganzen Jahrgang)
-- Weitere Einstellungen für Nutzer: E-Mail für andere sichtbar machen, Nachrichten zulassen, E-Mail-Benachrichtigungs-Einstellungen, Account löschen ...
-- Link in der Mail um über GWE zu antworten (keine direkte Antwort per Mail -> E-Mails bleiben privat)
-- Deployment auf den Schulserver
-
 ## Projekt Setup
 Diese Version des Prototypen verwendet keine In-Memory Datenbank, sondern eine "richtige" SQL Datenbank
 
