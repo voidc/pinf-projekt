@@ -4,31 +4,32 @@
 <head th:replace="fragments :: head ('Anmelden')"></head>
 
 <body>
-    <div class="container">
-        <div th:replace="fragments :: header-login">
-        </div>
-        <div class="panel panel-signin">
-            <h2 class="panel-heading form-signin-heading">Anmelden</h2>
-            <div class="alert alert-danger" th:if="${param.error != null}" role="alert">
-                <!-- <small><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></small>  -->
-                Anmeldung fehlgeschlagen
+    <div class="content-wrap">
+        <div class="container">
+            <div th:replace="fragments :: header-login">
             </div>
-            <form th:action="@{/login}" method="post" class="form-signin">
-                <div class="form-group">
-                    <label for="username" class="sr-only">Email</label>
-                    <input type="text" name="username" id="username" placeholder="Email" class="form-control" required="true" autofocus="true" />
-                    <label for="password" class="sr-only">Passwort</label>
-                    <input type="password" name="password" id="password" placeholder="Passwort" class="form-control" required="true" />
+            <div class="panel panel-signin">
+                <h2 class="panel-heading form-signin-heading">Anmelden</h2>
+                <div class="alert alert-danger" th:if="${param.error != null}" role="alert">
+                    <!-- <small><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></small>  -->
+                    Anmeldung fehlgeschlagen
                 </div>
-                <button type="submit" class="btn btn-lg btn-primary btn-block">Anmelden</button>
-            </form>
-            <a href="/signup" class="btn btn-link" id="create-account">Registrieren</a>
+                <form th:action="@{/login}" method="post" class="form-signin">
+                    <div class="form-group">
+                        <label for="username" class="sr-only">Email</label>
+                        <input type="text" name="username" id="username" placeholder="Email" class="form-control" required="true" autofocus="true" />
+                        <label for="password" class="sr-only">Passwort</label>
+                        <input type="password" name="password" id="password" placeholder="Passwort" class="form-control" required="true" />
+                    </div>
+                    <button type="submit" class="btn btn-lg btn-primary btn-block">Anmelden</button>
+                </form>
+                <a href="/signup" class="btn btn-link" id="create-account">Registrieren</a>
+            </div>
         </div>
     </div>
 
-    <div th:replace="fragments :: footer-login">
-    </div>
-
+    <div th:replace="fragments :: footer-login"></div>
+    <div th:replace="fragments :: bootstrap-script"></div>
 </body>
 
 </html>

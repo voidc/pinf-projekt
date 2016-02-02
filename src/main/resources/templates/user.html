@@ -4,46 +4,46 @@
 <head th:replace="fragments :: head ('Benutzerprofil')"></head>
 
 <body>
-    <div class="container">
-        <div th:replace="fragments :: navbar"></div>
-        <div class="panel panel-primary">
-            <div class="panel-heading">Benutzerdaten</div>
-            <table class="table table-hover">
-                <tr>
-                    <td>Email</td>
-                    <td th:text="${currentUser.email}">GWEUser.email</td>
-                </tr>
-                <tr>
-                    <td>Vorname</td>
-                    <td th:text="${currentUser.firstName}">GWEUser.firstName</td>
-                </tr>
-                <tr>
-                    <td>Nachname</td>
-                    <td th:text="${currentUser.lastName}">GWEUser.lastName</td>
-                </tr>
-                <tr>
-                    <td>Abiturjahr</td>
-                    <td th:text="${currentUser.graduationYear}">GWEUser.graduationYear</td>
-                </tr>
-                <tr>
-                    <td>Beschäftigung</td>
-                    <td th:text="${currentUser.occupation}">GWEUser.occupation</td>
-                </tr>
-            </table>
-            <div class="panel-footer">
-                <form th:action="@{/logout}" method="post">
-                    <button class="btn btn-warning" type="submit">Abmelden</button>
-                    <a href="/edit" class="btn btn-success">Bearbeiten</a>
-                </form>
+    <div class="content-wrap">
+        <div class="container">
+            <div th:replace="fragments :: navbar"></div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">Benutzerdaten</div>
+                <table class="table table-hover">
+                    <tr>
+                        <td>Email</td>
+                        <td th:text="${currentUser.email}">GWEUser.email</td>
+                    </tr>
+                    <tr>
+                        <td>Vorname</td>
+                        <td th:text="${currentUser.firstName}">GWEUser.firstName</td>
+                    </tr>
+                    <tr>
+                        <td>Nachname</td>
+                        <td th:text="${currentUser.lastName}">GWEUser.lastName</td>
+                    </tr>
+                    <tr>
+                        <td>Abiturjahr</td>
+                        <td th:text="${currentUser.graduationYear}">GWEUser.graduationYear</td>
+                    </tr>
+                    <tr>
+                        <td>Beschäftigung</td>
+                        <td th:text="${currentUser.occupation}">GWEUser.occupation</td>
+                    </tr>
+                </table>
+                <div class="panel-footer">
+                    <form th:action="@{/logout}" method="post">
+                        <button class="btn btn-warning" type="submit">Abmelden</button>
+                        <a href="/edit" class="btn btn-success">Bearbeiten</a>
+                    </form>
+                </div>
             </div>
+
         </div>
-
     </div>
 
-    <div th:replace="fragments :: footer">
-    </div>
-    <div th:replace="fragments :: bootstrap-script">
-    </div>
+    <div th:replace="fragments :: footer"></div>
+    <div th:replace="fragments :: bootstrap-script"></div>
 </body>
 
 </html>

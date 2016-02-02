@@ -4,41 +4,41 @@
 <head th:replace="fragments :: head ('Benutzerprofil')"></head>
 
 <body>
-    <div class="container">
-        <div th:replace="fragments :: navbar">
-        </div>
-        <div class="panel panel-primary">
-            <div class="panel-heading" th:inline="text">Benutzerprofil von [[${user.firstName}]] [[${user.lastName}]]
+    <div class="content-wrap">
+        <div class="container">
+            <div th:replace="fragments :: navbar">
             </div>
-            <table class="table table-hover">
-                <tr>
-                    <td>Vorname</td>
-                    <td th:text="${user.firstName}">GWEUser.firstName</td>
-                </tr>
-                <tr>
-                    <td>Nachname</td>
-                    <td th:text="${user.lastName}">GWEUser.lastName</td>
-                </tr>
-                <tr>
-                    <td>Abiturjahr</td>
-                    <td th:text="${user.graduationYear}">GWEUser.graduationYear</td>
-                </tr>
-                <tr>
-                    <td>Beschäftigung</td>
-                    <td th:text="${user.occupation}">GWEUser.occupation</td>
-                </tr>
-            </table>
-            <div class="panel-footer">
-                <a class="btn btn-success" th:href="@{/message(to=${user.id})}">Nachricht</a>
+            <div class="panel panel-primary">
+                <div class="panel-heading" th:inline="text">Benutzerprofil von [[${user.firstName}]] [[${user.lastName}]]
+                </div>
+                <table class="table table-hover">
+                    <tr>
+                        <td>Vorname</td>
+                        <td th:text="${user.firstName}">GWEUser.firstName</td>
+                    </tr>
+                    <tr>
+                        <td>Nachname</td>
+                        <td th:text="${user.lastName}">GWEUser.lastName</td>
+                    </tr>
+                    <tr>
+                        <td>Abiturjahr</td>
+                        <td th:text="${user.graduationYear}">GWEUser.graduationYear</td>
+                    </tr>
+                    <tr>
+                        <td>Beschäftigung</td>
+                        <td th:text="${user.occupation}">GWEUser.occupation</td>
+                    </tr>
+                </table>
+                <div class="panel-footer">
+                    <a class="btn btn-success" th:href="@{/message(to=${user.id})}">Nachricht</a>
+                </div>
             </div>
+
         </div>
-
     </div>
 
-    <div th:replace="fragments :: footer">
-    </div>
-    <div th:replace="fragments :: bootstrap-script">
-    </div>
+    <div th:replace="fragments :: footer"></div>
+    <div th:replace="fragments :: bootstrap-script"></div>
 </body>
 
 </html>

@@ -4,22 +4,23 @@
 <head th:replace="fragments :: head ('Fehler')"></head>
 
 <body>
-    <div class="container">
-        <div th:replace="fragments :: header">
+    <div class="content-wrap">
+        <div class="container">
+            <div th:replace="fragments :: header">
+            </div>
+            <p class="lead">Ein Fehler ist aufgetreten.</p>
+
+            <!-- Ausschließlich temporäre Fehlermeldung -->
+            <h4 style="color: grey;" th:if="${(param.type != null) and (param.type[0] == 'noSearchResults')}">Profil nicht gefunden</h4>
+            <br />
+            <!-- Ende -->
+
+            <a class="btn btn-default" href="javascript:history.back()">Zurück</a>
         </div>
-        <p class="lead">Ein Fehler ist aufgetreten.</p>
-
-        <!-- Ausschließlich temporäre Fehlermeldung -->
-        <h4 style="color: grey;" th:if="${(param.type != null) and (param.type[0] == 'noSearchResults')}">Profil nicht gefunden</h4>
-        <br />
-        <!-- Ende -->
-
-        <a class="btn btn-default" href="javascript:history.back()">Zurück</a>
     </div>
 
-    <div th:replace="fragments :: footer">
-    </div>
-
+    <div th:replace="fragments :: footer-login"></div>
+    <div th:replace="fragments :: bootstrap-script"></div>
 </body>
 
 </html>

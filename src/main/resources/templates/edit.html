@@ -4,63 +4,63 @@
 <head th:replace="fragments :: head ('Benutzerdaten')"></head>
 
 <body>
-    <div class="container">
-        <div th:replace="fragments :: navbar">
-        </div>
-        <!-- <div th:replace="fragments :: header">
-        </div> -->
-        <form class="form-horizontal form-signup" th:action="@{/edit}" method="post">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Benutzerdaten</div>
-                <div class="panel-body">
-                    <div class="alert alert-danger" th:if="${param.error != null}" role="alert">Bearbeitung fehlgeschlagen</div>
-                    <div class="form-group">
-                        <label for="inputEmail" class="col-sm-2 control-label">Email</label>
-                        <div class="col-sm-10">
-                            <input name="email" type="email" class="form-control" id="inputEmail" th:value="${currentUser.email}" required="true" autofocus="true" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputFirstName" class="col-sm-2 control-label">Vorname</label>
-                        <div class="col-sm-10">
-                            <input name="firstName" type="text" class="form-control" id="inputFirstName" th:value="${currentUser.firstName}" required="true" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputLastName" class="col-sm-2 control-label">Nachname</label>
-                        <div class="col-sm-10">
-                            <input name="lastName" type="text" class="form-control" id="inputLastName" th:value="${currentUser.lastName}" required="true" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputGradYear" class="col-sm-2 control-label">Abiturjahr</label>
-                        <div class="col-sm-10">
-                            <input name="graduationYear" type="number" class="form-control" id="inputGradYear" th:value="${currentUser.graduationYear}" required="true" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputOccupation" class="col-sm-2 control-label">Beschäftigung</label>
-                        <div class="col-sm-10">
-                            <input name="occupation" type="text" class="form-control" id="inputOccupation" th:value="${currentUser.occupation}" required="true" />
-                        </div>
-                    </div>
-                </div>
-                <div class="panel-footer">
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-success">Speichern</button>
-                            <a href="/user" class="btn btn-warning">Abbrechen</a>
-                        </div>
-                    </div>
-                </div>
+    <div class="content-wrap">
+        <div class="container">
+            <div th:replace="fragments :: navbar">
             </div>
-        </form>
+            <!-- <div th:replace="fragments :: header">
+            </div> -->
+            <form class="form-horizontal form-signup" th:action="@{/edit}" method="post">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Benutzerdaten</div>
+                    <div class="panel-body">
+                        <div class="alert alert-danger" th:if="${param.error != null}" role="alert">Bearbeitung fehlgeschlagen</div>
+                        <div class="form-group">
+                            <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+                            <div class="col-sm-10">
+                                <input name="email" type="email" class="form-control" id="inputEmail" th:value="${currentUser.email}" required="true" autofocus="true" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputFirstName" class="col-sm-2 control-label">Vorname</label>
+                            <div class="col-sm-10">
+                                <input name="firstName" type="text" class="form-control" id="inputFirstName" th:value="${currentUser.firstName}" required="true" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputLastName" class="col-sm-2 control-label">Nachname</label>
+                            <div class="col-sm-10">
+                                <input name="lastName" type="text" class="form-control" id="inputLastName" th:value="${currentUser.lastName}" required="true" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputGradYear" class="col-sm-2 control-label">Abiturjahr</label>
+                            <div class="col-sm-10">
+                                <input name="graduationYear" type="number" class="form-control" id="inputGradYear" th:value="${currentUser.graduationYear}" required="true" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputOccupation" class="col-sm-2 control-label">Beschäftigung</label>
+                            <div class="col-sm-10">
+                                <input name="occupation" type="text" class="form-control" id="inputOccupation" th:value="${currentUser.occupation}" required="true" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-success">Speichern</button>
+                                <a href="/user" class="btn btn-warning">Abbrechen</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 
-    <div th:replace="fragments :: footer">
-    </div>
-    <div th:replace="fragments :: bootstrap-script">
-    </div>
+    <div th:replace="fragments :: footer"></div>
+    <div th:replace="fragments :: bootstrap-script"></div>
 </body>
 
 </html>

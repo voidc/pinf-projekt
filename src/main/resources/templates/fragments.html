@@ -15,71 +15,69 @@
 <body>
 
     <!-- Navbar -->
-    <div th:fragment="navbar">
-        <nav class="navbar navbar-default highlight-color no-border-radius">
-            <div class="container-fluid">
-                <div class="navbar-header navbar-height">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <div class="navbar-left navbar-brand">
-                        <a href="/">
-                            <img title="Gymnasium Waldkraiburg" src="/img/logo46px.png" />
-                        </a>
-                    </div>
-                    <div class="pull-left navbar-heading navbar-height">
-                        <h5>Ehemalige<br/><small>des Gymnasiums Waldkraiburg</small></h5>
-                    </div>
+    <nav class="navbar navbar-default highlight-color no-border-radius" th:fragment="navbar">
+        <div class="container-fluid">
+            <div class="navbar-header navbar-height">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-left navbar-brand">
+                    <a href="/">
+                        <img title="Gymnasium Waldkraiburg" src="/img/logo46px.png" />
+                    </a>
                 </div>
+                <div class="pull-left navbar-heading navbar-height">
+                    <h5>Ehemalige<br/><small>des Gymnasiums Waldkraiburg</small></h5>
+                </div>
+            </div>
 
-                <div class="collapse navbar-collapse" id="navbar-collapse">
-                    <ul class="nav navbar-nav navbar-left">
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li class="dropdown-header">
-                                    <h5>
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-header">
+                                <h5>
                                         <span>Angemeldet als </span>
                                         <b>
                                             <span class="text-muted" th:text="|${currentUser.firstName} ${currentUser.lastName}|">Admin</span>
                                         </b>
                                     </h5>
-                                </li>
-                                <li>
-                                    <a href="/user">Benutzerdaten</a>
-                                </li>
-                                <li>
-                                    <a href="/edit">Einstellungen</a>
-                                </li>
-                                <li role="separator" class="divider"></li>
-                                <li>
-                                    <a href="/logout">Abmelden</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <form class="navbar-form navbar-right" role="search" action="/search" method="get">
-                        <div class="input-group" role="group">
-                            <input class="form-control" type="search" name="q" />
-                            <span class="input-group-btn">
+                            </li>
+                            <li>
+                                <a href="/user">Benutzerdaten</a>
+                            </li>
+                            <li>
+                                <a href="/edit">Einstellungen</a>
+                            </li>
+                            <li role="separator" class="divider"></li>
+                            <li>
+                                <a href="/logout">Abmelden</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right" role="search" action="/search" method="get">
+                    <div class="input-group" role="group">
+                        <input class="form-control" type="search" name="q" />
+                        <span class="input-group-btn">
                                 <button type="submit" class="btn btn-default">Suchen</button>
                             </span>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
-        </nav>
-    </div>
+        </div>
+    </nav>
     <!-- END Navbar -->
 
     <!-- Bootstrap JS -->
-    <div th:fragment="bootstrap-script">
+    <th:block th:fragment="bootstrap-script">
         <script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    </div>
+    </th:block>
 
     <!-- Header -->
     <div class="page-header row" th:fragment="header">
@@ -127,7 +125,7 @@
         </div>
     </footer>
 
-    <footer class="footer hidden-print" th:fragment="footer-login">
+    <footer class="footer footer-login hidden-print" th:fragment="footer-login">
         <div class="container">
             <div class="textbox text-muted">
                 <p class="text-faded pull-left">&copy; 2016 Gymnasium Waldkraiburg</p>
