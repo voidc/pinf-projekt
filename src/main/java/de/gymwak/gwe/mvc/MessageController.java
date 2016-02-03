@@ -9,9 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -51,9 +50,7 @@ public class MessageController {
 	}
 
 	@RequestMapping(value = "/send", method = RequestMethod.POST)
-	public String sendMessage(@Valid GWEMessage gweMessage) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		GWEUser currentUser = userRepository.findByEmail(auth.getName());
+	public String sendMessage(@Valid GWEMessage gweMessage, @ModelAttribute("currentUser") GWEUser currentUser) {
 		GWEUser recipientUser = userRepository.findOne(gweMessage.getRecipientId());
 
 		String cuName = currentUser.getFirstName() + " " + currentUser.getLastName();
