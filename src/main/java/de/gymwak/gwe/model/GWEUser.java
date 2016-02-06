@@ -1,6 +1,7 @@
 package de.gymwak.gwe.model;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -38,6 +39,10 @@ public class GWEUser implements Serializable {
 
 	@NotEmpty(message = "Occupation is required.")
 	private String occupation;
+	
+	private String resetToken;
+	
+	private Date resetTokenDate;
 
 	public GWEUser() {
 	}
@@ -114,6 +119,22 @@ public class GWEUser implements Serializable {
 
 	public void setOccupation(String occupation) {
 		this.occupation = occupation;
+	}
+
+	public String getResetToken() {
+		return resetToken;
+	}
+
+	public void setResetToken(String resetToken) {
+		this.resetToken = resetToken;
+	}
+
+	public Date getResetTokenDate() {
+		return resetTokenDate;
+	}
+
+	public void setResetTokenDate(Date resetTokenDate) {
+		this.resetTokenDate = resetTokenDate;
 	}
 
 	private static final long serialVersionUID = 2738859149330833739L;

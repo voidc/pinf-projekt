@@ -1,8 +1,9 @@
 package de.gymwak.gwe.mvc;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,7 +32,10 @@ public class UserController {
 	}
 
 	@RequestMapping(path = "/user/{userId}", method = RequestMethod.GET)
-	public ModelAndView userProfile(@PathVariable int userId, @ModelAttribute("currentUser") GWEUser currentUser) {
+	public ModelAndView userProfile(@PathVariable int userId) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		GWEUser currentUser = userRepository.findByEmail(auth.getName());
+		
 		if(currentUser.getId() == userId)
 			return new ModelAndView("redirect:/user");
 		

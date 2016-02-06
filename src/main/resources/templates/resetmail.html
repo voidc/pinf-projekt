@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="de" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments :: head ('Anmelden')"></head>
+<head th:replace="fragments :: head ('Zurücksetzen')"></head>
 
 <body>
     <div class="content-wrap">
@@ -10,23 +10,23 @@
             </div>
             <h2 class="panel-signin" style="border: 1px solid transparent; border-width: 1px 0 0 0; padding: 45px 0 5px 0; max-width: 330px; margin-bottom: 0;">Passwort zurücksetzen</h2>
             <div class="panel panel-signin">
-                <div class="alert alert-danger alert-dismissible fade in" th:if="${(param.error != null) and (param.action == null)}" role="alert">
+                <div class="alert alert-danger alert-dismissible fade in" th:if="${(param.error != null) and (param.success == null)}" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                     <p><strong>Zurücksetzung fehlgeschlagen</strong></p>
                     Bitte versuchen Sie es erneut oder kontaktieren Sie uns.
                 </div>
-                <div class="alert alert-success alert-dismissible fade in" th:if="${(param.error == null) and (param.action != null) and (param.action[0] == 'success')}" role="alert">
+                <div class="alert alert-success alert-dismissible fade in" th:if="${(param.error == null) and (param.success != null)}" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                     <p><strong>Zurücksetzung erfolgreich</strong></p>
                     Sie können Ihr Passwort binnen 24 Stunden zurücksetzen.
                 </div>
-                <form action="/resetpassword" method="post" class="form-signin">
+                <form action="/reset" method="post" class="form-signin">
                     <div class="form-group">
-                        <p>Wir senden Ihnen an die angegebene E-Mail Adresse einem Link, mit dem Sie Ihr Passwort zurücksetzen können.</p>
+                        <p>Wir senden Ihnen an die angegebene E-Mail Adresse einen Link, mit dem Sie Ihr Passwort zurücksetzen können.</p>
                         <label for="email" class="sr-only">E-Mail</label>
                         <input type="email" name="email" id="email" placeholder="E-Mail" class="form-control" required="true" autofocus="true" />
                     </div>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="de" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: head ('Zurücksetzen')"></head>
+
+<body>
+    <div class="content-wrap">
+        <div class="container">
+            <div th:replace="fragments :: header-login">
+            </div>
+            <h2 class="panel-signin" style="border: 1px solid transparent; border-width: 1px 0 0 0; padding: 45px 0 5px 0; max-width: 330px; margin-bottom: 0;">Passwort zurücksetzen</h2>
+            <div class="panel panel-signin">
+                <form action="/reset" method="post" class="form-signin">
+                    <div class="form-group">
+                        <label for="password" class="sr-only">Neues Passwort</label>
+                        <input type="password" name="password" id="password" placeholder="Neues Passwort" class="form-control" required="true" autofocus="true" />
+                    </div>
+                    <button type="submit" class="btn btn-lg btn-primary btn-block">Passwort zurücksetzen</button>
+                    <a href="/user" class="btn btn-default btn-block">Abbrechen</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="fragments :: footer"></div>
+    <div th:replace="fragments :: bootstrap-script"></div>
+</body>
+
+</html>
