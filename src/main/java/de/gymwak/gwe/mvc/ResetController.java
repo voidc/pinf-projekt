@@ -4,7 +4,9 @@ import java.math.BigInteger;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.security.SecureRandom;
-import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -39,6 +41,9 @@ public class ResetController {
 
 	@Value("${server.port}")
 	private String serverPort;
+	
+	@Value("${gwe.reset-token-expiry}")
+	private long resetTokenExpiry; //milliseconds
 
 	@Autowired
 	public ResetController(GWERepository userRepository, PasswordEncoder encoder, AsyncMailService mailService) {
@@ -58,13 +63,13 @@ public class ResetController {
 		GWEUser currentUser = userRepository.findByEmail(auth.getName());
 
 		if (currentUser != null)
-			return "resetform";
+			return "changepwd";
 
 		if (token == null)
-			return "resetmail";
+			return "resetbymail";
 
 		if (verifyToken(token))
-			return "resetform";
+			return "changepwd";
 		else
 			return "redirect:/reset?error&token=" + token;
 	}
@@ -77,17 +82,19 @@ public class ResetController {
 
 		String token = new BigInteger(130, rnd).toString(32);
 		resetUser.setResetToken(token);
-		resetUser.setResetTokenDate(new Date(new java.util.Date().getTime()));
+		resetUser.setResetTokenIssued(new Timestamp(new Date().getTime()));
 		userRepository.save(resetUser);
 
 		String resetUrl = getAddress() + "/reset?token=" + token;
+		String exprires = new SimpleDateFormat("dd.MM.yyyy HH:mm").format(new Date(resetUser.getResetTokenIssued().getTime() + resetTokenExpiry));
 
 		mailService.sendMail(mime -> {
 			MimeMessageHelper mail = new MimeMessageHelper(mime, true, "UTF-8");
 			mail.setSubject("Passwort Zurücksetzen");
 			mail.setFrom("gwesmtpmail@gmail.com", "GWE");
 			mail.setTo(resetUser.getEmail());
-			mail.setText("<a href='" + resetUrl + "'>Passwort zurücksetzen</a>", true);
+			mail.setText("<a href='" + resetUrl + "'>Passwort zurücksetzen</a><br>"
+					+ "Gültig bis: " + exprires, true);
 		});
 		return "redirect:/reset?success";
 	}
@@ -112,8 +119,8 @@ public class ResetController {
 			return false;
 
 		// check if token is not expired (24h)
-		long timeDiff = System.currentTimeMillis() - resetUser.getResetTokenDate().getTime();
-		if (timeDiff > (24 * 60 * 60 * 1000))
+		long timeDiff = System.currentTimeMillis() - resetUser.getResetTokenIssued().getTime();
+		if (timeDiff > resetTokenExpiry)
 			return false;
 
 		// Log user in

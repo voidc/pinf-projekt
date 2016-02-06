@@ -1,7 +1,7 @@
 package de.gymwak.gwe.model;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -42,7 +42,7 @@ public class GWEUser implements Serializable {
 	
 	private String resetToken;
 	
-	private Date resetTokenDate;
+	private Timestamp resetTokenIssued;
 
 	public GWEUser() {
 	}
@@ -129,12 +129,12 @@ public class GWEUser implements Serializable {
 		this.resetToken = resetToken;
 	}
 
-	public Date getResetTokenDate() {
-		return resetTokenDate;
+	public Timestamp getResetTokenIssued() {
+		return resetTokenIssued;
 	}
 
-	public void setResetTokenDate(Date resetTokenDate) {
-		this.resetTokenDate = resetTokenDate;
+	public void setResetTokenIssued(Timestamp resetTokenIssued) {
+		this.resetTokenIssued = resetTokenIssued;
 	}
 
 	private static final long serialVersionUID = 2738859149330833739L;
