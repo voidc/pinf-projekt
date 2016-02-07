@@ -94,17 +94,13 @@ public class ResetController {
 		return "redirect:/reset?success";
 	}
 
-	@RequestMapping(method = RequestMethod.POST, params = { "password", "repeatPassword", "token" })
-	public String resetPassword(@RequestParam String password, @RequestParam String repeatPassword, @RequestParam String token) {
+	@RequestMapping(method = RequestMethod.POST, params = { "password", "token" })
+	public String resetPassword(@RequestParam String password, @RequestParam String token) {
 		/*Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		GWEUser currentUser = userRepository.findByEmail(auth.getName());
 
 		if (currentUser != null)
 			return "redirect:/reset";*/
-
-		if (!password.equals(repeatPassword)) {
-			return "redirect:/reset?error=passwordIncorrect&token=" + token;
-		}
 
 		GWEUser resetUser = userRepository.findByResetToken(token);
 		resetUser.setPassword(encoder.encode(password));
