@@ -1,6 +1,5 @@
 package de.gymwak.gwe.mvc;
 
-import java.math.BigInteger;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.security.SecureRandom;
@@ -59,19 +58,13 @@ public class ResetController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String get(@RequestParam(value = "token", required = false) String token) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		GWEUser currentUser = userRepository.findByEmail(auth.getName());
-
-		if (currentUser != null)
-			return "changepwd";
-
 		if (token == null)
-			return "resetbymail";
+			return "resetpasswordbymail";
 
 		if (verifyToken(token))
-			return "changepwd";
+			return "newpassword";
 		else
-			return "redirect:/reset?error&token=" + token;
+			return "redirect:/reset?error&invalidToken=" + token;
 	}
 
 	@RequestMapping(method = RequestMethod.POST, params = { "email" })
@@ -80,7 +73,7 @@ public class ResetController {
 		if (resetUser == null)
 			return "redirect:/reset?error";
 
-		String token = new BigInteger(130, rnd).toString(32);
+		String token = generateRandomString(128);
 		resetUser.setResetToken(token);
 		resetUser.setResetTokenIssued(new Timestamp(new Date().getTime()));
 		userRepository.save(resetUser);
@@ -93,22 +86,37 @@ public class ResetController {
 			mail.setSubject("Passwort Zurücksetzen");
 			mail.setFrom("gwesmtpmail@gmail.com", "GWE");
 			mail.setTo(resetUser.getEmail());
-			mail.setText("<a href='" + resetUrl + "'>Passwort zurücksetzen</a><br>"
-					+ "Gültig bis: " + exprires, true);
+			mail.setText("Wir haben eine Anfrage erhalten, dass Sie Ihr Passwort für Ihren Account vergessen haben.<br>"
+					+ "Wenn Sie Ihr Passwort nicht zurücksetzen möchten, können Sie diese E-Mail ignorieren.<br>"
+					+ "<a href='" + resetUrl + "'>Passwort zurücksetzen</a><br>"
+					+ "Der Link ist für 24 Stunden bis " + exprires + " gültig.", true);
 		});
 		return "redirect:/reset?success";
 	}
 
-	@RequestMapping(method = RequestMethod.POST, params = { "password" })
-	public String resetPassword(@RequestParam String password) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	@RequestMapping(method = RequestMethod.POST, params = { "password", "repeatPassword", "token" })
+	public String resetPassword(@RequestParam String password, @RequestParam String repeatPassword, @RequestParam String token) {
+		/*Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		GWEUser currentUser = userRepository.findByEmail(auth.getName());
 
-		if (currentUser == null)
-			return "redirect:/reset?error";
+		if (currentUser != null)
+			return "redirect:/reset";*/
 
-		currentUser.setPassword(encoder.encode(password));
-		userRepository.save(currentUser);
+		if (!password.equals(repeatPassword)) {
+			return "redirect:/reset?error=passwordIncorrect&token=" + token;
+		}
+
+		GWEUser resetUser = userRepository.findByResetToken(token);
+		resetUser.setPassword(encoder.encode(password));
+		userRepository.save(resetUser);
+
+		// Log user in
+		List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_USER");
+		UserDetails userDetails = new User(resetUser.getEmail(), resetUser.getPassword(), authorities);
+		Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, resetUser.getPassword(),
+				authorities);
+		SecurityContextHolder.getContext().setAuthentication(auth);
+
 		return "redirect:/user";
 	}
 
@@ -123,12 +131,6 @@ public class ResetController {
 		if (timeDiff > resetTokenExpiry)
 			return false;
 
-		// Log user in
-		List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_USER");
-		UserDetails userDetails = new User(resetUser.getEmail(), resetUser.getPassword(), authorities);
-		Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, resetUser.getPassword(),
-				authorities);
-		SecurityContextHolder.getContext().setAuthentication(auth);
 		return true;
 	}
 
@@ -143,4 +145,13 @@ public class ResetController {
 		return String.format("http://%s:%s", serverAddress, serverPort);
 	}
 
+	public String generateRandomString(int length) {
+		char[] chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < length; i++) {
+		    char c = chars[rnd.nextInt(chars.length)];
+		    sb.append(c);
+		}
+		return sb.toString();
+	}
 }

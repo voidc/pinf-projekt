@@ -19,6 +19,8 @@
                             <h4>Filter</h4>
                             <nav class="bs-docs-sidebar affix-top">
                                 <form>
+                                    <input type="hidden" name="q" th:if="${param.q != null and param.q[0] != ''}" th:value="${param.q[0]}" />
+                                    <input type="hidden" name="y" th:if="${param.y != null and param.y[0] != ''}" th:value="${param.y[0]}" />
                                     <ul class="nav sidenav">
                                         <li>
                                             <label>Sortierung</label>
@@ -97,7 +99,7 @@
     <script type="text/javascript">
         function removeURLParameter(url, queryString, parameter) {
             var param = encodeURIComponent(parameter) + '=';
-            var params = queryString.split(/[&;]/g);
+            var params = queryString.split("\u0026");
 
             for (var i = params.length; i-- > 0;) {
                 if (params[i].lastIndexOf(param, 0) !== -1) {
@@ -106,7 +108,7 @@
             }
 
             if (params.length > 0) {
-                window.location = url + '?' + params.join(/[&;]/g);
+                window.location = url + '?' + params.join("\u0026");
             } else {
                 window.location = url;
             }

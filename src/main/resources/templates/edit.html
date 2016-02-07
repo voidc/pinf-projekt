@@ -11,10 +11,19 @@
             <!-- <div th:replace="fragments :: header">
             </div> -->
             <form class="form-horizontal form-signup" th:action="@{/edit}" method="post">
-                <div class="panel panel-primary">
+                <div class="alert alert-danger" th:if="${param.error != null}" role="alert">Bearbeitung fehlgeschlagen</div>
+                <div class="panel panel-primary col-md-3" style="padding-left: 0; padding-right: 0;">
+                    <div class="panel-heading">Einstellungen</div>
+                        <div class="panel-body">
+                        <ul class="nav nav-pills nav-stacked">
+                            <li role="presentation"><a href="#">1</a></li>
+                            <li role="presentation"><a href="#">2</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel panel-primary col-md-9" style="padding-left: 0; padding-right: 0;">
                     <div class="panel-heading">Benutzerdaten</div>
                     <div class="panel-body">
-                        <div class="alert alert-danger" th:if="${param.error != null}" role="alert">Bearbeitung fehlgeschlagen</div>
                         <div class="form-group">
                             <label for="inputEmail" class="col-sm-2 control-label">E-Mail</label>
                             <div class="col-sm-10">

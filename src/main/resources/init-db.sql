@@ -22,6 +22,14 @@ INSERT INTO gweuser(id,email,password,first_name,last_name,graduation_year,occup
     'Dominik','Stolz'
     ,2017,
     'Schüler'
+),
+(
+    3,
+    'oliverjacobsen@vodafone.de',
+    '$2a$10$EXD5MItMup6J8RTu.N51YOrs43uXHDzzFwM7z8HP.Y1B/27V87nO2',
+    'Oliver','Jacobsen'
+    ,2017,
+    'Schüler'
 );
 
 SELECT setval('hibernate_sequence', 2, true)

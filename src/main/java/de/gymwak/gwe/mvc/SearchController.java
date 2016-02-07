@@ -71,8 +71,10 @@ public class SearchController {
 			int year = Integer.parseInt(query);
 			return user.getGraduationYear() == year;
 		} catch (NumberFormatException e) {
-			return user.getFirstName().equalsIgnoreCase(query) || user.getLastName().equalsIgnoreCase(query)
-					|| user.getOccupation().equalsIgnoreCase(query);
+			// Einfache Suche (nicht die schnellste und effektivste, aber besser als equalsIgnoreCase()
+			return user.getFirstName().toLowerCase().contains(query.toLowerCase())
+					|| user.getLastName().toLowerCase().contains(query.toLowerCase())
+					|| user.getOccupation().toLowerCase().contains(query.toLowerCase());
 		}
 	}
 
