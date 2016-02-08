@@ -38,6 +38,10 @@ body {
     color: #777;
 }
 
+.nav-pills > li > a {
+    border-radius: 0;
+}
+
 .highlight-color {
     background-color: #efefef;
     -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);

@@ -27,22 +27,22 @@ public class SearchController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView search(@RequestParam(value = "q", required = false) String q,
-			@RequestParam(value = "y", required = false) String y,
+			@RequestParam(value = "year", required = false) String year,
 			@RequestParam(value = "sort", required = false) String sort) {
 		ModelAndView mav = new ModelAndView("search");
 		Sort s = new Sort("lastName", "firstName", "graduationYear", "occupation", "id");
 
 		if (sort != null) {
 			switch (sort) {
-			case "y":
+			case "year":
 				s = new Sort("graduationYear", "lastName", "firstName", "occupation", "id");
 				mav.addObject("sort", "Abschlussjahr");
 				break;
-			case "o":
+			case "occu":
 				s = new Sort("occupation", "lastName", "firstName", "graduationYear", "id");
 				mav.addObject("sort", "Beschäftigung");
 				break;
-			case "n":
+			case "name":
 				s = new Sort("lastName", "firstName", "graduationYear", "occupation", "id");
 				mav.addObject("sort", "Name");
 				break;
@@ -51,9 +51,9 @@ public class SearchController {
 
 		Stream<GWEUser> users = StreamSupport.stream(userRepository.findAll(s).spliterator(), false);
 
-		if (y != null && y.length() > 0) {
+		if (year != null && year.length() > 0) {
 			try {
-				int graduationYear = Integer.parseInt(y);
+				int graduationYear = Integer.parseInt(year);
 				users = users.filter(u -> u.getGraduationYear() == graduationYear);
 			} catch (NumberFormatException e) {
 			}
@@ -66,7 +66,7 @@ public class SearchController {
 		return mav;
 	}
 
-	public boolean testQuery(GWEUser user, String query) {
+	private boolean testQuery(GWEUser user, String query) {
 		try {
 			int year = Integer.parseInt(query);
 			return user.getGraduationYear() == year;
