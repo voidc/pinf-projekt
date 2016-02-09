@@ -53,7 +53,9 @@ public class SearchController {
 		
 		if (q != null && q.length() > 0) {
 			try {
-				mav.addObject("year", Integer.parseInt(q));
+				int graduationYear = Integer.parseInt(q);
+				users = users.filter(u -> u.getGraduationYear() == graduationYear);
+				mav.addObject("year", graduationYear);
 			} catch (NumberFormatException e) {
 				users = users.filter(u -> testQuery(u, q));
 				mav.addObject("query", q);
