@@ -41,7 +41,7 @@
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                                 Abschlussjahr<span th:if="${param.year != null and param.year[0] != ''}" th:text="|: ${param.year[0]}|"></span> <span class="caret"></span>
                             </a>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu scrollable-menu">
                                 <li>
                                     <button class="btn btn-link" onclick="removeParam('year')">Alle</button>
                                 </li>
@@ -53,7 +53,7 @@
                         </li>
                     </ul>
                 <div class="panel-body" th:if="${#lists.isEmpty(results)}">
-                    <p>Es wurden keine Nutzer gefunden.</p>
+                    <p class="text-center lead text-muted" style="margin-top: 64px;">Es wurden keine Nutzer gefunden.</p>
                 </div>
                 <div class="list-group">
                     <a class="list-group-item" th:each="user : ${results}" th:href="@{/user/{id}(id=${user.id})}">

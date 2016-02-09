@@ -53,7 +53,8 @@ public class EditController {
 
 		userRepository.save(currentUser);
 
-		return changedUsername ? "redirect:/logout" : "redirect:/edit?action=success";
+		// #top stellt sicher, dass der Nutzer an den Anfang der Seite gelangt um die Meldung zu sehen
+		return changedUsername ? "redirect:/logout" : "redirect:/edit?action=success#top";
 	}
 
 	@RequestMapping(method = RequestMethod.POST, params = { "password" })
@@ -64,7 +65,8 @@ public class EditController {
 		currentUser.setPassword(encoder.encode(password));
 		userRepository.save(currentUser);
 
-		return "redirect:/edit?action=success";
+		// #top stellt sicher, dass der Nutzer an den Anfang der Seite gelangt um die Meldung zu sehen
+		return "redirect:/edit?action=success#top";
 	}
 
 }
