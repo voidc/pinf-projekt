@@ -5,10 +5,12 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import de.gymwak.gwe.data.GWERepository;
 import de.gymwak.gwe.model.GWEUser;
@@ -18,10 +20,12 @@ import de.gymwak.gwe.model.GWEUserEdit;
 @RequestMapping("/edit")
 public class EditController {
 	private GWERepository userRepository;
+	private PasswordEncoder encoder;
 
 	@Autowired
-	public EditController(GWERepository userRepository) {
+	public EditController(GWERepository userRepository, PasswordEncoder encoder) {
 		this.userRepository = userRepository;
+		this.encoder = encoder;
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -49,7 +53,20 @@ public class EditController {
 
 		userRepository.save(currentUser);
 
-		return changedUsername ? "redirect:/logout" : "redirect:/user";
+		// #top stellt sicher, dass der Nutzer an den Anfang der Seite gelangt um die Meldung zu sehen
+		return changedUsername ? "redirect:/logout" : "redirect:/edit?action=success#top";
+	}
+
+	@RequestMapping(method = RequestMethod.POST, params = { "password" })
+	public String changePassword(@RequestParam String password) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		GWEUser currentUser = userRepository.findByEmail(auth.getName());
+
+		currentUser.setPassword(encoder.encode(password));
+		userRepository.save(currentUser);
+
+		// #top stellt sicher, dass der Nutzer an den Anfang der Seite gelangt um die Meldung zu sehen
+		return "redirect:/edit?action=success#top";
 	}
 
 }

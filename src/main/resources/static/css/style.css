@@ -76,7 +76,7 @@ body {
     line-height: 20px;
 }
 
-.sidenav>li>a {
+.sidenav > li > a {
     position: relative;
     display: block;
     padding: 10px 15px;
@@ -86,15 +86,15 @@ body {
     margin-bottom: 2px;
 }
 
-.sidenav>li>a:link {
+.sidenav > li > a:link {
     color: #464646;
 }
 
-.sidenav>li>a:visited {
+.sidenav > li > a:visited {
     color: #464646;
 }
 
-.sidenav>li>a:hover {
+.sidenav > li > a:hover {
     background-color: #cdcdcd;
 }
 
@@ -158,10 +158,28 @@ body {
     border-radius: 0px;
 }
 
-.form-inline>.alert-info {
+.form-inline > .alert-info {
     min-width: 196px;
     margin-bottom: 4px;
     background-color: #eeeeee;
+}
+
+.dropdown-menu > li > button {
+    width: 100%;
+    text-align: left;" 
+}
+
+.seperator {
+    height: 1px;
+    margin: 0 0 9px 0;
+    overflow: hidden;
+    background-color: #ddd;
+}
+
+.scrollable-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
 }
 
 @media all {

@@ -53,7 +53,7 @@
                     </li>
                 </ul>
                 <div class="panel-body" th:if="${#lists.isEmpty(results)}">
-                    <p>Es wurden keine Nutzer gefunden.</p>
+                    <p class="text-center lead text-muted" style="margin-top: 64px;">Es wurden keine Nutzer gefunden.</p>
                 </div>
                 <div class="list-group">
                     <a class="list-group-item" th:each="user : ${results}" th:href="@{/user/{id}(id=${user.id})}">
@@ -86,7 +86,6 @@
                     params.push(filter + '=' + encodeURIComponent(filters[filter]));
                 }
             }
-            console.log(params.join('&'));
             location.search = params.join('&');
         }
         /*]]>*/
