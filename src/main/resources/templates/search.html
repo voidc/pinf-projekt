@@ -12,47 +12,46 @@
             </div> -->
             <div class="panel panel-primary" style="min-height: 320px">
                 <div class="panel-heading">Suchergebnisse<span th:if="${param.q != null and param.q[0] != ''}" th:text="| für &quot;${param.q[0]}&quot;|"></span></div>
-                <form method="get">
                     <input type="hidden" name="q" th:if="${param.q != null and param.q[0] != ''}" th:value="${param.q[0]}" />
-                    <input type="hidden" name="year" th:if="${param.year != null and param.year[0] != ''}" th:value="${param.year[0]}" />
                     <ul class="nav nav-pills">
                         <li role="presentation" th:if="${param.q != null and param.q[0] != ''}">
                             <a href="javascript:removeParam('q')" role="button" aria-haspopup="true" aria-expanded="false">Alle Nutzer</a>
                         </li>
                         <li class="dropdown" role="presentation">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                                Sortierung<span th:if="${sort}" th:text="|: ${sort}|"></span><span class="caret"></span>
+                                Sortierung<span th:if="${sort}" th:text="|: ${sort}|"></span> <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
                                     <button class="btn btn-link" onclick="removeParam('sort')">Keine</button>
                                 </li>
+                                <li role="separator" class="divider"></li>
                                 <li>
-                                    <button class="btn btn-link" type="submit" name="sort" value="name">Name</button>
+                                    <button class="btn btn-link" onclick="addParam('sort', 'name')">Name</button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-link" type="submit" name="sort" value="year">Abschlussjahr</button>
+                                    <button class="btn btn-link" onclick="addParam('sort', 'year')">Abschlussjahr</button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-link" type="submit" name="sort" value="occu">Beschäftigung</button>
+                                    <button class="btn btn-link" onclick="addParam('sort', 'occu')">Beschäftigung</button>
                                 </li>
                             </ul>
                         </li>
                         <li class="dropdown" role="presentation">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                                Abschlussjahr<span th:if="${param.year != null and param.year[0] != ''}" th:text="|: ${param.year[0]}|"></span><span class="caret"></span>
+                                Abschlussjahr<span th:if="${param.year != null and param.year[0] != ''}" th:text="|: ${param.year[0]}|"></span> <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
                                     <button class="btn btn-link" onclick="removeParam('year')">Alle</button>
                                 </li>
+                                <li role="separator" class="divider"></li>
                                 <li th:each="year : ${#numbers.sequence(2001, #dates.year(#dates.createNow()))}">
-                                    <button class="btn btn-link" type="submit" name="year" th:value="${year}" th:text="${year}"></button>
+                                    <button class="btn btn-link" th:onclick="'addParam(\'year\', \'' + ${year} + '\')'" th:text="${year}"></button>
                                 </li>
                             </ul>
                         </li>
                     </ul>
-                </form>
                 <div class="panel-body" th:if="${#lists.isEmpty(results)}">
                     <p>Es wurden keine Nutzer gefunden.</p>
                 </div>
@@ -82,6 +81,23 @@
                 }
             }
 
+            location.search = params.join("\u0026");
+        }
+        function addParam(param, value) {
+            param = encodeURIComponent(param) + '=';
+            var params = location.search.slice(1).split("\u0026");
+
+            for (var i = params.length; i-- > 0;) {
+                if (params[i].lastIndexOf(param, 0) !== -1) {
+                    params.splice(i, 1);
+                }
+            }
+
+            if (params[0] == '') {
+            	params[0] = param + value;
+            } else {
+                params.push(param + value);
+            }
             location.search = params.join("\u0026");
         }
     </script>
