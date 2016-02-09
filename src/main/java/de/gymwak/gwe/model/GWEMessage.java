@@ -6,7 +6,9 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 public class GWEMessage implements Serializable {
 
-	private long recipientId;
+	private long recipientId = -1;
+	
+	private int recipientsYear = -1;
 
 	@NotEmpty(message = "Text is required.")
 	private String content;
@@ -32,6 +34,14 @@ public class GWEMessage implements Serializable {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public int getRecipientsYear() {
+		return recipientsYear;
+	}
+
+	public void setRecipientsYear(int recipientsGraduationYear) {
+		this.recipientsYear = recipientsGraduationYear;
 	}
 
 	private static final long serialVersionUID = -7772217675815839488L;

@@ -36,31 +36,33 @@ public class SearchController {
 			switch (sort) {
 			case "year":
 				s = new Sort("graduationYear", "lastName", "firstName", "occupation", "id");
-				mav.addObject("sort", "Abschlussjahr");
+				mav.addObject("sortText", "Abschlussjahr");
 				break;
 			case "occu":
 				s = new Sort("occupation", "lastName", "firstName", "graduationYear", "id");
-				mav.addObject("sort", "Beschäftigung");
+				mav.addObject("sortText", "Beschäftigung");
 				break;
 			case "name":
 				s = new Sort("lastName", "firstName", "graduationYear", "occupation", "id");
-				mav.addObject("sort", "Name");
+				mav.addObject("sortText", "Name");
 				break;
 			}
 		}
 
 		Stream<GWEUser> users = StreamSupport.stream(userRepository.findAll(s).spliterator(), false);
 
-		if (year != null && year.length() > 0) {
+		if (year != null && year.length() > 0) {	
 			try {
 				int graduationYear = Integer.parseInt(year);
 				users = users.filter(u -> u.getGraduationYear() == graduationYear);
+				mav.addObject("year", graduationYear);
 			} catch (NumberFormatException e) {
 			}
 		}
 
 		if (q != null && q.length() > 0) {
 			users = users.filter(u -> testQuery(u, q));
+			mav.addObject("query", q);
 		}
 		mav.addObject("results", users.collect(Collectors.toList()));
 		return mav;

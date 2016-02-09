@@ -2,6 +2,8 @@ package de.gymwak.gwe.mvc;
 
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.util.Collections;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -45,9 +47,13 @@ public class MessageController {
 	@RequestMapping(value = "/message", method = RequestMethod.GET)
 	public ModelAndView get(@RequestParam String to) {
 		ModelAndView mav = new ModelAndView("message");
-		long recipientId = Long.parseLong(to);
-		GWEUser recipient = userRepository.findOne(recipientId);
-		mav.addObject("recipient", recipient);
+		if(to.matches("^year\\d{4}$")) {
+			mav.addObject("year", to.substring(4));
+		} else {
+			long recipientId = Long.parseLong(to);
+			GWEUser recipient = userRepository.findOne(recipientId);
+			mav.addObject("recipient", recipient);
+		}
 		return mav;
 	}
 
@@ -56,17 +62,23 @@ public class MessageController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		GWEUser currentUser = userRepository.findByEmail(auth.getName());
 
-		GWEUser recipientUser = userRepository.findOne(gweMessage.getRecipientId());
+		List<GWEUser> recipients;
+		String recipientSalutation;
+		if(gweMessage.getRecipientId() != -1) {
+			GWEUser recipientUser = userRepository.findOne(gweMessage.getRecipientId());
+			recipients = Collections.singletonList(recipientUser);
+			recipientSalutation = recipientUser.getFirstName() + " " + recipientUser.getLastName();
+		} else {
+			recipients = userRepository.findByGraduationYear(gweMessage.getRecipientsYear());
+			recipientSalutation = "Ehemahliger Schüler des Abiturjahres " + gweMessage.getRecipientsYear();
+		}
 
 		String cuName = currentUser.getFirstName() + " " + currentUser.getLastName();
-		String ruName = recipientUser.getFirstName() + " " + recipientUser.getLastName();
-
-		String replyUrl = String.format(getAddress() + "/message?to=%d", recipientUser.getId());
-
+		String replyUrl = String.format(getAddress() + "/message?to=%d", currentUser.getId());
 		String messageContent = gweMessage.getContent().replace("\n", "<br/>");
-
+		
 		Context ctx = new Context();
-		ctx.setVariable("recipient", ruName);
+		ctx.setVariable("recipient", recipientSalutation);
 		ctx.setVariable("sender", cuName);
 		ctx.setVariable("message", messageContent);
 		ctx.setVariable("replyUrl", replyUrl);
@@ -76,11 +88,17 @@ public class MessageController {
 			MimeMessageHelper mail = new MimeMessageHelper(mime, true, "UTF-8");
 			mail.setSubject("Nachricht von " + cuName);
 			mail.setFrom("gwesmtpmail@gmail.com", "GWE");
-			mail.addTo(recipientUser.getEmail());
+			for(GWEUser r : recipients) {
+				mail.addTo(r.getEmail());
+			}
 			mail.setText(html, true);
 		});
 
-		return "redirect:/user/" + recipientUser.getId();
+		if(gweMessage.getRecipientId() != -1) {
+			return "redirect:/user/" + gweMessage.getRecipientId();
+		} else {
+			return "redirect:/search?year=" + gweMessage.getRecipientsYear();
+		}
 	}
 
 	private String getAddress() {

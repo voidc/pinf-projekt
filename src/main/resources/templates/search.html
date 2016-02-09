@@ -11,48 +11,47 @@
             <!-- <div th:replace="fragments :: header">
             </div> -->
             <div class="panel panel-primary" style="min-height: 320px">
-                <div class="panel-heading">Suchergebnisse<span th:if="${param.q != null and param.q[0] != ''}" th:text="| für &quot;${param.q[0]}&quot;|"></span></div>
-                <form method="get">
-                    <input type="hidden" name="q" th:if="${param.q != null and param.q[0] != ''}" th:value="${param.q[0]}" />
-                    <input type="hidden" name="year" th:if="${param.year != null and param.year[0] != ''}" th:value="${param.year[0]}" />
-                    <ul class="nav nav-pills">
-                        <li role="presentation" th:if="${param.q != null and param.q[0] != ''}">
-                            <a href="javascript:removeParam('q')" role="button" aria-haspopup="true" aria-expanded="false">Alle Nutzer</a>
-                        </li>
-                        <li class="dropdown" role="presentation">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                                Sortierung<span th:if="${sort}" th:text="|: ${sort}|"></span><span class="caret"></span>
+                <div class="panel-heading">Suchergebnisse<span th:if="${query}" th:text="| für &quot;${query}&quot;|"></span></div>
+                <ul class="nav nav-pills">
+                    <li role="presentation" th:if="${query}">
+                        <a href="#" role="button" aria-haspopup="true" aria-expanded="false" onclick="applyFilter('q', '')">Alle Nutzer</a>
+                    </li>
+                    <li class="dropdown" role="presentation">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                Sortierung<span th:if="${sortText}" th:text="|: ${sortText}|"></span><span class="caret"></span>
                             </a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <button class="btn btn-link" onclick="removeParam('sort')">Keine</button>
-                                </li>
-                                <li>
-                                    <button class="btn btn-link" type="submit" name="sort" value="name">Name</button>
-                                </li>
-                                <li>
-                                    <button class="btn btn-link" type="submit" name="sort" value="year">Abschlussjahr</button>
-                                </li>
-                                <li>
-                                    <button class="btn btn-link" type="submit" name="sort" value="occu">Beschäftigung</button>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="dropdown" role="presentation">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                                Abschlussjahr<span th:if="${param.year != null and param.year[0] != ''}" th:text="|: ${param.year[0]}|"></span><span class="caret"></span>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#" onclick="applyFilter('sort', '')">Keine</a>
+                            </li>
+                            <li>
+                                <a href="#" onclick="applyFilter('sort', 'name')">Name</a>
+                            </li>
+                            <li>
+                                <a href="#" onclick="applyFilter('sort', 'year')">Abschlussjahr</a>
+                            </li>
+                            <li>
+                                <a href="#" onclick="applyFilter('sort', 'occu')">Beschäftigung</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" role="presentation">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                Abschlussjahr<span th:if="${year}" th:text="|: ${year}|"></span><span class="caret"></span>
                             </a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <button class="btn btn-link" onclick="removeParam('year')">Alle</button>
-                                </li>
-                                <li th:each="year : ${#numbers.sequence(2001, #dates.year(#dates.createNow()))}">
-                                    <button class="btn btn-link" type="submit" name="year" th:value="${year}" th:text="${year}"></button>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </form>
+                        <ul class="dropdown-menu dropdown-scroll">
+                            <li>
+                                <a href="#" onclick="applyFilter('year','')">Alle</a>
+                            </li>
+                            <li th:each="y : ${#numbers.sequence(2001, #dates.year(#dates.createNow()))}">
+                                <a href="#" th:onclick="|applyFilter('year', '${y}')|" th:text="${y}"></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li role="presentation" th:if="${year}">
+                        <a th:href="@{/message(to=${'year' + year})}" role="button" aria-haspopup="true" aria-expanded="false">Nachricht an Jahrgang</a>
+                    </li>
+                </ul>
                 <div class="panel-body" th:if="${#lists.isEmpty(results)}">
                     <p>Es wurden keine Nutzer gefunden.</p>
                 </div>
@@ -71,19 +70,26 @@
 
     <div th:replace="fragments :: footer"></div>
     <div th:replace="fragments :: bootstrap-script"></div>
-    <script type="text/javascript">
-        function removeParam(param) {
-            param = encodeURIComponent(param) + '=';
-            var params = location.search.slice(1).split("\u0026");
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var filters = {
+            q: /*[[${query}]]*/ null,
+            sort: /*[[${param.sort != null ? param.sort[0] : null}]]*/ null,
+            year: /*[[${sort}]]*/ null
+        };
 
-            for (var i = params.length; i-- > 0;) {
-                if (params[i].lastIndexOf(param, 0) !== -1) {
-                    params.splice(i, 1);
+        function applyFilter(type, value) {
+            filters[type] = value;
+            var params = [];
+            for (var filter in filters) {
+                if (filters[filter]) {
+                    params.push(filter + '=' + encodeURIComponent(filters[filter]));
                 }
             }
-
-            location.search = params.join("\u0026");
+            console.log(params.join('&'));
+            location.search = params.join('&');
         }
+        /*]]>*/
     </script>
 </body>
 

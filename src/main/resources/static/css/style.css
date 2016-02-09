@@ -27,6 +27,20 @@ body {
     background-color: #e6e6e6;
 }
 
+.nav-pills + .panel-body {
+    border-top: solid 1px #ddd;
+}
+
+.nav-pills > li > a {
+    border-radius: 0;
+}
+
+.dropdown-scroll {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+}
+
 .footer {
     display: table-row;
     vertical-align: middle;
@@ -36,10 +50,6 @@ body {
 
 .footer a {
     color: #777;
-}
-
-.nav-pills > li > a {
-    border-radius: 0;
 }
 
 .highlight-color {
