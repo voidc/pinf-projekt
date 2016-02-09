@@ -154,6 +154,13 @@ body {
     background-color: #eeeeee;
 }
 
+.seperator {
+    height: 1px;
+    margin: 0 0 9px 0;
+    overflow: hidden;
+    background-color: #ddd;
+}
+
 @media all {
     .logo,
     .logo-login {
