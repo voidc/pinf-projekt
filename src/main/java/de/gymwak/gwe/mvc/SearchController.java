@@ -50,8 +50,19 @@ public class SearchController {
 		}
 
 		Stream<GWEUser> users = StreamSupport.stream(userRepository.findAll(s).spliterator(), false);
-
-		if (year != null && year.length() > 0) {	
+		
+		if (q != null && q.length() > 0) {
+			try {
+				int graduationYear = Integer.parseInt(q);
+				users = users.filter(u -> u.getGraduationYear() == graduationYear);
+				mav.addObject("year", graduationYear);
+			} catch (NumberFormatException e) {
+				users = users.filter(u -> testQuery(u, q));
+				mav.addObject("query", q);
+			}
+		}
+		
+		if (!mav.getModel().containsKey("year") && year != null && year.length() > 0) {	
 			try {
 				int graduationYear = Integer.parseInt(year);
 				users = users.filter(u -> u.getGraduationYear() == graduationYear);
@@ -60,24 +71,15 @@ public class SearchController {
 			}
 		}
 
-		if (q != null && q.length() > 0) {
-			users = users.filter(u -> testQuery(u, q));
-			mav.addObject("query", q);
-		}
 		mav.addObject("results", users.collect(Collectors.toList()));
 		return mav;
 	}
 
 	private boolean testQuery(GWEUser user, String query) {
-		try {
-			int year = Integer.parseInt(query);
-			return user.getGraduationYear() == year;
-		} catch (NumberFormatException e) {
 			// Einfache Suche (nicht die schnellste und effektivste, aber besser als equalsIgnoreCase()
 			return user.getFirstName().toLowerCase().contains(query.toLowerCase())
 					|| user.getLastName().toLowerCase().contains(query.toLowerCase())
 					|| user.getOccupation().toLowerCase().contains(query.toLowerCase());
-		}
 	}
 
 }

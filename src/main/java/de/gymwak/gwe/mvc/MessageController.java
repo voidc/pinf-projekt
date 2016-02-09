@@ -47,7 +47,7 @@ public class MessageController {
 	@RequestMapping(value = "/message", method = RequestMethod.GET)
 	public ModelAndView get(@RequestParam String to) {
 		ModelAndView mav = new ModelAndView("message");
-		if(to.matches("^year\\d{4}$")) {
+		if(to.startsWith("year")) {
 			mav.addObject("year", to.substring(4));
 		} else {
 			long recipientId = Long.parseLong(to);
