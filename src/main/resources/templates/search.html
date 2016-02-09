@@ -14,37 +14,37 @@
                 <div class="panel-heading">Suchergebnisse<span th:if="${query}" th:text="| für &quot;${query}&quot;|"></span></div>
                 <ul class="nav nav-pills">
                     <li role="presentation" th:if="${query}">
-                        <a href="#" role="button" aria-haspopup="true" aria-expanded="false" onclick="applyFilter('q', '')">Alle Nutzer</a>
+                        <a role="button" aria-haspopup="true" aria-expanded="false" onclick="applyFilter('q', '')">Alle Nutzer</a>
                     </li>
                     <li class="dropdown" role="presentation">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" role="button" aria-haspopup="true" aria-expanded="false">
                                 Sortierung<span th:if="${sortText}" th:text="|: ${sortText}|"></span><span class="caret"></span>
                             </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="#" onclick="applyFilter('sort', '')">Keine</a>
+                                <a href="javascript:void(0)" onclick="applyFilter('sort', '')">Keine</a>
                             </li>
                             <li>
-                                <a href="#" onclick="applyFilter('sort', 'name')">Name</a>
+                                <a href="javascript:void(0)" onclick="applyFilter('sort', 'name')">Name</a>
                             </li>
                             <li>
-                                <a href="#" onclick="applyFilter('sort', 'year')">Abschlussjahr</a>
+                                <a href="javascript:void(0)" onclick="applyFilter('sort', 'year')">Abschlussjahr</a>
                             </li>
                             <li>
-                                <a href="#" onclick="applyFilter('sort', 'occu')">Beschäftigung</a>
+                                <a href="javascript:void(0)" onclick="applyFilter('sort', 'occu')">Beschäftigung</a>
                             </li>
                         </ul>
                     </li>
                     <li class="dropdown" role="presentation">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" role="button" aria-haspopup="true" aria-expanded="false">
                                 Abschlussjahr<span th:if="${year}" th:text="|: ${year}|"></span><span class="caret"></span>
                             </a>
                         <ul class="dropdown-menu dropdown-scroll">
                             <li>
-                                <a href="#" onclick="applyFilter('year','')">Alle</a>
+                                <a href="javascript:void(0)" onclick="applyFilter('year','')">Alle</a>
                             </li>
                             <li th:each="y : ${#numbers.sequence(2001, #dates.year(#dates.createNow()))}">
-                                <a href="#" th:onclick="|applyFilter('year', '${y}')|" th:text="${y}"></a>
+                                <a href="javascript:void(0)" th:onclick="|applyFilter('year', '${y}')|" th:text="${y}"></a>
                             </li>
                         </ul>
                     </li>
@@ -75,13 +75,15 @@
         var filters = {
             q: /*[[${query}]]*/ null,
             sort: /*[[${param.sort != null ? param.sort[0] : null}]]*/ null,
-            year: /*[[${sort}]]*/ null
+            year: /*[[${year}]]*/ null
         };
 
         function applyFilter(type, value) {
+        	alert(type + "," + value);
             filters[type] = value;
             var params = [];
             for (var filter in filters) {
+            	alert(filter + "|" + filters[filter]);
                 if (filters[filter]) {
                     params.push(filter + '=' + encodeURIComponent(filters[filter]));
                 }
