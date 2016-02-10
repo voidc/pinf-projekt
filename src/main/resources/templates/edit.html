@@ -12,7 +12,7 @@
             </div> -->
             <div class="panel panel-primary">
                 <div class="panel-heading">Einstellungen</div>
-                <form class="form-horizontal form-signup" th:action="@{/edit}" method="post">
+                <form class="form-horizontal form-signup" id="modifyUserData" th:action="@{/edit}" method="post">
                     <div class="panel-body">
                         <div class="alert alert-danger alert-dismissible fade in" th:if="${(param.error != null) and (param.action == null)}" role="alert">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -26,6 +26,29 @@
                             </button>
                             <strong>Änderungen wurden übernommen</strong>
                         </div>
+
+                        <div class="modal fade" id="email-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="myModalLabel">Neue E-Mail</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        Sie haben Ihre E-Mail geändert. Damit die Änderung wirksam wird, müssen Sie sich mit dem neuen Benutzernamen erneut einloggen.
+                                        <p>Möchten Sie fortfahren?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Zurück</button>
+                                        <button type="button" th:onclick="'javascript:changeValue(\'inputEmail\', \'' + ${currentUser.email} + '\')'" class="btn btn-default" data-dismiss="modal">
+                                            Änderung rückgängig
+                                        </button>
+                                        <button type="submit" class="btn btn-primary">Änderung speichern</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <h4>Benutzerdaten</h4>
                         <div class="seperator"></div>
                         <div class="form-group">
@@ -62,21 +85,21 @@
                     <div class="panel-footer">
                         <div class="form-group" style="margin-bottom: 0;">
                             <div class="col-sm-offset-2 col-sm-10">
-                                <button type="submit" class="btn btn-success">Speichern</button>
+                                <button type="button" th:onclick="'javascript:verifyEmailChange(\'' + ${currentUser.email} + '\', \'inputEmail\')'" class="btn btn-success">Speichern</button>
                                 <a href="/user" class="btn btn-warning">Abbrechen</a>
                             </div>
                         </div>
                     </div>
                 </form>
                 <div class="seperator"></div>
-                <form class="form-horizontal form-signup" th:action="@{/edit}" method="post">
+                <form class="form-horizontal form-signup" id="modifyPassword" th:action="@{/edit}" method="post">
                     <div class="panel-body">
                         <h4>Passwort ändern</h4>
                         <div class="seperator"></div>
                         <div class="form-group">
                             <label for="password" class="col-sm-4 control-label">Neues Passwort</label>
                             <div class="col-sm-4">
-                                <input type="password" name="password" id="password" placeholder="Neues Passwort" class="form-control first-input" required="true" autofocus="true" />
+                                <input type="password" name="password" id="password" placeholder="Neues Passwort" class="form-control first-input" required="true" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -108,6 +131,16 @@
                 input.setCustomValidity('Passwörter müssen übereinstimmen');
             } else {
                 input.setCustomValidity('');
+            }
+        }
+        function changeValue(id, value) {
+            document.getElementById(id).value = value;
+        }
+        function verifyEmailChange(email, inputName) {
+            if (email != document.getElementById(inputName).value) {
+                $('#email-modal').modal('show');
+            } else {
+            	document.forms['modifyUserData'].submit();
             }
         }
     </script>

@@ -76,10 +76,10 @@ public class SearchController {
 	}
 
 	private boolean testQuery(GWEUser user, String query) {
-			// Einfache Suche (nicht die schnellste und effektivste, aber besser als equalsIgnoreCase()
-			return user.getFirstName().toLowerCase().contains(query.toLowerCase())
-					|| user.getLastName().toLowerCase().contains(query.toLowerCase())
-					|| user.getOccupation().toLowerCase().contains(query.toLowerCase());
+		// Einfache Suche (nicht die schnellste und effektivste, aber besser als equalsIgnoreCase()
+		return user.getFirstName().toLowerCase().contains(query.toLowerCase())
+				|| user.getLastName().toLowerCase().contains(query.toLowerCase())
+				|| user.getOccupation().toLowerCase().contains(query.toLowerCase());
 	}
 
 }
