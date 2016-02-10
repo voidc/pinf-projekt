@@ -79,11 +79,9 @@
         };
 
         function applyFilter(type, value) {
-        	alert(type + "," + value);
             filters[type] = value;
             var params = [];
             for (var filter in filters) {
-            	alert(filter + "|" + filters[filter]);
                 if (filters[filter]) {
                     params.push(filter + '=' + encodeURIComponent(filters[filter]));
                 }
