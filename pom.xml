@@ -5,8 +5,8 @@
 
 	<groupId>de.gymwak.gwe</groupId>
 	<artifactId>gwe</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<version>1.0-beta</version>
+	<packaging>war</packaging>
 
 	<name>Gymnasium Waldkraiburg Ehemalige</name>
 	<description>Ein Projekt im Rahmen des P-Seminars 2016</description>
@@ -47,6 +47,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
