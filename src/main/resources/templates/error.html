@@ -9,16 +9,17 @@
             <div th:replace="fragments :: header">
             </div>
             <p class="lead">Ein Fehler ist aufgetreten.</p>
+            <p th:if="${errmsg}" th:text="${errmsg}"></p>
 
-            <div id="details" style="display: none;">
-                <p th:text="${exception.toString()}"></p>
+            <div class="error-details" id="details" th:if="${exception}" style="display: none;">
+                <i th:text="${exception.toString()}"></i>
                 <ul class="list-unstyled">
                     <li th:each="ste : ${exception.stackTrace}" th:text="${ste.toString()}"></li>
                 </ul>
             </div>
 
             <a class="btn btn-default" onclick="history.back();">Zurück</a>
-            <a class="btn btn-default" onclick="document.getElementById('details').style.display = 'block';">Details</a>
+            <a class="btn btn-default" th:if="${exception}" onclick="document.getElementById('details').style.display = 'block';">Details</a>
         </div>
     </div>
 

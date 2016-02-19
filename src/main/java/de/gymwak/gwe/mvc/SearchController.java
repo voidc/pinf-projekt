@@ -1,9 +1,7 @@
 package de.gymwak.gwe.mvc;
 
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
-
+import de.gymwak.gwe.data.GWERepository;
+import de.gymwak.gwe.model.GWEUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -12,8 +10,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import de.gymwak.gwe.data.GWERepository;
-import de.gymwak.gwe.model.GWEUser;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 @Controller
 @RequestMapping("/search")
@@ -79,7 +78,8 @@ public class SearchController {
 		// Einfache Suche (nicht die schnellste und effektivste, aber besser als equalsIgnoreCase()
 		return user.getFirstName().toLowerCase().contains(query.toLowerCase())
 				|| user.getLastName().toLowerCase().contains(query.toLowerCase())
-				|| user.getOccupation().toLowerCase().contains(query.toLowerCase());
+				|| user.getOccupation().toLowerCase().contains(query.toLowerCase())
+				|| user.getDiscipline().desc.toLowerCase().contains(query.toLowerCase());
 	}
 
 }

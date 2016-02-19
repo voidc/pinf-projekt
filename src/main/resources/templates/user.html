@@ -30,6 +30,10 @@
                         <td>Beschäftigung</td>
                         <td th:text="${currentUser.occupation}">GWEUser.occupation</td>
                     </tr>
+                    <tr>
+                        <td>Fachgebiet</td>
+                        <td th:text="${currentUser.discipline.desc}">GWEUser.discipline</td>
+                    </tr>
                 </table>
                 <div class="panel-footer">
                     <form th:action="@{/logout}" method="post">

@@ -1,17 +1,12 @@
 package de.gymwak.gwe.model;
 
-import java.io.Serializable;
-import java.sql.Timestamp;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.Min;
-
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.persistence.*;
+import javax.validation.constraints.Min;
+import java.io.Serializable;
+import java.sql.Timestamp;
 
 @Entity
 public class GWEUser implements Serializable {
@@ -39,6 +34,9 @@ public class GWEUser implements Serializable {
 
 	@NotEmpty(message = "Occupation is required.")
 	private String occupation;
+
+	@Enumerated(EnumType.STRING)
+	private Discipline discipline;
 	
 	private String resetToken;
 	
@@ -55,6 +53,7 @@ public class GWEUser implements Serializable {
 		this.lastName = user.lastName;
 		this.graduationYear = user.graduationYear;
 		this.occupation = user.occupation;
+		this.discipline = user.discipline;
 	}
 
 	public void applyUserEdit(GWEUserEdit edit) {
@@ -63,6 +62,7 @@ public class GWEUser implements Serializable {
 		this.lastName = edit.getLastName();
 		this.graduationYear = edit.getGraduationYear();
 		this.occupation = edit.getOccupation();
+		this.discipline = edit.getDiscipline();
 	}
 
 	public Long getId() {
@@ -121,6 +121,14 @@ public class GWEUser implements Serializable {
 		this.occupation = occupation;
 	}
 
+	public Discipline getDiscipline() {
+		return discipline;
+	}
+
+	public void setDiscipline(Discipline discipline) {
+		this.discipline = discipline;
+	}
+
 	public String getResetToken() {
 		return resetToken;
 	}
@@ -138,5 +146,29 @@ public class GWEUser implements Serializable {
 	}
 
 	private static final long serialVersionUID = 2738859149330833739L;
+
+	public enum Discipline {
+		D("Deutsch"),
+		E("Englisch"),
+		F("Französisch"),
+		L("Latein"),
+		KU("Kunst"),
+		MU("Musik"),
+		GEO("Geographie"),
+		GSK("Geschichte / Sozialk."),
+		WR("Wirtschaft / Recht"),
+		RE("Religion / Ethik"),
+		M("Mathematik"),
+		BIO("Biologie"),
+		CH("Chemie"),
+		PH("Physik"),
+		INF("Informatik"),
+		SP("Sport");
+
+		public final String desc;
+		Discipline(String desc) {
+			this.desc = desc;
+		}
+	}
 
 }
