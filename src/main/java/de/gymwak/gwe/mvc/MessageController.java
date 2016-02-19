@@ -1,12 +1,9 @@
 package de.gymwak.gwe.mvc;
 
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.util.Collections;
-import java.util.List;
-
-import javax.validation.Valid;
-
+import de.gymwak.gwe.data.GWERepository;
+import de.gymwak.gwe.model.GWEMessage;
+import de.gymwak.gwe.model.GWEUser;
+import de.gymwak.gwe.service.AsyncMailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -21,10 +18,11 @@ import org.springframework.web.servlet.ModelAndView;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import de.gymwak.gwe.data.GWERepository;
-import de.gymwak.gwe.model.GWEMessage;
-import de.gymwak.gwe.model.GWEUser;
-import de.gymwak.gwe.service.AsyncMailService;
+import javax.validation.Valid;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Collections;
+import java.util.List;
 
 @Controller
 @EnableAsync
@@ -35,6 +33,9 @@ public class MessageController {
 
 	@Value("${server.port}")
 	private String serverPort;
+
+	@Value("${gwe.email}")
+	private String adminMail;
 
 	@Autowired
 	public MessageController(GWERepository userRepository, AsyncMailService mailService,
@@ -87,7 +88,7 @@ public class MessageController {
 		mailService.sendMail(mime -> {
 			MimeMessageHelper mail = new MimeMessageHelper(mime, true, "UTF-8");
 			mail.setSubject("Nachricht von " + cuName);
-			mail.setFrom("gwesmtpmail@gmail.com", "GWE");
+			mail.setFrom(adminMail, "GWE");
 			for(GWEUser r : recipients) {
 				mail.addTo(r.getEmail());
 			}

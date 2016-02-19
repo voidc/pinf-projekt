@@ -1,17 +1,27 @@
 package de.gymwak.gwe.mvc;
 
-import javax.validation.Valid;
-
+import de.gymwak.gwe.service.AsyncMailService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import de.gymwak.gwe.model.GWEMessage;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/impressum")
 public class ImpressumController {
+	private AsyncMailService mailService;
+
+	@Value("${gwe.email}")
+	private String adminMail;
+
+	@Autowired
+	public ImpressumController(AsyncMailService mailService) {
+		this.mailService = mailService;
+	}
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String get() {
@@ -19,19 +29,24 @@ public class ImpressumController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String reportBug(@Valid GWEMessage message, BindingResult result) {
-		if (result.hasErrors()) {
+	public String reportBug(@RequestParam String email, @RequestParam String message, RedirectAttributes rAttr) {
+		if (email.isEmpty() || message.isEmpty()) {
+			rAttr.addFlashAttribute("email", email);
+			rAttr.addFlashAttribute("message", message);
 			return "redirect:/impressum?error#feedback";
 		}
 
-		if (message.getContent().isEmpty()) {
-			return "redirect:/impressum?error=message#feedback";
-		}
+		String content = String.format("Feedback von %s\n\n%s", email, message);
 
-		// TODO Daten in eine (temporäre?) Datenbank(?) speichern
+		mailService.sendMail(mime -> {
+			MimeMessageHelper mail = new MimeMessageHelper(mime);
+			mail.setSubject("Feedback");
+			mail.setFrom(adminMail, "GWE");
+			mail.setText(content);
+			mail.addTo(adminMail);
+		});
 
-		return "redirect:/impressum?action=success#feedback";
-
+		return "redirect:/impressum?success#feedback";
 	}
 
 }

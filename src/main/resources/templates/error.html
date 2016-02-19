@@ -10,12 +10,15 @@
             </div>
             <p class="lead">Ein Fehler ist aufgetreten.</p>
 
-            <!-- Ausschließlich temporäre Fehlermeldung -->
-            <h4 style="color: grey;" th:if="${(param.type != null) and (param.type[0] == 'noSearchResults')}">Profil nicht gefunden</h4>
-            <br />
-            <!-- Ende -->
+            <div id="details" style="display: none;">
+                <p th:text="${exception.toString()}"></p>
+                <ul class="list-unstyled">
+                    <li th:each="ste : ${exception.stackTrace}" th:text="${ste.toString()}"></li>
+                </ul>
+            </div>
 
-            <a class="btn btn-default" href="javascript:history.back()">Zurück</a>
+            <a class="btn btn-default" onclick="history.back();">Zurück</a>
+            <a class="btn btn-default" onclick="document.getElementById('details').style.display = 'block';">Details</a>
         </div>
     </div>
 

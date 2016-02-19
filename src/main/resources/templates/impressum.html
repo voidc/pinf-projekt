@@ -51,8 +51,8 @@
                         <small><a href="#top">Nach oben</a></small>
                         <br />
                         <h3 id="feedback">Feedback</h3>
-                        <form class="form-horizontal form-signup" th:action="@{/impressum}" method="post">
-                            <div class="alert alert-success alert-dismissible fade in" th:if="${(param.action != null) and (param.action[0] == 'success')}" role="alert">
+                        <form class="form-horizontal form-signup" method="post">
+                            <div class="alert alert-success alert-dismissible fade in" th:if="${(param.success != null)}" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -63,14 +63,14 @@
                             <div class="form-group">
                                 <label for="inputEmail" class="col-sm-2 control-label">Email</label>
                                 <div class="col-sm-10">
-                                    <input name="email" type="email" class="form-control" id="inputEmail" placeholder="Email" required="true" th:value="${param.email != null} ? ${param.email[0]}" />
+                                    <input name="email" type="email" class="form-control" id="inputEmail" placeholder="Email" required="true" th:value="${email != null} ? ${email}" />
                                     <p class="help-block">Ihre hier angegebene Email-Addresse wird ausschließlich zum Kontakt bezüglich des gemeldeten Fehlers verwendet und anschließend aus unserem System gelöscht.</p>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="inputMessage" class="col-sm-2 control-label">Nachricht</label>
                                 <div class="col-sm-10">
-                                    <textarea name="content" class="form-control" rows="4" id="inputMessage" placeholder="Nachricht" required="true" th:value="${param.message != null} ? ${param.message[0]}"></textarea>
+                                    <textarea name="message" class="form-control" rows="4" id="inputMessage" placeholder="Nachricht" required="true" th:value="${message != null} ? ${message}"></textarea>
                                 </div>
                             </div>
                             <div class="form-group">
