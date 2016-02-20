@@ -94,7 +94,7 @@
                         <div class="form-group" style="margin-bottom: 0;">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <button type="button" th:onclick="'javascript:verifyEmailChange(\'' + ${currentUser.email} + '\', \'inputEmail\')'" class="btn btn-success">Speichern</button>
-                                <a href="/user" class="btn btn-warning">Abbrechen</a>
+                                <a th:href="@{/user}" class="btn btn-warning">Abbrechen</a>
                             </div>
                         </div>
                     </div>
@@ -116,13 +116,13 @@
                                 <input type="password" id="confirmPassword" placeholder="Passwort wiederholen" class="form-control second-input" required="true" oninput="validate(this)" />
                             </div>
                         </div>
-                        <a href="/reset" class="col-sm-offset-4 col-sm-8">Passwort vergessen</a>
+                        <a th:href="@{/reset}" class="col-sm-offset-4 col-sm-8">Passwort vergessen</a>
                     </div>
                     <div class="panel-footer">
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <button type="submit" class="btn btn-danger">Passwort ändern</button>
-                                <a href="/user" class="btn btn-warning">Abbrechen</a>
+                                <a th:href="@{/user}" class="btn btn-warning">Abbrechen</a>
                             </div>
                         </div>
                     </div>

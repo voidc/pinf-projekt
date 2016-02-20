@@ -72,7 +72,7 @@
                         <div class="form-group">
                             <div class="checkbox">
                                 <label class="col-sm-offset-2">
-                                    <input type="checkbox" required="true" /> Ich akzeptiere die <a href="/impressum#datenschutz">Datenschutzvereinbarung</a> der Schule
+                                    <input type="checkbox" required="true" /> Ich akzeptiere die <a th:href="@{/impressum#datenschutz}">Datenschutzvereinbarung</a> der Schule
                                 </label>
                             </div>
                         </div>
@@ -81,7 +81,7 @@
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <button type="submit" class="btn btn-success">Registrieren</button>
-                                <a href="/login" class="btn btn-default">Abbrechen</a>
+                                <a th:href="@{/login}" class="btn btn-default">Abbrechen</a>
                             </div>
                         </div>
                     </div>

@@ -59,7 +59,7 @@
                 <div class="panel-footer">
                     <form th:action="@{/logout}" method="post">
                         <button class="btn btn-warning" type="submit">Abmelden</button>
-                        <a href="/edit" class="btn btn-success">Bearbeiten</a>
+                        <a th:href="@{/edit}" class="btn btn-success">Bearbeiten</a>
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete">Account löschen</button>
                     </form>
                 </div>
