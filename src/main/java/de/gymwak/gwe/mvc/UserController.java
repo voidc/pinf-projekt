@@ -31,6 +31,14 @@ public class UserController {
 		return "user";
 	}
 
+	@RequestMapping(path = "/delete", method = RequestMethod.POST)
+	public String deleteUser() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		GWEUser currentUser = userRepository.findByEmail(auth.getName());
+		userRepository.delete(currentUser);
+		return "redirect:/logout";
+	}
+
 	@RequestMapping(path = "/user/{userId}", method = RequestMethod.GET)
 	public ModelAndView userProfile(@PathVariable int userId) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();

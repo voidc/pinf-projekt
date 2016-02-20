@@ -4,6 +4,27 @@
 <head th:replace="fragments :: head ('Benutzerprofil')"></head>
 
 <body>
+
+    <div class="modal fade" id="modal-delete" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Schließen"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Account löschen</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Sind Sie sicher, dass Sie ihren Account unwiderruflich löschen wollen?</p>
+                </div>
+                <div class="modal-footer">
+                    <form th:action="@{/delete}" method="POST">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Zurück</button>
+                        <button type="submit" class="btn btn-danger">Löschen</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="content-wrap">
         <div class="container">
             <div th:replace="fragments :: navbar"></div>
@@ -39,6 +60,7 @@
                     <form th:action="@{/logout}" method="post">
                         <button class="btn btn-warning" type="submit">Abmelden</button>
                         <a href="/edit" class="btn btn-success">Bearbeiten</a>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete">Account löschen</button>
                     </form>
                 </div>
             </div>
@@ -48,6 +70,11 @@
 
     <div th:replace="fragments :: footer"></div>
     <div th:replace="fragments :: bootstrap-script"></div>
+    <script>
+        function showDeleteDiolog() {
+
+        }
+    </script>
 </body>
 
 </html>

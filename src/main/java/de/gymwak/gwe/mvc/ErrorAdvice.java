@@ -19,6 +19,7 @@ public class ErrorAdvice {
 		ModelAndView mav = new ModelAndView("error");
 		mav.addObject("errmsg", "404 - Seite nicht gefunden");
 		return mav;
+
 	}
 
 	@ExceptionHandler(Throwable.class)
