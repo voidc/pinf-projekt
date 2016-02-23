@@ -1,8 +1,11 @@
 package de.gymwak.gwe.mvc;
 
+import java.util.Calendar;
+
 import de.gymwak.gwe.data.GWERepository;
 import de.gymwak.gwe.model.GWEUser;
 import de.gymwak.gwe.model.GWEUserEdit;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -47,6 +50,14 @@ public class EditController {
 
 		if (changedUsername && userRepository.findByEmail(userEdit.getEmail()) != null) {
 			return "redirect:/edit?error";
+		}
+		
+		if (currentUser.getGraduationYear() < 2001
+				|| currentUser.getGraduationYear() > Calendar.getInstance().get(Calendar.YEAR) + 2) {
+			userEdit.setGraduationYear(currentUser.getGraduationYear());
+			currentUser.applyUserEdit(userEdit);
+			userRepository.save(currentUser);
+			return "redirect:/edit?error=year";
 		}
 
 		currentUser.applyUserEdit(userEdit);
