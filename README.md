@@ -33,10 +33,13 @@ Diese Version des Prototypen verwendet keine In-Memory Datenbank, sondern eine "
   - Wenn du das Projekt geclont hast, wechsle oben rechts zurück auf die "Java" Ansicht
   - Wähle "File/Import/Maven/Existing Maven Projects" und gebe den geclonten Ordner als Root Directory an
 3. Wenn alles funktioniert hat, kannst du jetzt die Application Klasse im de.gymwak.gwe Package als Java Application ausführen
-4. Warte 10-15s bis der Server gestartet ist und öffne "localhost:8080" im Browser
+4. Warte 10-15s bis der Server gestartet ist und öffne "localhost:8080/gwe" im Browser
 
-## Formatierung
-**WICHTIG** Bevor du deine Änderungen committest, drücke bitte `STRG + SHIFT + F` um den Code automatisch zu formatieren.
+## Deployment
+GWE wird auf einem Apache Tomcat 8 Server unter dem Kontextpfad "/gwe" deployed.
+Dazu muss der Code zunächst mit Maven in eine WAR Datei gepackaged werden,
+wozu die `scope` von `spring-boot-starter-tomcat` zunächst auf `provided` gesetzt werden muss.
+Diese kann über den Application Manager hochgeladen werden.
 
 ## Resourcen
 - [Spring Guides](https://spring.io/guides)
