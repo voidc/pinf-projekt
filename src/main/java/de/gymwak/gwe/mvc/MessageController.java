@@ -1,9 +1,12 @@
 package de.gymwak.gwe.mvc;
 
-import de.gymwak.gwe.data.GWERepository;
-import de.gymwak.gwe.model.GWEMessage;
-import de.gymwak.gwe.model.GWEUser;
-import de.gymwak.gwe.service.AsyncMailService;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Collections;
+import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -18,11 +21,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import javax.validation.Valid;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.util.Collections;
-import java.util.List;
+import de.gymwak.gwe.data.GWERepository;
+import de.gymwak.gwe.model.GWEMessage;
+import de.gymwak.gwe.model.GWEUser;
+import de.gymwak.gwe.service.AsyncMailService;
 
 @Controller
 @EnableAsync
@@ -48,7 +50,7 @@ public class MessageController {
 	@RequestMapping(value = "/message", method = RequestMethod.GET)
 	public ModelAndView get(@RequestParam String to) {
 		ModelAndView mav = new ModelAndView("message");
-		if(to.startsWith("year")) {
+		if (to.startsWith("year")) {
 			mav.addObject("year", to.substring(4));
 		} else {
 			long recipientId = Long.parseLong(to);
@@ -65,13 +67,14 @@ public class MessageController {
 
 		List<GWEUser> recipients;
 		String recipientSalutation;
-		if(gweMessage.getRecipientId() != -1) {
+		if (gweMessage.getRecipientId() != -1) {
 			GWEUser recipientUser = userRepository.findOne(gweMessage.getRecipientId());
 			recipients = Collections.singletonList(recipientUser);
 			recipientSalutation = recipientUser.getFirstName() + " " + recipientUser.getLastName();
 		} else {
 			recipients = userRepository.findByGraduationYear(gweMessage.getRecipientsYear());
-			recipientSalutation = "Ehemahliger Schüler des Abiturjahres " + gweMessage.getRecipientsYear();
+//			recipientSalutation = "Ehemahliger Schüler des Abiturjahres " + gweMessage.getRecipientsYear();
+			recipientSalutation = null;
 		}
 
 		String cuName = currentUser.getFirstName() + " " + currentUser.getLastName();
@@ -79,7 +82,10 @@ public class MessageController {
 		String messageContent = gweMessage.getContent().replace("\n", "<br/>");
 		
 		Context ctx = new Context();
-		ctx.setVariable("recipient", recipientSalutation);
+		
+		if (recipientSalutation != null) {
+			ctx.setVariable("recipient", recipientSalutation);
+		}
 		ctx.setVariable("sender", cuName);
 		ctx.setVariable("message", messageContent);
 		ctx.setVariable("replyUrl", replyUrl);
@@ -89,16 +95,18 @@ public class MessageController {
 			MimeMessageHelper mail = new MimeMessageHelper(mime, true, "UTF-8");
 			mail.setSubject("Nachricht von " + cuName);
 			mail.setFrom(adminMail, "GWE");
-			for(GWEUser r : recipients) {
+			for (GWEUser r : recipients) {
 				mail.addTo(r.getEmail());
 			}
 			mail.setText(html, true);
 		});
 
-		if(gweMessage.getRecipientId() != -1) {
+		if (gweMessage.getRecipientId() != -1) {
 			return "redirect:/user/" + gweMessage.getRecipientId();
-		} else {
+		} else if (gweMessage.getRecipientsYear() != -1) {
 			return "redirect:/search?year=" + gweMessage.getRecipientsYear();
+		} else {
+			return "redirect:/search";
 		}
 	}
 
