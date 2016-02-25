@@ -34,15 +34,18 @@ import de.gymwak.gwe.service.AsyncMailService;
 @RequestMapping("/reset")
 public class ResetController {
 	private GWERepository userRepository;
-	private SecureRandom rnd;
 	private PasswordEncoder encoder;
 	private AsyncMailService mailService;
+	private SecureRandom rnd;
 
-	@Value("${server.port}")
-	private String serverPort;
+	@Value("${gwe.email}")
+	private String adminMail;
 	
 	@Value("${gwe.reset-token-expiry}")
 	private long resetTokenExpiry; //milliseconds
+
+	@Value("${server.port}")
+	private String serverPort;
 
 	@Autowired
 	public ResetController(GWERepository userRepository, PasswordEncoder encoder, AsyncMailService mailService) {
@@ -73,18 +76,18 @@ public class ResetController {
 		if (resetUser == null)
 			return "redirect:/reset?error";
 
-		String token = generateRandomString(128);
+		String token = generateToken(64);
 		resetUser.setResetToken(token);
 		resetUser.setResetTokenIssued(new Timestamp(new Date().getTime()));
 		userRepository.save(resetUser);
 
-		String resetUrl = getAddress() + "/reset?token=" + token;
+		String resetUrl = getAddress() + "/gwe/reset?token=" + token;
 		String exprires = new SimpleDateFormat("dd.MM.yyyy HH:mm").format(new Date(resetUser.getResetTokenIssued().getTime() + resetTokenExpiry));
 
 		mailService.sendMail(mime -> {
 			MimeMessageHelper mail = new MimeMessageHelper(mime, true, "UTF-8");
 			mail.setSubject("Passwort Zurücksetzen");
-			mail.setFrom("gwesmtpmail@gmail.com", "GWE");
+			mail.setFrom(adminMail, "GWE");
 			mail.setTo(resetUser.getEmail());
 			mail.setText("Wir haben eine Anfrage erhalten, dass Sie Ihr Passwort für Ihren Account vergessen haben.<br>"
 					+ "Wenn Sie Ihr Passwort nicht zurücksetzen möchten, können Sie diese E-Mail ignorieren.<br>"
@@ -130,7 +133,17 @@ public class ResetController {
 		return true;
 	}
 
-	private String getAddress() {
+	public String generateToken(int length) {
+		char[] chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < length; i++) {
+		    char c = chars[rnd.nextInt(chars.length)];
+		    sb.append(c);
+		}
+		return sb.toString();
+	}
+
+	public String getAddress() {
 		String serverAddress = "localhost";
 		try {
 			serverAddress = NetworkInterface.getNetworkInterfaces().nextElement().getInetAddresses().nextElement()
@@ -139,15 +152,5 @@ public class ResetController {
 			e.printStackTrace();
 		}
 		return String.format("http://%s:%s", serverAddress, serverPort);
-	}
-
-	public String generateRandomString(int length) {
-		char[] chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < length; i++) {
-		    char c = chars[rnd.nextInt(chars.length)];
-		    sb.append(c);
-		}
-		return sb.toString();
 	}
 }

@@ -65,6 +65,16 @@ public class MessageController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		GWEUser currentUser = userRepository.findByEmail(auth.getName());
 
+		if (!currentUser.isActivated()) {
+			if (gweMessage.getRecipientId() != -1) {
+				return "redirect:/user/" + gweMessage.getRecipientId();
+			} else if (gweMessage.getRecipientsYear() != -1) {
+				return "redirect:/search?year=" + gweMessage.getRecipientsYear();
+			} else {
+				return "redirect:/search";
+			}
+		}
+
 		List<GWEUser> recipients;
 		String recipientSalutation;
 		if (gweMessage.getRecipientId() != -1) {

@@ -1,4 +1,4 @@
-INSERT INTO gweuser (id, email, password, first_name, last_name, graduation_year, occupation, discipline) VALUES
+INSERT INTO gweuser (id, email, password, first_name, last_name, graduation_year, occupation, discipline, activated) VALUES
   (
     0,
     'admin@test',
@@ -6,7 +6,8 @@ INSERT INTO gweuser (id, email, password, first_name, last_name, graduation_year
     'Admin', 'Istrator',
     2000,
     'Administrator',
-    'KU'
+    'KU',
+    true
   ),
   (
     1,
@@ -15,7 +16,8 @@ INSERT INTO gweuser (id, email, password, first_name, last_name, graduation_year
     'Looser', 'User',
     2000,
     'DAU',
-    'RE'
+    'RE',
+    true
   ),
   (
     2,
@@ -24,7 +26,8 @@ INSERT INTO gweuser (id, email, password, first_name, last_name, graduation_year
     'Dominik', 'Stolz',
     2017,
     'Schüler',
-    'INF'
+    'INF',
+    true
   ),
   (
     3,
@@ -33,7 +36,8 @@ INSERT INTO gweuser (id, email, password, first_name, last_name, graduation_year
     'Oliver', 'Jacobsen',
     2017,
     'Schüler',
-    'INF'
+    'INF',
+    true
   );
 
 SELECT setval('hibernate_sequence', 3, TRUE)

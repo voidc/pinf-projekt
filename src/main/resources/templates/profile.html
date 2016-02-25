@@ -30,7 +30,9 @@
                     </tr>
                 </table>
                 <div class="panel-footer">
-                    <a class="btn btn-success" th:href="@{/message(to=${user.id})}">Nachricht</a>
+                    <a class="btn btn-success" th:href="@{/message(to=${user.id})}" th:disabled="${not currentUser.activated}">Nachricht</a>
+                    <!-- Help-Box sollte immer ganz unten stehen -->
+                    <p th:if="${not currentUser.activated}" class="help-block">Sie können keine Nachrichten senden, solange Sie Ihre E-Mail noch nicht bestätigt haben.</p>
                 </div>
             </div>
 

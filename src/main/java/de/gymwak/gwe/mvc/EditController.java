@@ -62,6 +62,10 @@ public class EditController {
 
 		currentUser.applyUserEdit(userEdit);
 
+		if (changedUsername) {
+			currentUser.setActivated(false);
+		}
+
 		userRepository.save(currentUser);
 
 		// #top stellt sicher, dass der Nutzer an den Anfang der Seite gelangt um die Meldung zu sehen

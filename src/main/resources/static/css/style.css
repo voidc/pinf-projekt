@@ -63,6 +63,16 @@ body {
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
+.panel-caution {
+    border-color: #FFAC00;
+}
+
+.panel-caution>.panel-heading {
+    color: #FFFFFF;
+    background-color: #FFC44A;
+    border-color: #FFAC00;
+}
+
 .navbar-heading {
     padding-left: 10px;
     padding-right: 10px;

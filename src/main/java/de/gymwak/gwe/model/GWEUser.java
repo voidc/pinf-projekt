@@ -41,6 +41,10 @@ public class GWEUser implements Serializable {
 	private String resetToken;
 	
 	private Timestamp resetTokenIssued;
+	
+	private boolean activated;
+
+	private String activationToken;
 
 	public GWEUser() {
 	}
@@ -54,6 +58,7 @@ public class GWEUser implements Serializable {
 		this.graduationYear = user.graduationYear;
 		this.occupation = user.occupation;
 		this.discipline = user.discipline;
+		this.activated = user.activated;
 	}
 
 	public void applyUserEdit(GWEUserEdit edit) {
@@ -143,6 +148,22 @@ public class GWEUser implements Serializable {
 
 	public void setResetTokenIssued(Timestamp resetTokenIssued) {
 		this.resetTokenIssued = resetTokenIssued;
+	}
+
+	public boolean isActivated() {
+		return activated;
+	}
+
+	public void setActivated(boolean activated) {
+		this.activated = activated;
+	}
+
+	public String getActivationToken() {
+		return activationToken;
+	}
+
+	public void setActivationToken(String activationToken) {
+		this.activationToken = activationToken;
 	}
 
 	private static final long serialVersionUID = 2738859149330833739L;

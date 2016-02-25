@@ -10,4 +10,5 @@ public interface GWERepository extends PagingAndSortingRepository<GWEUser, Long>
 	GWEUser findByEmail(String email);
 	GWEUser findByResetToken(String resetToken);
 	List<GWEUser> findByGraduationYear(int graduationYear);
+	GWEUser findByActivationToken(String token);
 }
