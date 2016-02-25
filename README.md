@@ -13,7 +13,7 @@ Unser derzeitiger Plan ist es, eine Java basierte Web Anwendung zu erstellen. Di
 - [x] Link in der Mail um über GWE zu antworten (keine direkte Antwort per Mail -> E-Mails bleiben privat)
 - [ ] Weitere Einstellungen für Nutzer: E-Mail für andere sichtbar machen, Nachrichten zulassen, E-Mail-Benachrichtigungs-Einstellungen, Account löschen ...
 - [ ] Buxfixes
-- [ ] Deployment auf den Schulserver
+- [x] Deployment auf den Schulserver
 
 ## Projekt Setup
 Diese Version des Prototypen verwendet keine In-Memory Datenbank, sondern eine "richtige" SQL Datenbank
@@ -40,6 +40,9 @@ GWE wird auf einem Apache Tomcat 8 Server unter dem Kontextpfad "/gwe" deployed.
 Dazu muss der Code zunächst mit Maven in eine WAR Datei gepackaged werden,
 wozu die `scope` von `spring-boot-starter-tomcat` zunächst auf `provided` gesetzt werden muss.
 Diese kann über den Application Manager hochgeladen werden.
+Gegenwärtig kann der Application Manager über [diese Addresse](http://gymwbg.homelinux.com:8080/manager/html) erreicht werden.
+
+[Seite aufrufen](http://gymwbg.homelinux.com:8080/gwe)
 
 ## Resourcen
 - [Spring Guides](https://spring.io/guides)
