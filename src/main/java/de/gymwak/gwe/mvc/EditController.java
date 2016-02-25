@@ -68,10 +68,14 @@ public class EditController {
 		return changedUsername ? "redirect:/logout" : "redirect:/edit?action=success#top";
 	}
 
-	@RequestMapping(method = RequestMethod.POST, params = { "password" })
-	public String changePassword(@RequestParam String password) {
+	@RequestMapping(method = RequestMethod.POST, params = { "oldPassword", "password" })
+	public String changePassword(@RequestParam String oldPassword, @RequestParam String password) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		GWEUser currentUser = userRepository.findByEmail(auth.getName());
+
+		if (!encoder.matches(oldPassword, currentUser.getPassword())) {
+			return "redirect:/edit?error=password#change-pw";
+		}
 
 		currentUser.setPassword(encoder.encode(password));
 		userRepository.save(currentUser);

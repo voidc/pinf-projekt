@@ -41,6 +41,11 @@ body {
     overflow-x: hidden;
 }
 
+.panel-footer > form > .btn, .panel-footer > .form-group .btn {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
 .footer {
     display: table-row;
     vertical-align: middle;

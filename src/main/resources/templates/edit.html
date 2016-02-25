@@ -36,7 +36,7 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">Einstellungen</div>
                 <form class="form-horizontal form-signup" id="modifyUserData" th:action="@{/edit}" method="post">
-                    <div class="panel-body">
+                    <div id="user-settings" class="panel-body">
                         <div class="alert alert-danger alert-dismissible fade in" th:if="${(param.error != null) and (param.error == '') and (param.action == null)}" role="alert">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -47,7 +47,7 @@
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <strong>Bearbeitung teilweise fehlgeschlagen: Abschlussjahr ungültig</strong>
+                            <strong>Bearbeitung teilweise fehlgeschlagen:</strong> Abschlussjahr ungültig
                         </div>
                         <div class="alert alert-success alert-dismissible fade in" th:if="${(param.action != null) and (param.action[0] == 'success')}" role="alert">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -107,9 +107,21 @@
                 </form>
                 <div class="seperator"></div>
                 <form class="form-horizontal form-signup" id="modifyPassword" th:action="@{/edit}" method="post">
-                    <div class="panel-body">
+                    <div id="change-pw" class="panel-body">
+                        <div class="alert alert-danger alert-dismissible fade in" th:if="${(param.error != null) and (param.error[0] == 'password') and (param.action == null)}" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            Altes Passwort ist falsch
+                        </div>
                         <h4>Passwort ändern</h4>
                         <div class="seperator"></div>
+                        <div class="form-group">
+                            <label for="oldPassword" class="col-sm-4 control-label">Altes Passwort</label>
+                            <div class="col-sm-4">
+                                <input type="password" name="oldPassword" id="oldPassword" placeholder="Altes Passwort" class="form-control first-input" required="true" />
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label for="password" class="col-sm-4 control-label">Neues Passwort</label>
                             <div class="col-sm-4">
@@ -117,7 +129,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="confirmPassword" class="col-sm-4 control-label">Passwort wiederholen</label>
+                            <label for="confirmPassword" class="col-sm-4 control-label">Neues Passwort wiederholen</label>
                             <div class="col-sm-4">
                                 <input type="password" id="confirmPassword" placeholder="Passwort wiederholen" class="form-control second-input" required="true" oninput="validate(this)" />
                             </div>
