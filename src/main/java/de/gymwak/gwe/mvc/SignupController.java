@@ -9,6 +9,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 
+import de.gymwak.gwe.service.TokenGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -38,7 +39,7 @@ public class SignupController {
 	private GWERepository userRepository;
 	private PasswordEncoder encoder;
 	private AsyncMailService mailService;
-	private SecureRandom rnd;
+	private TokenGenerator tokenGen;
 
 	@Value("${gwe.email}")
 	private String adminMail;
@@ -47,15 +48,12 @@ public class SignupController {
 	private String serverPort;
 
 	@Autowired
-	public SignupController(GWERepository userRepository, PasswordEncoder encoder, AsyncMailService mailService) {
+	public SignupController(GWERepository userRepository, PasswordEncoder encoder,
+			AsyncMailService mailService, TokenGenerator tokenGen) {
 		this.userRepository = userRepository;
 		this.encoder = encoder;
 		this.mailService = mailService;
-	}
-
-	@PostConstruct
-	public void init() {
-		rnd = new SecureRandom();
+		this.tokenGen = tokenGen;
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -109,7 +107,7 @@ public class SignupController {
 
 	public boolean sendActivationMail(GWEUser user, GWERepository userRepository, AsyncMailService mailService, String from) {
 		try {
-			String token = generateToken(64);
+			String token = tokenGen.nextToken();
 			user.setActivationToken(token);
 			userRepository.save(user);
 
@@ -131,16 +129,6 @@ public class SignupController {
 		}
 
 		return true;
-	}
-
-	public String generateToken(int length) {
-		char[] chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < length; i++) {
-		    char c = chars[rnd.nextInt(chars.length)];
-		    sb.append(c);
-		}
-		return sb.toString();
 	}
 
 	public String getAddress() {

@@ -6,6 +6,7 @@ import java.security.SecureRandom;
 
 import javax.annotation.PostConstruct;
 
+import de.gymwak.gwe.service.TokenGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -25,7 +26,7 @@ import de.gymwak.gwe.service.AsyncMailService;
 public class ActivationController {
 	private GWERepository userRepository;
 	private AsyncMailService mailService;
-	private SecureRandom rnd;
+	private TokenGenerator tokenGen;
 
 	@Value("${gwe.email}")
 	private String adminMail;
@@ -34,14 +35,10 @@ public class ActivationController {
 	private String serverPort;
 
 	@Autowired
-	public ActivationController(GWERepository userRepository, AsyncMailService mailService) {
+	public ActivationController(GWERepository userRepository, AsyncMailService mailService, TokenGenerator tokenGen) {
 		this.userRepository = userRepository;
 		this.mailService = mailService;
-	}
-
-	@PostConstruct
-	public void init() {
-		rnd = new SecureRandom();
+		this.tokenGen = tokenGen;
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -91,7 +88,7 @@ public class ActivationController {
 
 	public boolean sendActivationMail(GWEUser user, GWERepository userRepository, AsyncMailService mailService, String from) {
 		try {
-			String token = generateToken(64);
+			String token = tokenGen.nextToken();
 			user.setActivationToken(token);
 			userRepository.save(user);
 
@@ -115,15 +112,6 @@ public class ActivationController {
 		return true;
 	}
 
-	public String generateToken(int length) {
-		char[] chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < length; i++) {
-		    char c = chars[rnd.nextInt(chars.length)];
-		    sb.append(c);
-		}
-		return sb.toString();
-	}
 
 	public String getAddress() {
 		String serverAddress = "localhost";

@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import de.gymwak.gwe.service.TokenGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -36,7 +37,7 @@ public class ResetController {
 	private GWERepository userRepository;
 	private PasswordEncoder encoder;
 	private AsyncMailService mailService;
-	private SecureRandom rnd;
+	private TokenGenerator tokenGen;
 
 	@Value("${gwe.email}")
 	private String adminMail;
@@ -48,15 +49,12 @@ public class ResetController {
 	private String serverPort;
 
 	@Autowired
-	public ResetController(GWERepository userRepository, PasswordEncoder encoder, AsyncMailService mailService) {
+	public ResetController(GWERepository userRepository, PasswordEncoder encoder,
+			AsyncMailService mailService, TokenGenerator tokenGen) {
 		this.userRepository = userRepository;
 		this.encoder = encoder;
 		this.mailService = mailService;
-	}
-
-	@PostConstruct
-	public void init() {
-		rnd = new SecureRandom();
+		this.tokenGen = tokenGen;
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -76,7 +74,7 @@ public class ResetController {
 		if (resetUser == null)
 			return "redirect:/reset?error";
 
-		String token = generateToken(64);
+		String token = tokenGen.nextToken();
 		resetUser.setResetToken(token);
 		resetUser.setResetTokenIssued(new Timestamp(new Date().getTime()));
 		userRepository.save(resetUser);
@@ -131,16 +129,6 @@ public class ResetController {
 			return false;
 
 		return true;
-	}
-
-	public String generateToken(int length) {
-		char[] chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < length; i++) {
-		    char c = chars[rnd.nextInt(chars.length)];
-		    sb.append(c);
-		}
-		return sb.toString();
 	}
 
 	public String getAddress() {
