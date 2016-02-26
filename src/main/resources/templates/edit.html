@@ -17,7 +17,7 @@
                     <p>Möchten Sie fortfahren?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Zurück</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
                     <button type="button" th:onclick="'javascript:changeValue(\'inputEmail\', \'' + ${currentUser.email} + '\')'" class="btn btn-default" data-dismiss="modal">
                         Änderung rückgängig
                     </button>
@@ -76,7 +76,16 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputGradYear" class="col-sm-2 control-label">Abiturjahr</label>
+                            <div class="radio col-sm-offset-2">
+                                <div class="col-sm-4" th:each="g : ${graduationTypes}">
+                                    <label class="col-sm-offset-1">
+                                        <input id="inputGradType" name="graduationType" type="radio" required="true" th:text="${g.desc}" th:value="${g.name()}" th:checked="${currentUser.graduationType == g}" />
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputGradYear" class="col-sm-2 control-label">Abschlussjahr</label>
                             <div class="col-sm-10">
                                 <input name="graduationYear" type="number" class="form-control" id="inputGradYear" th:value="${currentUser.graduationYear}" required="true" />
                             </div>
@@ -90,7 +99,7 @@
                         <div class="form-group">
                             <label for="inputDiscipline" class="col-sm-2 control-label">Fachgebiet</label>
                             <div class="col-sm-10">
-                                <select name="discipline" type="text" class="form-control" id="inputDiscipline" required="true">
+                                <select role="button" name="discipline" type="text" class="form-control" id="inputDiscipline" required="true">
                                     <option th:each="d : ${disciplines}" th:text="${d.desc}" th:value="${d.name()}" th:selected="${currentUser.discipline == d}"></option>
                                 </select>
                             </div>

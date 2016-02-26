@@ -1,12 +1,20 @@
 package de.gymwak.gwe.model;
 
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
-
-import javax.persistence.*;
-import javax.validation.constraints.Min;
 import java.io.Serializable;
 import java.sql.Timestamp;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 public class GWEUser implements Serializable {
@@ -28,6 +36,9 @@ public class GWEUser implements Serializable {
 
 	@NotEmpty(message = "Last name is required.")
 	private String lastName;
+
+	@NotNull(message = "Graduation type is required.")
+	private GraduationType graduationType;
 
 	@Min(1940)
 	private int graduationYear;
@@ -55,6 +66,7 @@ public class GWEUser implements Serializable {
 		this.password = user.password;
 		this.firstName = user.firstName;
 		this.lastName = user.lastName;
+		this.graduationType = user.graduationType;
 		this.graduationYear = user.graduationYear;
 		this.occupation = user.occupation;
 		this.discipline = user.discipline;
@@ -65,6 +77,7 @@ public class GWEUser implements Serializable {
 		this.email = edit.getEmail();
 		this.firstName = edit.getFirstName();
 		this.lastName = edit.getLastName();
+		this.graduationType = edit.getGraduationType();
 		this.graduationYear = edit.getGraduationYear();
 		this.occupation = edit.getOccupation();
 		this.discipline = edit.getDiscipline();
@@ -108,6 +121,14 @@ public class GWEUser implements Serializable {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public GraduationType getGraduationType() {
+		return graduationType;
+	}
+
+	public void setGraduationType(GraduationType graduationType) {
+		this.graduationType = graduationType;
 	}
 
 	public int getGraduationYear() {
@@ -188,6 +209,20 @@ public class GWEUser implements Serializable {
 
 		public final String desc;
 		Discipline(String desc) {
+			this.desc = desc;
+		}
+	}
+
+	public enum GraduationType {
+		ABITUR_WALDKRAIBURG(0, "Abitur am Gymnasium Waldkraiburg"),
+		ABITUR(1, "Abitur an einem anderem Gymnasium"),
+		SONSTIGER_ABSCHLUSS(2, "Kein / anderer Abschluss");
+
+		public final int id;
+		public final String desc;
+
+		GraduationType(int id, String desc) {
+			this.id = id;
 			this.desc = desc;
 		}
 	}

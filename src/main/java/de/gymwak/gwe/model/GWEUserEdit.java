@@ -1,12 +1,14 @@
 package de.gymwak.gwe.model;
 
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
+import java.io.Serializable;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.Min;
-import java.io.Serializable;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 public class GWEUserEdit implements Serializable {
 
@@ -19,6 +21,9 @@ public class GWEUserEdit implements Serializable {
 
 	@NotEmpty(message = "Last name is required.")
 	private String lastName;
+
+	@NotNull(message = "Graduation type is required.")
+	private GWEUser.GraduationType graduationType;
 
 	@Min(1940)
 	private int graduationYear;
@@ -54,6 +59,14 @@ public class GWEUserEdit implements Serializable {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public GWEUser.GraduationType getGraduationType() {
+		return graduationType;
+	}
+
+	public void setGraduationType(GWEUser.GraduationType graduationType) {
+		this.graduationType = graduationType;
 	}
 
 	public int getGraduationYear() {

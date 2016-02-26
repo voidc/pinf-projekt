@@ -26,6 +26,7 @@ public class ErrorAdvice {
 		ex.printStackTrace();
 		ModelAndView mav = new ModelAndView("error");
 		mav.addObject("exception", ex);
+		mav.addObject("stackTrace", ex.getStackTrace());
 		return mav;
 	}
 

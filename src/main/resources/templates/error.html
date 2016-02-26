@@ -14,7 +14,7 @@
             <div class="error-details" id="details" th:if="${exception}" style="display: none;">
                 <i th:text="${exception.toString()}"></i>
                 <ul class="list-unstyled">
-                    <li th:each="ste : ${exception.stackTrace}" th:text="${ste.toString()}"></li>
+                    <li th:each="ste : ${stackTrace}" th:text="${ste.toString()}"></li>
                 </ul>
             </div>
 

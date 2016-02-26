@@ -5,6 +5,7 @@ import java.util.Calendar;
 import de.gymwak.gwe.data.GWERepository;
 import de.gymwak.gwe.model.GWEUser;
 import de.gymwak.gwe.model.GWEUserEdit;
+import de.gymwak.gwe.model.GWEUser.GraduationType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -52,7 +53,8 @@ public class EditController {
 			return "redirect:/edit?error";
 		}
 		
-		if (currentUser.getGraduationYear() < 2001
+		if ((currentUser.getGraduationType() == GraduationType.ABITUR_WALDKRAIBURG && currentUser.getGraduationYear() < 2001)
+				|| currentUser.getGraduationYear() < 1940
 				|| currentUser.getGraduationYear() > Calendar.getInstance().get(Calendar.YEAR) + 2) {
 			userEdit.setGraduationYear(currentUser.getGraduationYear());
 			currentUser.applyUserEdit(userEdit);
@@ -91,6 +93,11 @@ public class EditController {
 	@ModelAttribute("disciplines")
 	public GWEUser.Discipline[] disciplines() {
 		return GWEUser.Discipline.values();
+	}
+
+	@ModelAttribute("graduationTypes")
+	public GWEUser.GraduationType[] graduationTypes() {
+		return GWEUser.GraduationType.values();
 	}
 
 }

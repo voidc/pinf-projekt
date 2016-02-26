@@ -29,6 +29,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import de.gymwak.gwe.data.GWERepository;
 import de.gymwak.gwe.model.GWEUser;
+import de.gymwak.gwe.model.GWEUser.GraduationType;
 import de.gymwak.gwe.service.AsyncMailService;
 
 @Controller
@@ -74,7 +75,8 @@ public class SignupController {
 			return "redirect:/signup?error=email";
 		}
 
-		if (user.getGraduationYear() < 2001
+		if ((user.getGraduationType() == GraduationType.ABITUR_WALDKRAIBURG && user.getGraduationYear() < 2001)
+				|| user.getGraduationYear() < 1940
 				|| user.getGraduationYear() > Calendar.getInstance().get(Calendar.YEAR) + 2) {
 			rAttr.addFlashAttribute("signupUser", user);
 			return "redirect:/signup?error=year";
@@ -98,6 +100,11 @@ public class SignupController {
 	@ModelAttribute("disciplines")
 	public GWEUser.Discipline[] disciplines() {
 		return GWEUser.Discipline.values();
+	}
+
+	@ModelAttribute("graduationTypes")
+	public GWEUser.GraduationType[] graduationTypes() {
+		return GWEUser.GraduationType.values();
 	}
 
 	public boolean sendActivationMail(GWEUser user, GWERepository userRepository, AsyncMailService mailService, String from) {

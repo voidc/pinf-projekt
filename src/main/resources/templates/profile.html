@@ -22,7 +22,7 @@
                     </tr>
                     <tr>
                         <td>Abiturjahr</td>
-                        <td th:text="${user.graduationYear}">GWEUser.graduationYear</td>
+                        <td><span th:text="${user.graduationYear}">GWEUser.graduationYear</span><span class="text-muted" th:text="| (${user.graduationType.desc})|">GWEUser.graduationType</span></td>
                     </tr>
                     <tr>
                         <td>Beschäftigung</td>
