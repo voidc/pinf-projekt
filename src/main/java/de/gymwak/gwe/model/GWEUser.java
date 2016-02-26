@@ -214,15 +214,12 @@ public class GWEUser implements Serializable {
 	}
 
 	public enum GraduationType {
-		ABITUR_WALDKRAIBURG(0, "Abitur am Gymnasium Waldkraiburg"),
-		ABITUR(1, "Abitur an einem anderem Gymnasium"),
-		SONSTIGER_ABSCHLUSS(2, "Kein / anderer Abschluss");
+		ABITUR_WALDKRAIBURG("Abitur am Gymnasium Waldkraiburg"),
+		ABITUR("Abitur an einem anderem Gymnasium"),
+		SONSTIGER_ABSCHLUSS("Kein / anderer Abschluss");
 
-		public final int id;
 		public final String desc;
-
-		GraduationType(int id, String desc) {
-			this.id = id;
+		GraduationType(String desc) {
 			this.desc = desc;
 		}
 	}
