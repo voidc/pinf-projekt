@@ -21,7 +21,7 @@
                     <button type="button" th:onclick="'javascript:changeValue(\'inputEmail\', \'' + ${currentUser.email} + '\')'" class="btn btn-default" data-dismiss="modal">
                         Änderung rückgängig
                     </button>
-                    <button type="submit" class="btn btn-primary">Änderung speichern</button>
+                    <button type="submit" onclick="javascript:document.forms['modifyUserData'].submit();" class="btn btn-primary">Änderung speichern</button>
                 </div>
             </div>
         </div>

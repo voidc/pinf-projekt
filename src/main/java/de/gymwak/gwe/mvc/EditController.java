@@ -2,10 +2,7 @@ package de.gymwak.gwe.mvc;
 
 import java.util.Calendar;
 
-import de.gymwak.gwe.data.GWERepository;
-import de.gymwak.gwe.model.GWEUser;
-import de.gymwak.gwe.model.GWEUserEdit;
-import de.gymwak.gwe.model.GWEUser.GraduationType;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -18,18 +15,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.validation.Valid;
+import de.gymwak.gwe.data.GWERepository;
+import de.gymwak.gwe.model.GWEUser;
+import de.gymwak.gwe.model.GWEUser.GraduationType;
+import de.gymwak.gwe.model.GWEUserEdit;
+import de.gymwak.gwe.service.MailGenerator;
+import de.gymwak.gwe.service.TokenGenerator;
 
 @Controller
 @RequestMapping("/edit")
 public class EditController {
 	private GWERepository userRepository;
 	private PasswordEncoder encoder;
+	private TokenGenerator tokenGen;
+	private MailGenerator mailGen;
 
 	@Autowired
-	public EditController(GWERepository userRepository, PasswordEncoder encoder) {
+	public EditController(GWERepository userRepository, PasswordEncoder encoder, TokenGenerator tokenGen, MailGenerator mailGen) {
 		this.userRepository = userRepository;
 		this.encoder = encoder;
+		this.tokenGen = tokenGen;
+		this.mailGen = mailGen;
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -66,6 +72,7 @@ public class EditController {
 
 		if (changedUsername) {
 			currentUser.setActivated(false);
+			mailGen.sendActivationMail(currentUser, userRepository, tokenGen.nextToken());
 		}
 
 		userRepository.save(currentUser);
