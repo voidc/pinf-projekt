@@ -6,8 +6,7 @@
 <body>
     <div class="content-wrap">
         <div class="container">
-            <div th:replace="fragments ::  ${currentUser == null} ? header : navbar">
-            </div>
+            <div th:replace="fragments ::  header"></div>
             <div class="panel panel-primary">
                 <div class="panel-heading">Impressum</div>
                 <div class="panel-body">

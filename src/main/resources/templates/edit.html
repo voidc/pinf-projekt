@@ -29,10 +29,7 @@
 
     <div class="content-wrap">
         <div class="container">
-            <div th:replace="fragments :: navbar">
-            </div>
-            <!-- <div th:replace="fragments :: header">
-            </div> -->
+            <div th:replace="fragments :: header"></div>
             <div class="panel panel-primary">
                 <div class="panel-heading">Einstellungen</div>
                 <form class="form-horizontal form-signup" id="modifyUserData" th:action="@{/edit}" method="post">

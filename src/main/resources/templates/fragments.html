@@ -13,104 +13,72 @@
 </head>
 
 <body>
-
-    <!-- Navbar -->
-    <div th:fragment="navbar">
-        <nav class="navbar navbar-default no-border-radius" th:fragment="navbar">
-            <div class="container-fluid">
-                <div class="navbar-header navbar-height">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <div class="navbar-left navbar-brand">
-                        <a th:href="@{/}">
-                            <img title="Gymnasium Waldkraiburg" th:src="@{/img/logo-notext-transparent-sq-46px.png}" />
-                        </a>
-                    </div>
-                    <div class="pull-left navbar-heading navbar-height">
-                        <h5>Ehemalige<br/><small>des Gymnasiums Waldkraiburg</small></h5>
-                    </div>
-                </div>
-
-                <div class="collapse navbar-collapse" id="navbar-collapse">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="dropdown">
-                            <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li class="dropdown-header">
-                                    <h5>
-                                        <span>Angemeldet als </span>
-                                        <b>
-                                            <a th:href="@{/user}" class="text-muted" th:text="|${currentUser.firstName} ${currentUser.lastName}|">Admin</a>
-                                        </b>
-                                    </h5>
-                                </li>
-                                <li><a th:href="@{/edit}">Einstellungen</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a th:href="@{/logout}">Abmelden</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <form class="navbar-form navbar-right" role="search" th:action="@{/search}" method="get">
-                        <div class="input-group" role="group">
-                            <input class="form-control" type="search" name="q" placeholder="Nutzersuche..." />
-                            <span class="input-group-btn">
-                                <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                            </span>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </nav>
-
-        <div class="panel panel-caution" th:if="${currentUser} and ${not currentUser.activated}">
-            <div class="panel-heading">
-                Account aktiveren
-            </div>
-            <div class="panel-body">
-                Sie haben Ihren Account noch nicht über Ihr E-Mail-Konto aktiviert, daher stehen Ihnen einige Funktionen nicht zur Verfügung.
-                <br />
-                Überprüfen Sie Ihr E-Mail-Postfach, ob bereits eine E-Mail eingegangen ist, andernfalls klicken Sie auf Erneut senden.
-            </div>
-            <div class="panel-footer">
-                <a class="btn btn-warning" th:href="@{/activation}">Aktivierungs-E-Mail erneut senden</a>
-            </div>
-        </div>
-    </div>
-    <!-- END Navbar -->
-
-    <!-- Bootstrap JS -->
-    <th:block th:fragment="bootstrap-script">
-        <script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    </th:block>
-    <!-- END Bootstrap JS -->
-
     <!-- Header -->
-    <div th:fragment="header">
-        <div class="page-header row">
-            <div class="logo">
-                <a th:href="@{/}"><img title="Gymnasium Waldkraiburg" th:src="@{/img/logo-transparent-sq-120px.png}" /></a>
-            </div>
-            <h1 class="logo-text col-md-10">Ehemalige<br/><small>des Gymnasiums Waldkraiburg</small></h1>
-        </div>
+    <th:block th:fragment="header">
+        <div th:replace="fragments :: ${currentUser == null} ? header-default : navbar"></div>
 
-        <div class="panel panel-caution" th:if="${currentUser} and ${not currentUser.activated}">
-            <div class="panel-heading">
-                Account aktiveren
+        <div class="alert alert-warning" role="alert" th:if="${currentUser} and ${not currentUser.activated}">
+            <strong>Aktivierung austehend!</strong>
+            <p>Um alle Funktionen nutzen zu können, aktiviere deinen Account bitte über den per E-Mail gesendeten Link.</p>
+            <a th:href="@{/activation}" class="alert-link">Erneut senden</a>
+        </div>
+    </th:block>
+
+    <nav class="navbar navbar-default no-border-radius" th:fragment="navbar">
+        <div class="container-fluid">
+            <div class="navbar-header navbar-height">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-left navbar-brand">
+                    <a th:href="@{/}">
+                        <img title="Gymnasium Waldkraiburg" th:src="@{/img/logo-notext-transparent-sq-46px.png}" />
+                    </a>
+                </div>
+                <div class="pull-left navbar-heading navbar-height">
+                    <h5>Ehemalige<br/><small>des Gymnasiums Waldkraiburg</small></h5>
+                </div>
             </div>
-            <div class="panel-body">
-                Sie haben Ihren Account noch nicht über Ihr E-Mail-Konto aktiviert, daher stehen Ihnen einige Funktionen nicht zur Verfügung.
-                <br />
-                Überprüfen Sie Ihr E-Mail-Postfach, ob bereits eine E-Mail eingegangen ist, andernfalls klicken Sie auf Erneut senden.
-            </div>
-            <div class="panel-footer">
-                <a class="btn btn-warning" th:href="@{/activation}">Aktivierungs-E-Mail erneut senden</a>
+
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-header">
+                                <h5>
+                                    <span>Angemeldet als </span>
+                                    <b>
+                                        <a th:href="@{/user}" class="text-muted" th:text="|${currentUser.firstName} ${currentUser.lastName}|">Admin</a>
+                                    </b>
+                                </h5>
+                            </li>
+                            <li><a th:href="@{/edit}">Einstellungen</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a th:href="@{/logout}">Abmelden</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right" role="search" th:action="@{/search}" method="get">
+                    <div class="input-group" role="group">
+                        <input class="form-control" type="search" name="q" placeholder="Nutzersuche..." />
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                        </span>
+                    </div>
+                </form>
             </div>
         </div>
+    </nav>
+
+    <div class="page-header row" th:fragment="header-default">
+        <div class="logo">
+            <a th:href="@{/}"><img title="Gymnasium Waldkraiburg" th:src="@{/img/logo-transparent-sq-120px.png}" /></a>
+        </div>
+        <h1 class="logo-text col-md-10">Ehemalige<br/><small>des Gymnasiums Waldkraiburg</small></h1>
     </div>
 
     <div class="page-header row" th:fragment="header-login">
@@ -142,6 +110,13 @@
         </div>
     </footer>
     <!-- END Footer -->
+
+    <!-- Bootstrap JS -->
+    <th:block th:fragment="bootstrap-script">
+        <script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    </th:block>
+    <!-- END Bootstrap JS -->
 </body>
 
 </html>

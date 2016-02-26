@@ -6,8 +6,7 @@
 <body>
     <div class="content-wrap">
         <div class="container">
-            <div th:replace="fragments :: header">
-            </div>
+            <div th:replace="fragments :: header"></div>
             <p class="lead">Ein Fehler ist aufgetreten.</p>
             <p th:if="${errmsg}" th:text="${errmsg}"></p>
 

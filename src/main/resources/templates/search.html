@@ -6,10 +6,7 @@
 <body>
     <div class="content-wrap">
         <div class="container">
-            <div th:replace="fragments :: navbar">
-            </div>
-            <!-- <div th:replace="fragments :: header">
-            </div> -->
+            <div th:replace="fragments :: header"></div>
             <div class="panel panel-primary" style="min-height: 320px">
                 <div class="panel-heading">Suchergebnisse<span th:if="${query}" th:text="| für &quot;${query}&quot;|"></span></div>
                 <ul class="nav nav-pills">
