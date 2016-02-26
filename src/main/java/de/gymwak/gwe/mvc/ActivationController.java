@@ -1,15 +1,6 @@
 package de.gymwak.gwe.mvc;
 
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.security.SecureRandom;
-
-import javax.annotation.PostConstruct;
-
-import de.gymwak.gwe.service.TokenGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -19,26 +10,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import de.gymwak.gwe.data.GWERepository;
 import de.gymwak.gwe.model.GWEUser;
-import de.gymwak.gwe.service.AsyncMailService;
+import de.gymwak.gwe.service.MailGenerator;
+import de.gymwak.gwe.service.TokenGenerator;
 
 @Controller
 @RequestMapping("/activation")
 public class ActivationController {
 	private GWERepository userRepository;
-	private AsyncMailService mailService;
 	private TokenGenerator tokenGen;
-
-	@Value("${gwe.email}")
-	private String adminMail;
-
-	@Value("${server.port}")
-	private String serverPort;
+	private MailGenerator mailGen;
 
 	@Autowired
-	public ActivationController(GWERepository userRepository, AsyncMailService mailService, TokenGenerator tokenGen) {
+	public ActivationController(GWERepository userRepository, TokenGenerator tokenGen, MailGenerator mailGen) {
 		this.userRepository = userRepository;
-		this.mailService = mailService;
 		this.tokenGen = tokenGen;
+		this.mailGen = mailGen;
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -71,7 +57,7 @@ public class ActivationController {
 		if (currentUser == null)
 			return "redirect:/reset?error";
 
-		if (sendActivationMail(currentUser, userRepository, mailService, adminMail))
+		if (mailGen.sendActivationMail(currentUser, userRepository, tokenGen.nextToken()))
 			return "redirect:/activation?success";
 		else
 			return "redirect:/activation?error";
@@ -84,43 +70,5 @@ public class ActivationController {
 			return false;
 		else
 			return true;
-	}
-
-	public boolean sendActivationMail(GWEUser user, GWERepository userRepository, AsyncMailService mailService, String from) {
-		try {
-			String token = tokenGen.nextToken();
-			user.setActivationToken(token);
-			userRepository.save(user);
-
-			String activationUrl = getAddress() + "/gwe/activation?token=" + token;
-
-			mailService.sendMail(mime -> {
-				MimeMessageHelper mail = new MimeMessageHelper(mime, true, "UTF-8");
-				mail.setSubject("Account aktivieren");
-				mail.setFrom(from, "GWE");
-				mail.setTo(user.getEmail());
-				mail.setText("Ihr Account wurde noch nicht aktiviert. Daher stehen Ihnen einige Funktionen des Portals noch nicht zur Verfügung.<br>"
-						+ "Durch Klicken auf den folgenden Link wird Ihre E-Mail-Addresse bestätigt und Sie können anschließend auf alle Funktionen zugreifen.<br>"
-						+ "<a href='" + activationUrl + "'>Account aktivieren</a><br>"
-						+ "Der Link wird ungültig sobald eine neue Aktivierungs-E-Mail gesendet wurde.", true);
-			});
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-
-		return true;
-	}
-
-
-	public String getAddress() {
-		String serverAddress = "localhost";
-		try {
-			serverAddress = NetworkInterface.getNetworkInterfaces().nextElement().getInetAddresses().nextElement()
-					.getHostAddress();
-		} catch (SocketException e) {
-			e.printStackTrace();
-		}
-		return String.format("http://%s:%s", serverAddress, serverPort);
 	}
 }
