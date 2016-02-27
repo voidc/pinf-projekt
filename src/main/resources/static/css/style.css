@@ -41,6 +41,10 @@ body {
     overflow-x: hidden;
 }
 
+.dropdown-menu > li > a > .fa {
+    min-width: 20px;
+}
+
 .panel-footer > form > .btn, .panel-footer > .form-group .btn {
     margin-top: 5px;
     margin-bottom: 5px;
