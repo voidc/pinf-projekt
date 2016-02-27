@@ -2,6 +2,7 @@ package de.gymwak.gwe.mvc;
 
 import java.util.List;
 
+import de.gymwak.gwe.service.AsyncMailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import de.gymwak.gwe.data.GWERepository;
 import de.gymwak.gwe.model.GWEUser;
-import de.gymwak.gwe.service.MailGenerator;
 import de.gymwak.gwe.service.TokenGenerator;
 
 @Controller
@@ -27,19 +27,16 @@ import de.gymwak.gwe.service.TokenGenerator;
 public class ResetController {
 	private GWERepository userRepository;
 	private PasswordEncoder encoder;
-	private TokenGenerator tokenGen;
-	private MailGenerator mailGen;
+	private AsyncMailService mailService;
 
 	@Value("${gwe.reset-token-expiry}")
 	private long resetTokenExpiry; //milliseconds
 
 	@Autowired
-	public ResetController(GWERepository userRepository, PasswordEncoder encoder,
-			TokenGenerator tokenGen, MailGenerator mailGen) {
+	public ResetController(GWERepository userRepository, PasswordEncoder encoder, AsyncMailService mailService) {
 		this.userRepository = userRepository;
 		this.encoder = encoder;
-		this.tokenGen = tokenGen;
-		this.mailGen = mailGen;
+		this.mailService = mailService;
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -77,10 +74,11 @@ public class ResetController {
 
 	@RequestMapping(method = RequestMethod.POST, params = { "email" })
 	public String sendResetMail(@RequestParam String email) {
-		if (!mailGen.sendResetMail(userRepository.findByEmail(email), userRepository, tokenGen.nextToken(), resetTokenExpiry))
+		GWEUser resetUser = userRepository.findByEmail(email);
+		if(resetUser == null)
 			return "redirect:/reset?error";
-		else
-			return "redirect:/reset?success";
+		mailService.sendResetMail(userRepository.findByEmail(email));
+		return "redirect:/reset?success";
 	}
 
 	private boolean verifyToken(String token) {

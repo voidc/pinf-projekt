@@ -4,6 +4,7 @@ import java.util.Calendar;
 
 import javax.validation.Valid;
 
+import de.gymwak.gwe.service.AsyncMailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,7 +20,6 @@ import de.gymwak.gwe.data.GWERepository;
 import de.gymwak.gwe.model.GWEUser;
 import de.gymwak.gwe.model.GWEUser.GraduationType;
 import de.gymwak.gwe.model.GWEUserEdit;
-import de.gymwak.gwe.service.MailGenerator;
 import de.gymwak.gwe.service.TokenGenerator;
 
 @Controller
@@ -27,15 +27,13 @@ import de.gymwak.gwe.service.TokenGenerator;
 public class EditController {
 	private GWERepository userRepository;
 	private PasswordEncoder encoder;
-	private TokenGenerator tokenGen;
-	private MailGenerator mailGen;
+	private AsyncMailService mailService;
 
 	@Autowired
-	public EditController(GWERepository userRepository, PasswordEncoder encoder, TokenGenerator tokenGen, MailGenerator mailGen) {
+	public EditController(GWERepository userRepository, PasswordEncoder encoder, AsyncMailService mailService) {
 		this.userRepository = userRepository;
 		this.encoder = encoder;
-		this.tokenGen = tokenGen;
-		this.mailGen = mailGen;
+		this.mailService = mailService;
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -72,7 +70,7 @@ public class EditController {
 
 		if (changedUsername) {
 			currentUser.setActivated(false);
-			mailGen.sendActivationMail(currentUser, userRepository, tokenGen.nextToken());
+			mailService.sendActivationMail(currentUser);
 		}
 
 		userRepository.save(currentUser);

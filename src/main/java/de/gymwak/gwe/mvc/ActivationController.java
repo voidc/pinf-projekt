@@ -1,5 +1,6 @@
 package de.gymwak.gwe.mvc;
 
+import de.gymwak.gwe.service.AsyncMailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,65 +11,46 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import de.gymwak.gwe.data.GWERepository;
 import de.gymwak.gwe.model.GWEUser;
-import de.gymwak.gwe.service.MailGenerator;
 import de.gymwak.gwe.service.TokenGenerator;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/activation")
 public class ActivationController {
 	private GWERepository userRepository;
-	private TokenGenerator tokenGen;
-	private MailGenerator mailGen;
+	private AsyncMailService mailService;
 
 	@Autowired
-	public ActivationController(GWERepository userRepository, TokenGenerator tokenGen, MailGenerator mailGen) {
+	public ActivationController(GWERepository userRepository, AsyncMailService mailService) {
 		this.userRepository = userRepository;
-		this.tokenGen = tokenGen;
-		this.mailGen = mailGen;
+		this.mailService = mailService;
 	}
 
-	@RequestMapping(method = RequestMethod.GET)
-	public String get(@RequestParam(value = "token", required = false) String token) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		GWEUser currentUser = userRepository.findByEmail(auth.getName());
-
-		if (currentUser.isActivated()) {
-			return "redirect:/user";
-		}
-
+	@RequestMapping(path = "/activate", method = RequestMethod.GET, params = {"token"})
+	public String get(@RequestParam("token") String token, RedirectAttributes rAttr) {
 		if (token == null) {
-			return "activation";
+			rAttr.addFlashAttribute("status", "Aktivierung fehlgeschlagen");
+			return "redirect:/login";
 		}
 
-		if (verifyToken(token)) {
-			currentUser.setActivated(true);
-			userRepository.save(currentUser);
-			return "redirect:/user";
+		GWEUser activationUser = userRepository.findByActivationToken(token);
+		if (activationUser != null) {
+			activationUser.setActivated(true);
+			userRepository.save(activationUser);
+			rAttr.addFlashAttribute("status", "Aktivierung erfolgreich");
+			return "redirect:/login";
 		} else {
-			return "redirect:/activation?error&invalidToken=" + token;
+			rAttr.addFlashAttribute("status", "Aktivierung fehlgeschlagen");
+			return "redirect:/login";
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.POST)
-	public String sendActivationMail() {
-		System.out.println("activation");
+	@RequestMapping(path = "/activationmail", method = RequestMethod.GET)
+	public String sendActivationMail(RedirectAttributes rAttr) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		GWEUser currentUser = userRepository.findByEmail(auth.getName());
-		if (currentUser == null)
-			return "redirect:/reset?error";
-
-		if (mailGen.sendActivationMail(currentUser, userRepository, tokenGen.nextToken()))
-			return "redirect:/activation?success";
-		else
-			return "redirect:/activation?error";
+		mailService.sendActivationMail(currentUser);
+		rAttr.addFlashAttribute("status", "Aktivierungsmail gesendet");
+		return "redirect:/user";
 	}
 
-	private boolean verifyToken(String token) {
-		// check if token exists
-		GWEUser currentUser = userRepository.findByActivationToken(token);
-		if (currentUser == null)
-			return false;
-		else
-			return true;
-	}
 }
