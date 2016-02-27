@@ -56,9 +56,23 @@
                     <a class="list-group-item" th:each="user : ${results}" th:href="@{/user/{id}(id=${user.id})}">
                         <h4 class="list-group-item-heading" th:text="|${user.firstName} ${user.lastName}|">Benutzer</h4>
                         <ul class="list-group-item-text list-unstyled">
-                            <li>Abiturjahrgang: <span th:text="${user.graduationYear}">year</span><span class="text-muted" th:text="| (${user.graduationType.desc})|">gradType</span></li>
-                            <li>Beschäftigung: <span th:text="${user.occupation}">occu</span></li>
-                            <li>Fachgebiet: <span th:text="${user.discipline.desc}">occu</span></li>
+                            <li>
+                                <span class="fa fa-graduation-cap text-muted" aria-hidden="true"></span>
+                                <span class="sr-only">Abiturjahrgang:</span>
+                                <span th:text="| ${user.graduationYear}|">year</span>
+                                <span class="text-muted" th:text="| (${user.graduationType.desc})|">gradType</span>
+                            </li>
+                            <li>
+                                <span class="fa fa-briefcase text-muted" aria-hidden="true"></span>
+                                <span class="sr-only">Beschäftigung:</span>
+                                <span th:text="| ${user.occupation}|">occu</span>
+                            </li>
+                            <li>
+                                <span class="fa fa-book text-muted" aria-hidden="true"></span>
+                                <span class="sr-only">Fachgebiet:</span>
+                                <span th:text="| ${user.discipline.desc}">occu</span>
+                            </li>
+                            <!--li>Fachgebiet: <span th:text="${user.discipline.desc}">occu</span></li-->
                         </ul>
                     </a>
                 </div>

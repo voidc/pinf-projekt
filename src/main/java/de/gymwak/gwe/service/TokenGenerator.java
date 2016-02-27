@@ -1,11 +1,10 @@
 package de.gymwak.gwe.service;
 
+import java.security.SecureRandom;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import java.math.BigInteger;
-import java.security.SecureRandom;
 
 @Service
 public class TokenGenerator {
