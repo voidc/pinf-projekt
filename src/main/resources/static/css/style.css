@@ -1,6 +1,8 @@
 html,
 body {
     height: 100%;
+    /* Ab 349px besteht bei manchen Browsern die Wahrscheinlichkeit, dass die Navbar kollabiert */
+    min-width: 350px;
 }
 
 body {
@@ -23,7 +25,7 @@ body {
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
-.navbar-nav:hover {
+.navbar-nav > li:hover {
     background-color: #e6e6e6;
 }
 
@@ -246,5 +248,19 @@ body {
         padding-bottom: 9px;
         margin: 40px 0 20px;
         border-bottom: 1px solid #eee;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar-nav .open .dropdown-menu {
+        background-color: #f7f7f7;
+    }
+
+    .navbar-nav .open .dropdown-menu .dropdown-header, .navbar-nav .open .dropdown-menu >li> a {
+        margin-left: 10px;
+    }
+
+    .dropdown-menu .divider {
+        margin-left: 10px;
     }
 }
