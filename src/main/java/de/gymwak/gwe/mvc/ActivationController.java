@@ -1,6 +1,5 @@
 package de.gymwak.gwe.mvc;
 
-import de.gymwak.gwe.service.AsyncMailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -8,11 +7,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import de.gymwak.gwe.data.GWERepository;
 import de.gymwak.gwe.model.GWEUser;
-import de.gymwak.gwe.service.TokenGenerator;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import de.gymwak.gwe.service.AsyncMailService;
 
 @Controller
 public class ActivationController {

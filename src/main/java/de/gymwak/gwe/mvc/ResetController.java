@@ -2,7 +2,6 @@ package de.gymwak.gwe.mvc;
 
 import java.util.List;
 
-import de.gymwak.gwe.service.AsyncMailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import de.gymwak.gwe.data.GWERepository;
 import de.gymwak.gwe.model.GWEUser;
-import de.gymwak.gwe.service.TokenGenerator;
+import de.gymwak.gwe.service.AsyncMailService;
 
 @Controller
 @RequestMapping("/reset")

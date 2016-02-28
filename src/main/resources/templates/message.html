@@ -36,7 +36,7 @@
                                 <a th:if="${recipient}" th:href="@{/user/{id}(id=${recipient.id})}" class="btn btn-default">Abbrechen</a>
                                 <a th:if="${year}" th:href="@{/search(year=${year})}" class="btn btn-default">Abbrechen</a>
                                 <!-- Help-Box sollte immer ganz unten stehen -->
-                                <p th:if="${not currentUser.activated}" class="help-block">Sie können keine Nachrichten senden, solange Sie Ihre E-Mail noch nicht bestätigt haben.</p>
+                                <p th:if="${not currentUser.activated}" class="help-block">Du kannst noch keine Nachrichten senden, solange Sie Ihre E-Mail noch nicht bestätigt haben.</p>
                             </div>
                         </div>
                     </div>

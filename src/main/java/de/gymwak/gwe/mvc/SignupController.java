@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import de.gymwak.gwe.service.AsyncMailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,7 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import de.gymwak.gwe.data.GWERepository;
 import de.gymwak.gwe.model.GWEUser;
 import de.gymwak.gwe.model.GWEUser.GraduationType;
-import de.gymwak.gwe.service.TokenGenerator;
+import de.gymwak.gwe.service.AsyncMailService;
 
 @Controller
 @RequestMapping("/signup")
@@ -75,7 +74,7 @@ public class SignupController {
 		UserDetails userDetails = new User(user.getEmail(), user.getPassword(), authorities);
 		Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, user.getPassword(), authorities);
 		SecurityContextHolder.getContext().setAuthentication(auth);
-		return "redirect:/user";
+		return "redirect:/overview";
 
 	}
 

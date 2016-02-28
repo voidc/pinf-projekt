@@ -47,9 +47,13 @@ body {
     min-width: 20px;
 }
 
-.panel-footer > form > .btn, .panel-footer > .form-group .btn {
-    margin-top: 5px;
-    margin-bottom: 5px;
+.list-group-item-text > li > .fa {
+    min-width: 16px;
+    text-align: center;
+}
+
+.panel-footer > form > .btn, .form-group .btn {
+    margin-bottom: 8px;
 }
 
 .footer {
@@ -167,7 +171,7 @@ body {
     border-top-right-radius: 0;
 }
 
-.form-signup .form-group {
+.form-group {
     margin-bottom: 10px;
 }
 
@@ -207,6 +211,12 @@ body {
     max-height: 500px;
     overflow-y: scroll;
     margin-bottom: 16px;
+}
+
+.list-scroll {
+    height: auto;
+    max-height: 360px;
+    overflow-x: hidden;
 }
 
 @media all {

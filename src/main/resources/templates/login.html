@@ -17,7 +17,7 @@
                 <form th:action="@{/login}" method="post" class="form-signin">
                     <div class="form-group">
                         <label for="username" class="sr-only">E-Mail</label>
-                        <input type="text" name="username" id="username" placeholder="Email" class="form-control first-input" required="true" autofocus="true" />
+                        <input type="text" name="username" id="username" placeholder="Email" class="form-control first-input" required="true" autofocus="true" th:value="${username != null} ? ${username}" />
                         <label for="password" class="sr-only">Passwort</label>
                         <input type="password" name="password" id="password" placeholder="Passwort" class="form-control second-input" required="true" />
                     </div>

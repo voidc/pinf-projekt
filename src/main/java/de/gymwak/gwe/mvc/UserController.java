@@ -21,11 +21,6 @@ public class UserController {
 		this.userRepository = userRepository;
 	}
 
-	@RequestMapping(path = "/", method = RequestMethod.GET)
-	public String get() {
-		return "redirect:/user";
-	}
-
 	@RequestMapping(path = "/user", method = RequestMethod.GET)
 	public String userDetails() {
 		return "user";

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="de" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: head ('Veranstaltung erstellen')"></head>
+
+<body>
+    <div class="content-wrap">
+        <div class="container">
+            <div th:replace="fragments :: header"></div>
+            <form class="form-horizontal form-signup" th:action="@{/event/delete}" method="post">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Veranstaltung</div>
+                    <div class="panel-body">
+                        <h4>
+                            <attr th:class="|fa ${participant ? 'fa-calendar-check-o' : 'fa-calendar-times-o'}|" th:title="${participant ? 'Du bist als Teilnehmer zu dieser Veranstaltung eingetragen' : 'Du bist nicht als Teilnehmer zu dieser Veranstaltung eingetragen'}" aria-hidden="true"></attr>
+                            <span th:text="| ${event.name}|"> Veranstaltung</span></h4>
+                        <div class="seperator"></div>
+                        <table class="table table-hover">
+                            <tr>
+                                <td>Veranstalter</td>
+                                <td th:text="|${organizer.firstName} ${organizer.lastName}|">GWEEvent.organizerId</td>
+                            </tr>
+                            <tr>
+                                <td>Teilnehmer</td>
+                                <td>
+                                    <span th:if="${participants.length() > 0}" th:text="${participants}"></span>
+                                    <span th:if="${participants.length() == 0}" class="text-muted">Keine</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Beschreibung</td>
+                                <td th:text="${event.description}">GWEEvent.description</td>
+                            </tr>
+                            <tr>
+                                <td>Ort</td>
+                                <td th:text="${event.place}">GWEEvent.place</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <input type="hidden" name="eventId" th:value="${event.getId()}" />
+                                <button th:if="${currentUser.getId() == event.getOrganizerId()}" type="submit" class="btn btn-success" th:disabled="true">Nachricht an Teilnehmer</button>
+                                <button th:unless="${currentUser.getId() == event.getOrganizerId()}" type="submit" class="btn btn-success" th:disabled="true">Nachricht an Veranstalter</button>
+                                <button type="submit" class="btn btn-success" th:disabled="${not currentUser.activated}">Veranstaltung Löschen</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div th:replace="fragments :: footer"></div>
+    <div th:replace="fragments :: bootstrap-script"></div>
+</body>
+
+</html>

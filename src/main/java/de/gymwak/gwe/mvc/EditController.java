@@ -4,7 +4,6 @@ import java.util.Calendar;
 
 import javax.validation.Valid;
 
-import de.gymwak.gwe.service.AsyncMailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,7 +19,7 @@ import de.gymwak.gwe.data.GWERepository;
 import de.gymwak.gwe.model.GWEUser;
 import de.gymwak.gwe.model.GWEUser.GraduationType;
 import de.gymwak.gwe.model.GWEUserEdit;
-import de.gymwak.gwe.service.TokenGenerator;
+import de.gymwak.gwe.service.AsyncMailService;
 
 @Controller
 @RequestMapping("/edit")
@@ -57,9 +56,12 @@ public class EditController {
 			return "redirect:/edit?error";
 		}
 		
-		if ((currentUser.getGraduationType() == GraduationType.ABITUR_WALDKRAIBURG && currentUser.getGraduationYear() < 2001)
-				|| currentUser.getGraduationYear() < 1940
-				|| currentUser.getGraduationYear() > Calendar.getInstance().get(Calendar.YEAR) + 2) {
+		if (((userEdit.getGraduationType() == GraduationType.ABITUR_WALDKRAIBURG
+						|| (userEdit.getGraduationType() == null && currentUser.getGraduationType() == GraduationType.ABITUR_WALDKRAIBURG))
+						&& userEdit.getGraduationYear() < 2001)
+				|| userEdit.getGraduationYear() < 1940
+				|| userEdit.getGraduationYear() > Calendar.getInstance().get(Calendar.YEAR) + 2) {
+
 			userEdit.setGraduationYear(currentUser.getGraduationYear());
 			currentUser.applyUserEdit(userEdit);
 			userRepository.save(currentUser);

@@ -39,6 +39,9 @@
                             <li>
                                 <a href="javascript:void(0)" onclick="applyFilter('sort', 'occu')">Beschäftigung</a>
                             </li>
+                            <li>
+                                <a href="javascript:void(0)" onclick="applyFilter('sort', 'disc')">Fachgebiet</a>
+                            </li>
                         </ul>
                     </li>
                     <li class="dropdown" role="presentation">
@@ -66,18 +69,18 @@
                         <h4 class="list-group-item-heading" th:text="|${user.firstName} ${user.lastName}|">Benutzer</h4>
                         <ul class="list-group-item-text list-unstyled">
                             <li>
-                                <span class="fa fa-graduation-cap text-muted" aria-hidden="true"></span>
-                                <span class="sr-only">Abiturjahrgang:</span>
+                                <attr class="fa fa-graduation-cap text-muted" aria-hidden="true" title="Abschlussjahr"></attr>
+                                <span class="sr-only">Abschlussjahr:</span>
                                 <span th:text="| ${user.graduationYear}|">year</span>
                                 <span class="text-muted" th:text="| (${user.graduationType.desc})|">gradType</span>
                             </li>
                             <li>
-                                <span class="fa fa-briefcase text-muted" aria-hidden="true"></span>
+                                <attr class="fa fa-briefcase text-muted" aria-hidden="true" title="Beschäftigung"></attr>
                                 <span class="sr-only">Beschäftigung:</span>
                                 <span th:text="| ${user.occupation}|">occu</span>
                             </li>
                             <li>
-                                <span class="fa fa-book text-muted" aria-hidden="true"></span>
+                                <attr class="fa fa-book text-muted" aria-hidden="true" title="Fachgebiet"></attr>
                                 <span class="sr-only">Fachgebiet:</span>
                                 <span th:text="| ${user.discipline.desc}">occu</span>
                             </li>

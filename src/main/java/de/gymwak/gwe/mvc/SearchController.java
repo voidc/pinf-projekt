@@ -29,21 +29,25 @@ public class SearchController {
 			@RequestParam(value = "year", required = false) String year,
 			@RequestParam(value = "sort", required = false) String sort) {
 		ModelAndView mav = new ModelAndView("search");
-		Sort s = new Sort("lastName", "firstName", "graduationYear", "occupation", "id");
+		Sort s = new Sort("lastName", "firstName", "graduationYear", "graduationType", "occupation", "discipline", "id");
 
 		if (sort != null) {
 			switch (sort) {
 			case "year":
-				s = new Sort("graduationYear", "lastName", "firstName", "occupation", "id");
+				s = new Sort("graduationYear", "graduationType", "lastName", "firstName", "occupation", "discipline", "id");
 				mav.addObject("sortText", "Abschlussjahr");
 				break;
 			case "occu":
-				s = new Sort("occupation", "lastName", "firstName", "graduationYear", "id");
+				s = new Sort("occupation", "lastName", "firstName", "graduationYear", "graduationType", "discipline", "id");
 				mav.addObject("sortText", "Beschäftigung");
 				break;
 			case "name":
-				s = new Sort("lastName", "firstName", "graduationYear", "occupation", "id");
+				s = new Sort("lastName", "firstName", "graduationYear", "graduationType", "occupation", "discipline", "id");
 				mav.addObject("sortText", "Name");
+				break;
+			case "disc":
+				s = new Sort("discipline", "lastName", "firstName", "graduationYear", "graduationType", "occupation", "id");
+				mav.addObject("sortText", "Fachgebiet");
 				break;
 			}
 		}

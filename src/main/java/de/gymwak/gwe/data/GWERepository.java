@@ -2,6 +2,7 @@ package de.gymwak.gwe.data;
 
 import java.util.List;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import de.gymwak.gwe.model.GWEUser;
@@ -11,4 +12,5 @@ public interface GWERepository extends PagingAndSortingRepository<GWEUser, Long>
 	GWEUser findByResetToken(String resetToken);
 	List<GWEUser> findByGraduationYear(int graduationYear);
 	GWEUser findByActivationToken(String token);
+	List<GWEUser> findByGraduationYearAndGraduationType(int graduationYear, GWEUser.GraduationType graduationType, Sort sort);
 }
