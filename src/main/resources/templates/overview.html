@@ -59,8 +59,8 @@
                         <div class="panel panel-default panel-inner">
                             <div class="panel-heading">
                                 <h3 class="panel-title">
-                                    <span th:class="|fa ${#lists.isEmpty(events) ? 'fa-calendar-o' : 'fa-calendar'}|"
-                                          aria-hidden="true"></span> Meine Veranstaltungen
+                                    <span th:class="|fa ${#lists.isEmpty(events) ? 'fa-calendar-o' : 'fa-calendar'}|" aria-hidden="true"></span>
+                                     Veranstaltungen
                                 </h3>
                             </div>
                             <div class="panel-body" th:if="${#lists.isEmpty(events)}">
@@ -127,61 +127,42 @@
                         <!-- END Veranstaltungen -->
                     </div>
                     <div class="col-sm-6">
-                        <!-- Jahrgang -->
-                        <h4><span class="fa fa-graduation-cap" aria-hidden="true"></span> Mein Jahrgang</h4>
-                        <div class="seperator"></div>
-                        <div class="form-group form-inline">
-                            <a th:href="@{/message(to=${'year' + currentUser.graduationYear})}"
-                               th:class="|btn btn-default ${not currentUser.activated ? 'disabled' : ''}|"><span
-                                    class="fa fa-envelope-o" aria-hidden="true"></span> Nachricht an Jahrgang</a>
-                            <!-- Help-Box sollte immer ganz unten stehen -->
-                            <p th:if="${not currentUser.activated}" class="help-block">Du kannst noch keine Nachrichten
-                                senden, solange Sie Ihre E-Mail noch nicht bestätigt haben.</p>
-                        </div>
-                        <div class="form-group">
-                            <form role="search" th:action="@{/search}" method="get">
-                                <div class="input-group" role="group">
-                                    <input class="form-control" type="search" name="q"
-                                           placeholder="Nach Nutzern aus dem Jahrgang suchen..."/>
-                                    <input type="hidden" name="year" th:value="${currentUser.graduationYear}"/>
-                                                <span class="input-group-btn">
-                                                    <button type="submit" class="btn btn-default"><span
-                                                            class="fa fa-search" aria-hidden="true"></span></button>
-                                                </span>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="panel-body" th:if="${#lists.isEmpty(year)}">
-                            <p class="text-center lead text-muted" style="margin-top: 64px;">Es sind noch keine Nutzer
-                                aus deinem Jahrgang angemeldet.</p>
-                        </div>
-                        <div class="list-group list-scroll">
-                            <a class="list-group-item" th:each="user : ${year}" th:href="@{/user/{id}(id=${user.id})}">
-                                <h4 class="list-group-item-heading" th:text="|${user.firstName} ${user.lastName}|">
-                                    Benutzer</h4>
-                                <ul class="list-group-item-text list-unstyled">
-                                    <li>
-                                        <attr class="fa fa-graduation-cap text-muted" aria-hidden="true"
-                                              title="Abschlussjahr"></attr>
-                                        <span class="sr-only">Abschlussjahrahrgang:</span>
-                                        <span th:text="| ${user.graduationYear}|">year</span>
-                                        <span class="text-muted"
-                                              th:text="| (${user.graduationType.desc})|">gradType</span>
-                                    </li>
-                                    <li>
-                                        <attr class="fa fa-briefcase text-muted" aria-hidden="true"
-                                              title="Beschäftigung"></attr>
-                                        <span class="sr-only">Beschäftigung:</span>
-                                        <span th:text="| ${user.occupation}|">occu</span>
-                                    </li>
-                                    <li>
-                                        <attr class="fa fa-book text-muted" aria-hidden="true"
-                                              title="Fachgebiet"></attr>
-                                        <span class="sr-only">Fachgebiet:</span>
-                                        <span th:text="| ${user.discipline.desc}">occu</span>
-                                    </li>
-                                </ul>
-                            </a>
+                        <div class="panel panel-default panel-inner">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    <span class="fa fa-graduation-cap" aria-hidden="true"></span>
+                                    <span th:text="| Abschlussjahrgang ${currentUser.graduationYear}|"></span>
+                                </h3>
+                            </div>
+                            <div class="panel-body">
+                                <form role="search" th:action="@{/search}" method="get" style="margin: 1%;">
+                                    <div class="input-group" role="group">
+                                        <input class="form-control" type="search" name="q"
+                                               placeholder="Nach Nutzern aus dem Jahrgang suchen..."/>
+                                        <input type="hidden" name="year" th:value="${currentUser.graduationYear}"/>
+                                            <span class="input-group-btn">
+                                                <button type="submit" class="btn btn-default"><span
+                                                        class="fa fa-search" aria-hidden="true"></span></button>
+                                            </span>
+                                    </div>
+                                </form>
+                                <p class="text-center text-muted" style="margin-top: 5%;" th:if="${#lists.isEmpty(year)}">
+                                    Keine weiteren Nutzer.
+                                </p>
+                            </div>
+                            <div class="list-group list-scroll">
+                                <a class="list-group-item" th:each="user : ${year}" th:href="@{/user/{id}(id=${user.id})}"
+                                   th:text="|${user.firstName} ${user.lastName}|"></a>
+                            </div>
+                            <div class="panel-footer">
+                                <a th:href="@{/message(to=${'year' + currentUser.graduationYear})}"
+                                   th:class="|btn btn-default ${not currentUser.activated ? 'disabled' : ''}|">
+                                    <span class="fa fa-envelope-o" aria-hidden="true"></span>
+                                     Nachricht an Jahrgang
+                                </a>
+                                <p th:if="${not currentUser.activated}" class="help-block">Du kannst noch keine Nachrichten
+                                    senden, solange Sie Ihre E-Mail noch nicht bestätigt haben.</p>
+                            </div>
                         </div>
                         <!-- END Jahrgang -->
                     </div>
