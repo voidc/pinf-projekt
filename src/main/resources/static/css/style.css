@@ -219,6 +219,20 @@ body {
     overflow-x: hidden;
 }
 
+.panel-overview .col-sm-6 {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.panel-overview .panel-body {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.panel-inner {
+    margin: 0;
+}
+
 @media all {
     .logo,
     .logo-login {
