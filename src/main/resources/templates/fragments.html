@@ -19,10 +19,14 @@
     <th:block th:fragment="header">
         <div th:replace="fragments :: ${currentUser == null} ? header-default : navbar"></div>
 
-        <div class="alert alert-warning" role="alert" th:if="${currentUser} and ${not currentUser.activated}">
-            <strong>Aktivierung austehend!</strong>
-            <p>Um alle Funktionen nutzen zu können, aktiviere deinen Account bitte über den per E-Mail gesendeten Link.</p>
-            <a th:href="@{/activationmail}" class="alert-link">Erneut senden</a>
+        <div class="alert alert-warning alert-caution" role="alert" th:if="${currentUser} and ${not currentUser.activated}">
+            <div class="alert-heading">
+                <strong class="alert-heading">Aktivierung austehend!</strong>
+            </div>
+            <div class="alert-body">
+                <p>Um alle Funktionen nutzen zu können, aktiviere deinen Account bitte über den per E-Mail gesendeten Link.</p>
+                <a th:href="@{/activationmail}" class="alert-link">Erneut senden</a>
+            </div>
         </div>
 
         <div class="alert alert-info" role="alert" th:if="${status}">

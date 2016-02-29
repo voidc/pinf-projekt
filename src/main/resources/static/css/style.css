@@ -73,14 +73,20 @@ body {
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
-.panel-caution {
+.alert-caution {
     border-color: #FFAC00;
+    padding: 0;
 }
 
-.panel-caution>.panel-heading {
+.alert-caution > .alert-heading {
     color: #FFFFFF;
     background-color: #FFC44A;
     border-color: #FFAC00;
+    padding: 8px 10px;
+}
+
+.alert-caution > .alert-body {
+    padding: 8px 10px;
 }
 
 .navbar-heading {
