@@ -1,12 +1,17 @@
 package de.gymwak.gwe.model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OrderColumn;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -23,18 +28,20 @@ public class GWEEvent implements Serializable {
 	private String name;
 
 	@NotNull()
-	private long organizerId = -1;
+	@ManyToOne()
+	private GWEUser organizer;
 
 	@NotEmpty(message = "Description is required.")
 	private String description;
 
-//	@NotEmpty(message = "Description is required.")
-//	private Date date;
+	private java.sql.Timestamp time;
 
-	@NotEmpty(message = "Description is required.")
+	@NotEmpty(message = "Place is required.")
 	private String place;
 
-	private long[] participants;
+	@ManyToMany()
+	@OrderColumn
+	private List<GWEUser> participants;
 
 	public GWEEvent() {
 	}
@@ -42,7 +49,7 @@ public class GWEEvent implements Serializable {
 	public GWEEvent(GWEEvent event) {
 		this.id = event.id;
 		this.name = event.name;
-		this.organizerId = event.organizerId;
+		this.organizer = event.organizer;
 		this.description = event.description;
 		this.participants = event.participants;
 	}
@@ -63,12 +70,12 @@ public class GWEEvent implements Serializable {
 		this.name = name;
 	}
 
-	public long getOrganizerId() {
-		return organizerId;
+	public GWEUser getOrganizer() {
+		return organizer;
 	}
 
-	public void setOrganizerId(long organizerId) {
-		this.organizerId = organizerId;
+	public void setOrganizer(GWEUser organizer) {
+		this.organizer = organizer;
 	}
 
 	public String getDescription() {
@@ -79,6 +86,14 @@ public class GWEEvent implements Serializable {
 		this.description = description;
 	}
 
+	public Timestamp getTime() {
+		return time;
+	}
+
+	public void setTime(Timestamp time) {
+		this.time = time;
+	}
+
 	public String getPlace() {
 		return place;
 	}
@@ -87,16 +102,20 @@ public class GWEEvent implements Serializable {
 		this.place = place;
 	}
 
-	public long[] getParticipants() {
+	public List<GWEUser> getParticipants() {
 		return participants;
 	}
 
-	public void setParticipants(long[] participants) {
+	public void setParticipants(List<GWEUser> participants) {
 		this.participants = participants;
 	}
 
-	public boolean hasParticipant(Long userId) {
-		// TODO Auto-generated method stub
+	public boolean hasParticipant(GWEUser user) {
+		for (GWEUser participant : participants) {
+			if (participant.equals(user)) {
+				return true;
+			}
+		}
 		return false;
 	}
 

@@ -1,5 +1,8 @@
 package de.gymwak.gwe.mvc;
 
+import java.sql.Timestamp;
+import java.util.Iterator;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +41,7 @@ public class EventController {
 
 	@RequestMapping(value = "/event/new", method = RequestMethod.GET)
 	public ModelAndView newEvent() {
-		ModelAndView mav = new ModelAndView("newevent");
+		ModelAndView mav = new ModelAndView("manipulateevent");
 		Sort sort = new Sort("lastName", "firstName", "graduationYear", "graduationType", "occupation", "discipline", "id");
 		mav.addObject("users", userRepository.findAll(sort));
 		return mav;
@@ -53,7 +56,7 @@ public class EventController {
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		GWEUser currentUser = userRepository.findByEmail(auth.getName());
-		if (!currentUser.isActivated() || event.getOrganizerId() != currentUser.getId()) {
+		if (!currentUser.isActivated() || event.getOrganizer() != currentUser) {
 			return "redirect:/event/" + eventId + "?error";
 		}
 
@@ -73,20 +76,46 @@ public class EventController {
 
 		ModelAndView mav = new ModelAndView("event");
 		mav.addObject("event", event);
-		mav.addObject("organizer", userRepository.findOne(event.getOrganizerId()));
-		mav.addObject("participant", event.hasParticipant(currentUser.getId()) || event.getOrganizerId() == currentUser.getId());
+		mav.addObject("participant", event.hasParticipant(currentUser) || event.getOrganizer().getId() == currentUser.getId());
 
 		String participants = "";
-		for (int i = event.getParticipants().length - 1; i >= 0; i--) {
-			GWEUser user = userRepository.findOne(event.getParticipants()[i]);
-			participants = participants + user.getFirstName() + " " + user.getLastName() + (i > 0 ? ", " : "");
+		Iterator<GWEUser> i = event.getParticipants().iterator();
+		while (i.hasNext()) {
+			GWEUser user = i.next();
+			participants = participants + user.getFirstName() + " " + user.getLastName() + (i.hasNext() ? ", " : "");
 		}
 		mav.addObject("participants", participants);
 		return mav;
 	}
 
+	@RequestMapping(value = "/event/{eventId}/edit", method = RequestMethod.GET)
+	public ModelAndView edit(@PathVariable int eventId) {
+		GWEEvent event = eventRepository.findOne((long) eventId);
+		if (event == null) {
+			return new ModelAndView("redirect:/error?type=noSearchResults");
+		}
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		GWEUser currentUser = userRepository.findByEmail(auth.getName());
+
+		ModelAndView mav = new ModelAndView("event");
+		mav.addObject("event", event);
+		mav.addObject("participant", event.hasParticipant(currentUser) || event.getOrganizer().getId() == currentUser.getId());
+
+		String participants = "";
+		Iterator<GWEUser> i = event.getParticipants().iterator();
+		while (i.hasNext()) {
+			GWEUser user = i.next();
+			participants = participants + user.getFirstName() + " " + user.getLastName() + (i.hasNext() ? ", " : "");
+		}
+		mav.addObject("participants", participants);
+		return mav;
+	}	
+
 	@RequestMapping(value = "/createEvent", method = RequestMethod.POST)
-	public String createEvent(@Valid GWEEvent event) {
+	public String createEvent(@Valid GWEEvent event, @RequestParam(value = "dateString", required = true) String date,
+			@RequestParam(value = "timeString", required = true) String time) {
+		event.setTime(Timestamp.valueOf(date + " " + time + ":00"));
 		eventRepository.save(event);
 		return "redirect:/event/" + event.getId();
 	}

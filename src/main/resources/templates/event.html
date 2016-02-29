@@ -18,7 +18,7 @@
                         <table class="table table-hover">
                             <tr>
                                 <td>Veranstalter</td>
-                                <td th:text="|${organizer.firstName} ${organizer.lastName}|">GWEEvent.organizerId</td>
+                                <td th:text="|${event.getOrganizer().firstName} ${event.getOrganizer().lastName}|">GWEEvent.organizerId</td>
                             </tr>
                             <tr>
                                 <td>Teilnehmer</td>
@@ -41,8 +41,8 @@
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <input type="hidden" name="eventId" th:value="${event.getId()}" />
-                                <button th:if="${currentUser.getId() == event.getOrganizerId()}" type="submit" class="btn btn-success" th:disabled="true">Nachricht an Teilnehmer</button>
-                                <button th:unless="${currentUser.getId() == event.getOrganizerId()}" type="submit" class="btn btn-success" th:disabled="true">Nachricht an Veranstalter</button>
+                                <button th:if="${currentUser.getId() == event.getOrganizer().getId()}" type="submit" class="btn btn-success" th:disabled="true">Nachricht an Teilnehmer</button>
+                                <button th:unless="${currentUser.getId() == event.getOrganizer().getId()}" type="submit" class="btn btn-success" th:disabled="true">Nachricht an Veranstalter</button>
                                 <button type="submit" class="btn btn-success" th:disabled="${not currentUser.activated}">Veranstaltung Löschen</button>
                             </div>
                         </div>

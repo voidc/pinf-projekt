@@ -32,36 +32,41 @@
                         <div class="list-group list-scroll">
                             <a class="list-group-item" th:each="event : ${events}" th:href="@{/event/{id}(id=${event.id})}">
                                 <h4 class="list-group-item-heading">
-                                    <span class="fa fa-calendar-o" aria-hidden="true"></span>
+                                    <span th:class="|fa ${event.getOrganizer().getId() == currentUser.getId() ? 'fa-calendar-check-o' : 'fa-calendar-o'}|" th:title="${event.getOrganizer().getId() == currentUser.getId() ? 'Organisator' : 'Teilnehmer'}" aria-hidden="true"></span>
                                     <span th:text="| ${event.name}"></span>
                                 </h4>
                                 <ul class="list-group-item-text list-unstyled">
                                     <li>
-                                        <attr class="fa fa-user text-muted" aria-hidden="true" title="Organisator"></attr>
+                                        <span class="fa fa-user text-muted" aria-hidden="true" title="Organisator"></span>
                                         <span class="sr-only">Organisator:</span>
-                                        <span th:text="| ${event.organizerId}|">orga</span>
+                                        <span th:text="| ${event.getOrganizer().firstName} ${event.getOrganizer().firstName}|">orga</span>
                                     </li>
                                     <li>
-                                        <attr class="fa fa-users text-muted" aria-hidden="true" title="Teilnehmer"></attr>
+                                        <span class="fa fa-users text-muted" aria-hidden="true" title="Teilnehmer"></span>
                                         <span class="sr-only">Teilnehmer:</span>
-                                        <span th:text="| ${event.participants.length}|">part</span>
+                                        <span th:each="participant,iterStat : ${event.participants}" th:text="| ${participant.firstName} ${participant.lastName}${(!iterStat.last) ? ',' : ''}|">part</span>
                                     </li>
                                     <li>
-                                        <attr class="fa fa-info text-muted" aria-hidden="true" title="Beschreibung"></attr>
+                                        <span class="fa fa-info text-muted" aria-hidden="true" title="Beschreibung"></span>
                                         <span class="sr-only">Beschreibung:</span>
                                         <span th:text="| ${event.description}">desc</span>
                                     </li>
                                     <li>
-                                        <attr class="fa fa-map-marker text-muted" aria-hidden="true" title="Ort"></attr>
+                                        <span class="fa fa-clock-o text-muted" aria-hidden="true" title="Datum und Uhrzeit"></span>
+                                        <span class="sr-only">Datum und Uhrzeit:</span>
+                                        <span th:text="| ${#calendars.format(event.time, 'dd.mm.yyyy HH:mm')}">time</span>
+                                    </li>
+                                    <li>
+                                        <span class="fa fa-map-marker text-muted" aria-hidden="true" title="Ort"></span>
                                         <span class="sr-only">Ort:</span>
                                         <span th:text="| ${event.place}">plac</span>
                                     </li>
-                                    <li style="margin-top: 10px;" th:if="${currentUser.getId() == event.getOrganizerId()}">
+                                    <li style="margin-top: 10px;" th:if="${currentUser.getId() == event.getOrganizer().getId()}">
                                         <button class="btn btn-default" disabled="disabled">
-                                            <attr class="fa fa-pencil" aria-hidden="true" aria-label="Veranstaltung bearbeiten" title="Veranstaltung bearbeiten"></attr>
+                                            <span class="fa fa-pencil" aria-hidden="true" aria-label="Veranstaltung bearbeiten" title="Veranstaltung bearbeiten"></span>
                                         </button>
                                         <button class="btn btn-default" href="" disabled="disabled">
-                                            <attr class="fa fa-times" aria-hidden="true" aria-label="Veranstaltung löschen" title="Veranstaltung löschen"></attr>
+                                            <span class="fa fa-times" aria-hidden="true" aria-label="Veranstaltung löschen" title="Veranstaltung löschen"></span>
                                         </button>
                                     </li>
                                 </ul>
@@ -97,18 +102,18 @@
                                 <h4 class="list-group-item-heading" th:text="|${user.firstName} ${user.lastName}|">Benutzer</h4>
                                 <ul class="list-group-item-text list-unstyled">
                                     <li>
-                                        <attr class="fa fa-graduation-cap text-muted" aria-hidden="true" title="Abschlussjahr"></attr>
+                                        <span class="fa fa-graduation-cap text-muted" aria-hidden="true" title="Abschlussjahr"></span>
                                         <span class="sr-only">Abschlussjahrahrgang:</span>
                                         <span th:text="| ${user.graduationYear}|">year</span>
                                         <span class="text-muted" th:text="| (${user.graduationType.desc})|">gradType</span>
                                     </li>
                                     <li>
-                                        <attr class="fa fa-briefcase text-muted" aria-hidden="true" title="Beschäftigung"></attr>
+                                        <span class="fa fa-briefcase text-muted" aria-hidden="true" title="Beschäftigung"></span>
                                         <span class="sr-only">Beschäftigung:</span>
                                         <span th:text="| ${user.occupation}|">occu</span>
                                     </li>
                                     <li>
-                                        <attr class="fa fa-book text-muted" aria-hidden="true" title="Fachgebiet"></attr>
+                                        <span class="fa fa-book text-muted" aria-hidden="true" title="Fachgebiet"></span>
                                         <span class="sr-only">Fachgebiet:</span>
                                         <span th:text="| ${user.discipline.desc}">occu</span>
                                     </li>
