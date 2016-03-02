@@ -35,6 +35,7 @@
                         <input type="hidden" name="eventId" th:value="${event.getId()}" />
                         <button th:if="${currentUser.getId() == event.getOrganizer().getId()}" type="submit" class="btn btn-primary" th:disabled="true">Nachricht an Teilnehmer</button>
                         <button th:unless="${currentUser.getId() == event.getOrganizer().getId()}" type="submit" class="btn btn-primary" th:disabled="true">Nachricht an Veranstalter</button>
+                        <a class="btn btn-primary" th:href="@{/event/{id}/edit(id=${event.id})}">Veranstaltung Bearbeiten</a>
                         <button type="submit" class="btn btn-danger" th:disabled="${not currentUser.activated}">Veranstaltung Löschen</button>
                     </div>
                 </div>

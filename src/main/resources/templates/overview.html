@@ -101,14 +101,6 @@
                                             <span class="sr-only">Ort:</span>
                                             <span th:text="| ${event.place}">plac</span>
                                         </li>
-                                        <li style="margin-top: 10px;" th:if="${currentUser.getId() == event.getOrganizer().getId()}">
-                                            <button class="btn btn-default" disabled="disabled">
-                                                <span class="fa fa-pencil" aria-hidden="true" aria-label="Veranstaltung bearbeiten" title="Veranstaltung bearbeiten"></span>
-                                            </button>
-                                            <button class="btn btn-default" href="" disabled="disabled">
-                                                <span class="fa fa-times" aria-hidden="true" aria-label="Veranstaltung löschen" title="Veranstaltung löschen"></span>
-                                            </button>
-                                        </li>
                                     </ul>
                                 </a>
                             </div>
