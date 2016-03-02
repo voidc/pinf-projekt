@@ -51,7 +51,10 @@
                                 </tbody>
                             </table>
                             <div class="panel-footer">
-                                <a th:href="@{/edit}" class="btn btn-default">Einstellungen</a>
+                                <a th:href="@{/edit}" class="btn btn-default">
+                                    <span class="fa fa-gear" aria-hidden="true"></span>
+                                    Einstellungen
+                                </a>
                             </div>
                         </div>
                         <!-- END Profil -->
@@ -110,15 +113,16 @@
                                 </a>
                             </div>
                             <div class="panel-footer">
-                                    <a th:href="@{/event}" th:class="|btn btn-default ${(not currentUser.activated) ? 'disabled' : ''}|">
-                                        <span class="fa fa-calendar-plus-o" aria-hidden="true"></span>
-                                         Veranstaltung erstellen
-                                    </a>
-                                    <!-- Help-Box sollte immer ganz unten stehen -->
-                                    <p th:if="${not currentUser.activated}" class="help-block">Um Veranstaltungen zu erstellen,
-                                        <abbr title="Bei der Registrierung erhälst du eine automatische E-Mail zur Aktivierung des Accounts.">aktiviere bitte deinen Account</abbr>
-                                        .
-                                    </p>
+                                <a th:href="@{/event}" class="btn btn-default" role="button" th:if="${currentUser.activated}">
+                                    <span class="fa fa-calendar-plus-o" aria-hidden="true"></span>
+                                     Veranstaltung erstellen
+                                </a>
+
+                                <a href="javascript:void(0)" class="btn btn-default" role="button" th:unless="${currentUser.activated}"
+                                tabindex="0" data-toggle="popover" data-trigger="focus" data-content="Aktivierung erforderlich!">
+                                    <span class="fa fa-calendar-plus-o" aria-hidden="true"></span>
+                                    Veranstaltung erstellen
+                                </a>
                             </div>
                         </div>
                         <!-- END Veranstaltungen -->
@@ -152,15 +156,15 @@
                                    th:text="|${user.firstName} ${user.lastName}|"></a>
                             </div>
                             <div class="panel-footer">
-                                <a th:href="@{/message(to=${'year' + currentUser.graduationYear})}"
-                                   th:class="|btn btn-default ${not currentUser.activated ? 'disabled' : ''}|">
+                                <a th:href="@{/message(to=${'year' + currentUser.graduationYear})}" class="btn btn-default" th:if="${currentUser.activated}">
                                     <span class="fa fa-envelope-o" aria-hidden="true"></span>
                                      Nachricht an Jahrgang
                                 </a>
-                                <p th:if="${not currentUser.activated}" class="help-block">Um Nachrichten zu senden,
-                                    <abbr title="Bei der Registrierung erhälst du eine automatische E-Mail zur Aktivierung des Accounts.">aktiviere bitte deinen Account</abbr>
-                                    .
-                                </p>
+                                <a href="javascript:void(0)" class="btn btn-default" role="button" th:unless="${currentUser.activated}"
+                                   tabindex="0" data-toggle="popover" data-trigger="focus" data-content="Aktivierung erforderlich!">
+                                    <span class="fa fa-envelope-o" aria-hidden="true"></span>
+                                    Nachricht an Jahrgang
+                                </a>
                             </div>
                         </div>
                         <!-- END Jahrgang -->
@@ -172,6 +176,11 @@
 
     <div th:replace="fragments :: footer"></div>
     <div th:replace="fragments :: bootstrap-script"></div>
+    <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        })
+    </script>
 </body>
 
 </html>
