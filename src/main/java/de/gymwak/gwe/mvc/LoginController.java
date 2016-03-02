@@ -14,7 +14,7 @@ public class LoginController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String login(@ModelAttribute("currentUser") GWEUser currentUser) {
 		if (currentUser != null) {
-			return "redirect:/user";
+			return "redirect:/";
 		}
 		return "login";
 	}

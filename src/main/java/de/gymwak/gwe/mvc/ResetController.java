@@ -68,7 +68,7 @@ public class ResetController {
 				authorities);
 		SecurityContextHolder.getContext().setAuthentication(auth);
 
-		return "redirect:/user";
+		return "redirect:/";
 	}
 
 	@RequestMapping(method = RequestMethod.POST, params = { "email" })

@@ -30,9 +30,11 @@
                     </tr>
                 </table>
                 <div class="panel-footer">
-                    <a th:class="|btn btn-success ${not currentUser.activated ? 'disabled' : ''}|" th:href="@{/message(to=${user.id})}">Nachricht</a>
-                    <!-- Help-Box sollte immer ganz unten stehen -->
-                    <p th:if="${not currentUser.activated}" class="help-block">Du kannst noch keine Nachrichten senden, solange Sie Ihre E-Mail noch nicht bestätigt haben.</p>
+                    <a class="btn btn-success" th:href="@{/message(to=${user.id})}" th:if="${currentUser.activated}">Nachricht</a>
+                    <a href="javascript:void(0)" class="btn btn-success" role="button" th:unless="${currentUser.activated}"
+                       tabindex="0" data-toggle="popover" data-trigger="focus" data-content="Aktivierung erforderlich!">
+                        Nachricht
+                    </a>
                 </div>
             </div>
 
@@ -41,6 +43,11 @@
 
     <div th:replace="fragments :: footer"></div>
     <div th:replace="fragments :: bootstrap-script"></div>
+    <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        })
+    </script>
 </body>
 
 </html>

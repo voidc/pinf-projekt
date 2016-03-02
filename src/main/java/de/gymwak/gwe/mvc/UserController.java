@@ -40,7 +40,7 @@ public class UserController {
 		GWEUser currentUser = userRepository.findByEmail(auth.getName());
 		
 		if(currentUser.getId() == userId)
-			return new ModelAndView("redirect:/user");
+			return new ModelAndView("redirect:/");
 		
 		GWEUser user = userRepository.findOne((long) userId);
 		if (user == null) {

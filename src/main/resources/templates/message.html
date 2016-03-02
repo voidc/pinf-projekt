@@ -32,14 +32,14 @@
                     <div class="panel-footer">
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
-                                <button type="submit" class="btn btn-success" th:disabled="${not currentUser.activated}">Senden</button>
+                                <button type="submit" class="btn btn-success" th:if="${currentUser.activated}">Senden</button>
+                                <a href="javascript:void(0)" class="btn btn-success" role="button" th:unless="${currentUser.activated}"
+                                   tabindex="0" data-toggle="popover" data-trigger="focus" data-content="Aktivierung erforderlich!">
+                                    Senden
+                                </a>
+
                                 <a th:if="${recipient}" th:href="@{/user/{id}(id=${recipient.id})}" class="btn btn-default">Abbrechen</a>
                                 <a th:if="${year}" th:href="@{/search(year=${year})}" class="btn btn-default">Abbrechen</a>
-                                <!-- Help-Box sollte immer ganz unten stehen -->
-                                <p th:if="${not currentUser.activated}" class="help-block">Um Nachrichten zu senden,
-                                    <abbr title="Bei der Registrierung erhälst du eine automatische E-Mail zur Aktivierung des Accounts.">aktiviere bitte deinen Account</abbr>
-                                    .
-                                </p>
                             </div>
                         </div>
                     </div>

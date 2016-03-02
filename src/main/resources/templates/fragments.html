@@ -116,7 +116,7 @@
                 <ul class="list-inline text-faded pull-right">
                     <li th:if="${currentUser}">
                         <span>Angemeldet als </span>
-                        <a th:href="@{/user}"><strong th:text="|${currentUser.firstName} ${currentUser.lastName}|">User Name</strong></a>
+                        <a th:href="@{/}"><strong th:text="|${currentUser.firstName} ${currentUser.lastName}|">User Name</strong></a>
                     </li>
                     <li th:unless="${currentUser}">
                         <a th:href="@{/login}"><strong>Anmelden</strong></a>

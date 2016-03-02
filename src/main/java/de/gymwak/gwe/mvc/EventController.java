@@ -41,7 +41,7 @@ public class EventController {
 
 	@RequestMapping(value = "/event/new", method = RequestMethod.GET)
 	public ModelAndView newEvent() {
-		ModelAndView mav = new ModelAndView("manipulateevent");
+		ModelAndView mav = new ModelAndView("editevent");
 		Sort sort = new Sort("lastName", "firstName", "graduationYear", "graduationType", "occupation", "discipline", "id");
 		mav.addObject("users", userRepository.findAll(sort));
 		return mav;
