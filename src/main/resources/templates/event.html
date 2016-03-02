@@ -9,13 +9,7 @@
             <div th:replace="fragments :: header"></div>
             <form class="form-horizontal form-signup" th:action="@{/event/delete}" method="post">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">Veranstaltung</div>
-                    <div class="panel-body">
-                        <h4>
-                            <attr th:class="|fa ${participant ? 'fa-calendar-check-o' : 'fa-calendar-times-o'}|" th:title="${participant ? 'Du bist als Teilnehmer zu dieser Veranstaltung eingetragen' : 'Du bist nicht als Teilnehmer zu dieser Veranstaltung eingetragen'}" aria-hidden="true"></attr>
-                            <span th:text="| ${event.name}|"> Veranstaltung</span>
-                        </h4>
-                    </div>
+                    <div class="panel-heading" th:text="| ${event.name}|"></div>
                     <table class="table table-hover">
                         <tr>
                             <td>Veranstalter</td>

@@ -5,6 +5,7 @@ import de.gymwak.gwe.model.GWEUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +28,7 @@ public class SearchController {
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView search(@RequestParam(value = "q", required = false) String q,
 			@RequestParam(value = "year", required = false) String year,
+			@RequestParam(value = "disc", required = false) String disc,
 			@RequestParam(value = "sort", required = false) String sort) {
 		ModelAndView mav = new ModelAndView("search");
 		Sort s = new Sort("lastName", "firstName", "graduationYear", "graduationType", "occupation", "discipline", "id");
@@ -53,6 +55,15 @@ public class SearchController {
 		}
 
 		Stream<GWEUser> users = StreamSupport.stream(userRepository.findAll(s).spliterator(), false);
+
+		if(disc != null && !disc.isEmpty()) {
+			try {
+				GWEUser.Discipline discipline = GWEUser.Discipline.valueOf(disc);
+				users = users.filter(u -> u.getDiscipline().equals(discipline));
+				mav.addObject("disc", discipline);
+			} catch(IllegalArgumentException e) {
+			}
+		}
 		
 		if (q != null && q.length() > 0) {
 			try {
@@ -76,6 +87,11 @@ public class SearchController {
 
 		mav.addObject("results", users.collect(Collectors.toList()));
 		return mav;
+	}
+
+	@ModelAttribute("disciplines")
+	public GWEUser.Discipline[] disciplines() {
+		return GWEUser.Discipline.values();
 	}
 
 	private boolean testQuery(GWEUser user, String query) {
