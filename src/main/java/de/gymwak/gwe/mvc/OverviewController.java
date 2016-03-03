@@ -38,9 +38,10 @@ public class OverviewController {
 		Sort sort = new Sort("lastName", "firstName", "occupation", "discipline", "id");
 
 		mav.addObject("year",
-				userRepository.findByGraduationYearAndGraduationType(
+				userRepository.findByGraduationYearAndGraduationTypeAndIdNot(
 						currentUser.getGraduationYear(),
 						currentUser.getGraduationType(),
+						currentUser.getId(),
 						sort)
 		);
 

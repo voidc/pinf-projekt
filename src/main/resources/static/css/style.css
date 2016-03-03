@@ -52,6 +52,24 @@ body {
     text-align: center;
 }
 
+.list-group-item .list-group-item-toggle:focus, .list-group-item .list-group-item-toggle:hover {
+    background-color: #ddd;
+}
+
+.list-group-item .list-group-item-toggle {
+    border-color: #ddd;
+}
+
+.list-group-item-toggle {
+    position: relative;
+    float: right;
+    padding: 0px 10px;
+    background-color: transparent;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
 .panel-footer > form > .btn, .form-group .btn {
     margin-bottom: 8px;
 }
