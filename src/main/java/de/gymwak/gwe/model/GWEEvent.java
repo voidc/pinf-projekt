@@ -4,8 +4,16 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OrderColumn;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -26,6 +34,7 @@ public class GWEEvent implements Serializable {
 
 	@NotEmpty(message = "Description is required.")
 	//@Lob (description sollte mehr al 255 Zeichen haben können)
+	@Size(max = 1000)
 	private String description;
 
 	private java.sql.Timestamp time;

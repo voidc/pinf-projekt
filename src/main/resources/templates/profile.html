@@ -32,7 +32,7 @@
                 <div class="panel-footer">
                     <a class="btn btn-success" th:href="@{/message(to=${user.id})}" th:if="${currentUser.activated}">Nachricht</a>
                     <a href="javascript:void(0)" class="btn btn-success" role="button" th:unless="${currentUser.activated}"
-                       tabindex="0" data-toggle="popover" data-trigger="focus" data-content="Aktivierung erforderlich!">
+                       tabindex="0" data-toggle="popover" data-trigger="focus" data-content="Aktivierung hierfür erforderlich!">
                         Nachricht
                     </a>
                 </div>

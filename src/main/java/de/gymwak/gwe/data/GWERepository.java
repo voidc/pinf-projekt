@@ -12,5 +12,5 @@ public interface GWERepository extends PagingAndSortingRepository<GWEUser, Long>
 	GWEUser findByResetToken(String resetToken);
 	List<GWEUser> findByGraduationYear(int graduationYear);
 	GWEUser findByActivationToken(String token);
-	List<GWEUser> findByGraduationYearAndGraduationType(int graduationYear, GWEUser.GraduationType graduationType, Sort sort);
+	List<GWEUser> findByGraduationYearAndGraduationTypeAndIdNot(int graduationYear, GWEUser.GraduationType graduationType, long id, Sort sort);
 }
