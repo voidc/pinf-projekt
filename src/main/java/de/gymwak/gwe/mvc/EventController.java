@@ -1,6 +1,8 @@
 package de.gymwak.gwe.mvc;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -50,9 +52,13 @@ public class EventController {
 	}
 
 	@RequestMapping(value = "/event/new", method = RequestMethod.POST)
-	public String createEvent(@Valid GWEEvent event, @RequestParam(value = "dateString", required = true) String date,
-			@RequestParam(value = "timeString", required = true) String time) {
-		event.setTime(Timestamp.valueOf(date + " " + time + ":00"));
+	public String createEvent(@Valid GWEEvent event, @RequestParam(value = "dateString", required = true) String date) {
+		Timestamp stamp = null;
+		try {
+			stamp = new Timestamp(new SimpleDateFormat("dd.MM.yyyy HH:mm").parse(date).getTime());
+		} catch (ParseException e) {
+		}
+		event.setTime(stamp);
 		eventRepository.save(event);
 		return "redirect:/event/" + event.getId();
 	}
@@ -86,7 +92,8 @@ public class EventController {
 
 		ModelAndView mav = new ModelAndView("event");
 		mav.addObject("event", event);
-		mav.addObject("participant", event.hasParticipant(currentUser) || event.getOrganizer().getId() == currentUser.getId());
+		mav.addObject("dateString", new SimpleDateFormat("dd.MM.yyyy HH:mm").format(new Date(event.getTime().getTime())));
+		mav.addObject("participant", event.hasParticipant(currentUser) || event.getOrganizer().equals(currentUser));
 
 		String participants = "";
 		Iterator<GWEUser> i = event.getParticipants().iterator();
@@ -118,7 +125,7 @@ public class EventController {
 		mav.addObject("allUsers", userRepository.findAll(sort));
 
 		mav.addObject("event", event);
-		mav.addObject("date", new Date(event.getTime().getTime()));
+		mav.addObject("dateString", new SimpleDateFormat("dd.MM.yyyy HH:mm").format(new Date(event.getTime().getTime())));
 		return mav;
 	}
 
