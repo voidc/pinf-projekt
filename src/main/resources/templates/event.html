@@ -30,6 +30,10 @@
                             <td>Ort</td>
                             <td th:text="${event.place}">GWEEvent.place</td>
                         </tr>
+                        <tr>
+                            <td>Datum</td>
+                            <td th:text="${dateString}">GWEEvent.time</td>
+                        </tr>
                     </table>
                     <div class="panel-footer">
                         <a class="btn btn-primary" th:href="@{/message?to=event{id}(id=${event.id})}" th:if="${currentUser.getId() == event.getOrganizer().getId()}">
