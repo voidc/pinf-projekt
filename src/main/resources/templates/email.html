@@ -9,7 +9,7 @@
     <p>
         Hallo<span th:if="${recipient != null}"> <i th:text="${recipient}">Recipient</i></span>,
         <br/>
-        <i th:text="${sender}">Sender</i> hat <span th:text="${recipient == null} ? 'deinem Jahrgang'">dir</span> über das Ehemaligen Portal des Gymnsiums Waldkraiburg eine Nachricht gesendet:
+        <i th:text="${sender}">Sender</i> hat <span th:text="${recipient == 'year'} ? 'deinem Jahrgang' : 'dir'">dir</span> über das Ehemaligen Portal des Gymnsiums Waldkraiburg <span th:text="${event != null} ? 'in Bezug auf deine Teilnahme an der Veranstaltung ' + ${event.name} : ''"></span> eine Nachricht gesendet:
     </p>
     <p th:utext="${message}"></p>
     <br/>

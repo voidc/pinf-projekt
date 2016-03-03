@@ -7,6 +7,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class GWEMessage implements Serializable {
 
 	private long recipientId = -1;
+
+	private long eventId = -1;
 	
 	private int recipientsYear = -1;
 
@@ -26,6 +28,14 @@ public class GWEMessage implements Serializable {
 
 	public void setRecipientId(long recipientId) {
 		this.recipientId = recipientId;
+	}
+
+	public long getEventId() {
+		return eventId;
+	}
+
+	public void setEventId(long eventId) {
+		this.eventId = eventId;
 	}
 
 	public String getContent() {

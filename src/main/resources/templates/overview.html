@@ -140,7 +140,9 @@
                         </div>
                         <div class="list-group list-scroll">
                             <a class="list-group-item" th:each="user : ${year}" th:onclick="|document.location.href=getLink('@{/user/{id}(id=${user.id})}')|" href="javascript:void(0)">
-                                <span th:text="|${user.firstName} ${user.lastName}|">Username</span>
+                                <h5 style="display: inline;" class="list-group-item-heading">
+                                    <span th:text="|${user.firstName} ${user.lastName}|">Username</span>
+                                </h5>
                                 <button id="user-details-collapse" type="button" class="list-group-item-toggle collapsed" onclick="openDetails()" data-toggle="collapse" data-target="#user-details" th:attr="data-target=|#user-details-${user.id}|" aria-expanded="false">
                                     <span class="sr-only">Mehr Informationen</span>
                                     <span class="fa fa-caret-down"></span>

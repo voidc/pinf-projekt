@@ -21,7 +21,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import de.gymwak.gwe.data.GWEEventRepository;
 import de.gymwak.gwe.data.GWERepository;
+import de.gymwak.gwe.model.GWEEvent;
 import de.gymwak.gwe.model.GWEMessage;
 import de.gymwak.gwe.model.GWEUser;
 import de.gymwak.gwe.service.AsyncMailService;
@@ -30,6 +32,7 @@ import de.gymwak.gwe.service.AsyncMailService;
 @EnableAsync
 public class MessageController {
 	private GWERepository userRepository;
+	private GWEEventRepository eventRepository;
 	private AsyncMailService mailService;
 	private TemplateEngine templateEngine;
 
@@ -40,8 +43,9 @@ public class MessageController {
 	private String adminMail;
 
 	@Autowired
-	public MessageController(GWERepository userRepository, AsyncMailService mailService,
+	public MessageController(GWERepository userRepository, GWEEventRepository eventRepository, AsyncMailService mailService,
 			TemplateEngine templateEngine) {
+		this.eventRepository = eventRepository;
 		this.userRepository = userRepository;
 		this.mailService = mailService;
 		this.templateEngine = templateEngine;
@@ -52,6 +56,10 @@ public class MessageController {
 		ModelAndView mav = new ModelAndView("message");
 		if (to.startsWith("year")) {
 			mav.addObject("year", to.substring(4));
+		} else if (to.startsWith("event")) {
+			long eventId = Long.parseLong(to.substring(5));
+			GWEEvent event = eventRepository.findOne(eventId);
+			mav.addObject("event", event);
 		} else {
 			long recipientId = Long.parseLong(to);
 			GWEUser recipient = userRepository.findOne(recipientId);
@@ -70,20 +78,27 @@ public class MessageController {
 				return "redirect:/user/" + gweMessage.getRecipientId();
 			} else if (gweMessage.getRecipientsYear() != -1) {
 				return "redirect:/search?year=" + gweMessage.getRecipientsYear();
+			} else if (gweMessage.getEventId() != -1) {
+				return "redirect:/event/" + gweMessage.getEventId();
 			} else {
 				return "redirect:/search";
 			}
 		}
 
 		List<GWEUser> recipients;
+		GWEEvent event = null;
 		String recipientSalutation;
 		if (gweMessage.getRecipientId() != -1) {
 			GWEUser recipientUser = userRepository.findOne(gweMessage.getRecipientId());
 			recipients = Collections.singletonList(recipientUser);
 			recipientSalutation = recipientUser.getFirstName() + " " + recipientUser.getLastName();
-		} else {
+		} else if (gweMessage.getRecipientsYear() != -1) {
 			recipients = userRepository.findByGraduationYear(gweMessage.getRecipientsYear());
 //			recipientSalutation = "Ehemahliger Schüler des Abiturjahres " + gweMessage.getRecipientsYear();
+			recipientSalutation = "year";
+		} else {
+			event = eventRepository.findOne(gweMessage.getEventId());
+			recipients = event.getParticipants();
 			recipientSalutation = null;
 		}
 
@@ -95,6 +110,7 @@ public class MessageController {
 		
 		if (recipientSalutation != null) {
 			ctx.setVariable("recipient", recipientSalutation);
+			ctx.setVariable("event", event);
 		}
 		ctx.setVariable("sender", cuName);
 		ctx.setVariable("message", messageContent);
@@ -115,6 +131,8 @@ public class MessageController {
 			return "redirect:/user/" + gweMessage.getRecipientId();
 		} else if (gweMessage.getRecipientsYear() != -1) {
 			return "redirect:/search?year=" + gweMessage.getRecipientsYear();
+		} else if (gweMessage.getEventId() != -1) {
+			return "redirect:/event/" + gweMessage.getEventId();
 		} else {
 			return "redirect:/search";
 		}

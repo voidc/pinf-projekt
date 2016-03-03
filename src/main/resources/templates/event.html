@@ -32,10 +32,18 @@
                         </tr>
                     </table>
                     <div class="panel-footer">
-                        <a class="btn btn-primary disabled" th:if="${currentUser.getId() == event.getOrganizer().getId()}">Nachricht an Teilnehmer</a>
-                        <a class="btn btn-primary disabled" th:unless="${currentUser.getId() == event.getOrganizer().getId()}">Nachricht an Veranstalter</a>
-                        <a class="btn btn-primary" th:href="@{/event/{id}/edit(id=${event.id})}">Veranstaltung Bearbeiten</a>
-                        <button type="submit" class="btn btn-danger" th:disabled="${not currentUser.activated}">Veranstaltung Löschen</button>
+                        <a class="btn btn-primary" th:href="@{/message?to=event{id}(id=${event.id})}" th:if="${currentUser.getId() == event.getOrganizer().getId()}">
+                            <span class="fa fa-envelope"></span> Nachricht an Teilnehmer
+                        </a>
+                        <a class="btn btn-primary" th:href="@{/message?to={id}(id=${event.organizer.id})}" th:unless="${currentUser.getId() == event.getOrganizer().getId()}">
+                            <span class="fa fa-envelope-o"></span> Nachricht an Veranstalter
+                        </a>
+                        <a class="btn btn-primary" th:href="@{/event/{id}/edit(id=${event.id})}">
+                            <span class="fa fa-pencil"></span> Veranstaltung Bearbeiten
+                        </a>
+                        <button type="submit" class="btn btn-danger" th:disabled="${not currentUser.activated}">
+                            <span class="fa fa-times"></span> Veranstaltung Löschen
+                        </button>
                     </div>
                 </div>
             </form>
