@@ -187,6 +187,11 @@ public class GWEUser implements Serializable {
 		this.activationToken = activationToken;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		return obj != null && obj instanceof GWEUser && ((GWEUser) obj).id == this.id;
+	}
+
 	private static final long serialVersionUID = 2738859149330833739L;
 
 	public enum Discipline {

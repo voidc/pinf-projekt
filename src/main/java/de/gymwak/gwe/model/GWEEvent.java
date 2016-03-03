@@ -4,14 +4,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OrderColumn;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -32,6 +25,7 @@ public class GWEEvent implements Serializable {
 	private GWEUser organizer;
 
 	@NotEmpty(message = "Description is required.")
+	//@Lob (description sollte mehr al 255 Zeichen haben können)
 	private String description;
 
 	private java.sql.Timestamp time;
@@ -111,12 +105,12 @@ public class GWEEvent implements Serializable {
 	}
 
 	public boolean hasParticipant(GWEUser user) {
-		for (GWEUser participant : participants) {
-			if (participant.equals(user)) {
-				return true;
-			}
-		}
-		return false;
+		return participants.contains(user);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return obj != null && obj instanceof GWEEvent && ((GWEEvent) obj).id == this.id;
 	}
 
 	private static final long serialVersionUID = -3514681042696071509L;
