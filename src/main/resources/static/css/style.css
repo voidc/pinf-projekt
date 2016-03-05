@@ -17,6 +17,10 @@ body {
     padding-top: 40px;
 }
 
+.has-error {
+    color: #a94442;
+}
+
 .navbar {
     margin-top: 40px;
     padding: 8px;

@@ -4,17 +4,56 @@
 <head th:replace="fragments :: head ('Veranstaltung bearbeiten')"></head>
 
 <body>
+
+    <div class="modal fade" id="time-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Zeitpunkt geändert</h4>
+                </div>
+                <div class="modal-body">
+                    Obwohl die Startzeitpunkt der Veranstaltung bereits vergangen ist, wurden das Datum und/oder die Uhrzeit der Veranstaltung geändert.
+                    <p>Sie können den Zeitpunkt der Veranstaltung nicht an einen anderen, bereits vergangenen Zeitpunkt legen, aber dafür in die Zukunft verlegen.</p>
+                    <p>Weil dies zu Unklarheiten über den tatsächlichen Zeitpunkt führen kann, wird dies allerdings im Normalfall nicht empfolen, es sei denn, es wurde bereits mit den Teilnehmern abgesprochen.
+                    Falls nicht, verwenden Sie besser die Funktion "Veranstaltung erstellen" um die Veranstaltung neu zu planen.</p>
+                    <p>Möchten Sie fortfahren?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+                    <button type="button" th:onclick="'javascript:changeValue(\'inputEmail\', \'' + ${currentUser.email} + '\')'" class="btn btn-default" data-dismiss="modal">
+                        Änderung rückgängig
+                    </button>
+                    <button type="submit" onclick="javascript:document.forms['modifyEventData'].submit();" class="btn btn-primary">Änderung speichern</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="content-wrap">
         <div class="container">
             <div th:replace="fragments :: header"></div>
-            <form class="form-horizontal form-signup" th:action="@{/event/{id}/edit(id=${event.id})}" method="post">
+            <form class="form-horizontal form-signup" id="modifyEventData" th:action="@{/event/{id}/edit(id=${event.id})}" method="post">
                 <div class="panel panel-primary">
                     <div class="panel-heading">Veranstaltung bearbeiten</div>
                     <div class="panel-body">
+                        <div class="alert alert-danger alert-dismissible fade in" th:if="${(param.error != null) and (param.error[0] == 'timePast')}" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <strong>Bearbeitung fehlgeschlagen: Neuer Veranstaltungszeitpunkt bereits vergangen</strong>
+                        </div>
                         <div class="form-group">
                             <label for="inputName" class="col-sm-2 control-label">Name</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="inputName" name="name" autofocus="true" required="true" th:value="${event.name}"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputOrganizer" class="col-sm-2 control-label">Veranstalter</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="inputOrganizer" disabled="true" th:value="|${event.organizer.firstName} ${event.organizer.lastName}|" />
+                                <input type="hidden" name="organizer" th:value="${event.organizer.getId()}" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -38,17 +77,18 @@
                                 <input type="text" class="form-control" id="inputPlace" name="place" required="true" th:value="${event.place}" />
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div th:class="|form-group ${newDate != null ? 'has-danger' : (event.isOver() ? 'has-warning' : '')}|">
                             <label for="inputDate" class="col-sm-2 control-label">Datum</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="inputDate" name="dateString" required="true" th:value="${dateString}" />
+                                <input type="text" class="form-control" id="inputDate" name="dateString" required="true" th:value="${newDate != null} ? ${newDate} : ${dateString}" />
+                                <span class="help-block" th:if="${event.isOver()}">Veranstaltung bereits vorbei.</span>
                             </div>
                         </div>
                     </div>
                     <div class="panel-footer">
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
-                                <button type="submit" class="btn btn-success" disabled="true">Speichern</button>
+                                <button type="button" th:onclick="${event.isOver()} ? |javascript:verifyTimeChange('${dateString}', 'inputDate')| : |document.forms['modifyEventData'].submit()|" class="btn btn-success">Speichern</button>
                                 <a href="javascript:history.back()" class="btn btn-default">Abbrechen</a>
                             </div>
                         </div>
@@ -67,6 +107,16 @@
                 locale: 'de'
             });
         });
+        function changeValue(id, value) {
+            document.getElementById(id).value = value;
+        }
+        function verifyTimeChange(timeString, inputName) {
+            if (timeString != document.getElementById(inputName).value) {
+                $('#time-modal').modal('show');
+            } else {
+            	document.forms['modifyEventData'].submit();
+            }
+        }
     </script>
 </body>
 

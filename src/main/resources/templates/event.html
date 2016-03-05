@@ -36,16 +36,36 @@
                         </tr>
                     </table>
                     <div class="panel-footer">
-                        <a class="btn btn-primary" th:href="@{/message?to=event{id}(id=${event.id})}" th:if="${currentUser.getId() == event.getOrganizer().getId()}">
+                        <!-- Nachricht an Teilnehmer (wenn Veranstalter) -->
+                        <a class="btn btn-primary" th:href="@{/message?to=event{id}(id=${event.id})}" th:if="${currentUser.getId() == event.getOrganizer().getId() and currentUser.activated}">
                             <span class="fa fa-envelope"></span> Nachricht an Teilnehmer
                         </a>
-                        <a class="btn btn-primary" th:href="@{/message?to={id}(id=${event.organizer.id})}" th:unless="${currentUser.getId() == event.getOrganizer().getId()}">
+                        <a class="btn btn-primary" th:href="javascript:void(0)" th:if="${currentUser.getId() == event.getOrganizer().getId() and not currentUser.activated}"
+                        tabindex="0" data-toggle="popover" data-trigger="focus" data-content="Aktivierung hierfür erforderlich!">
+                            <span class="fa fa-envelope"></span> Nachricht an Teilnehmer
+                        </a>
+                        <!-- Nachricht an Veranstalter (wenn Teilnehmer) -->
+                        <a class="btn btn-primary" th:href="@{/message?to={id}(id=${event.organizer.id})}" th:unless="${currentUser.getId() == event.getOrganizer().getId() or not currentUser.activated}">
                             <span class="fa fa-envelope-o"></span> Nachricht an Veranstalter
                         </a>
-                        <a class="btn btn-primary" th:href="@{/event/{id}/edit(id=${event.id})}">
+                        <a class="btn btn-primary" th:href="javascript:void(0)" th:unless="${currentUser.getId() == event.getOrganizer().getId() or currentUser.activated}"
+                        tabindex="0" data-toggle="popover" data-trigger="focus" data-content="Aktivierung hierfür erforderlich!">
+                            <span class="fa fa-envelope-o"></span> Nachricht an Veranstalter
+                        </a>
+                        <!-- Veranstaltung bearbeiten (wenn Veranstalter) -->
+                        <a class="btn btn-primary" th:href="@{/event/{id}/edit(id=${event.id})}" th:if="${currentUser.activated}">
                             <span class="fa fa-pencil"></span> Veranstaltung Bearbeiten
                         </a>
-                        <button type="submit" class="btn btn-danger" th:disabled="${not currentUser.activated}">
+                        <a class="btn btn-primary" th:href="javascript:void(0)" th:unless="${currentUser.activated}"
+                        tabindex="0" data-toggle="popover" data-trigger="focus" data-content="Aktivierung hierfür erforderlich!">
+                            <span class="fa fa-pencil"></span> Veranstaltung Bearbeiten
+                        </a>
+                        <!-- Veranstaltung löschen (wenn Veranstalter) -->
+                        <button type="submit" class="btn btn-danger" th:if="${currentUser.activated}">
+                            <span class="fa fa-times"></span> Veranstaltung Löschen
+                        </button>
+                        <button type="button" class="btn btn-danger" th:unless="${currentUser.activated}"
+                        tabindex="0" data-toggle="popover" data-trigger="focus" data-content="Aktivierung hierfür erforderlich!">
                             <span class="fa fa-times"></span> Veranstaltung Löschen
                         </button>
                     </div>
@@ -56,6 +76,11 @@
 
     <div th:replace="fragments :: footer"></div>
     <div th:replace="fragments :: bootstrap-script"></div>
+    <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        })
+    </script>
 </body>
 
 </html>

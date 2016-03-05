@@ -34,7 +34,7 @@
                 <div class="panel-heading">Einstellungen</div>
                 <form class="form-horizontal form-signup" id="modifyUserData" th:action="@{/edit}" method="post">
                     <div id="user-settings" class="panel-body">
-                        <div class="alert alert-danger alert-dismissible fade in" th:if="${(param.error != null) and (param.error == '') and (param.action == null)}" role="alert">
+                        <div class="alert alert-danger alert-dismissible fade in" th:if="${(param.error != null) and (param.error[0] == '') and (param.action == null)}" role="alert">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>

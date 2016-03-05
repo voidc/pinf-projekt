@@ -71,16 +71,16 @@
                             <p class="text-center lead text-muted" style="margin-top: 5%;">Keine Veranstaltungen</p>
                         </div>
                         <div class="list-group list-scroll">
-                            <a class="list-group-item" th:each="event : ${events}" th:href="@{/event/{id}(id=${event.id})}">
+                            <a th:each="event : ${events}" class="list-group-item" th:href="@{/event/{id}(id=${event.id})}">
                                 <h4 class="list-group-item-heading">
-                                    <span th:class="|fa ${event.getOrganizer().getId() == currentUser.getId() ? 'fa-calendar-check-o' : 'fa-calendar-o'}|" th:title="${event.getOrganizer().getId() == currentUser.getId() ? 'Organisator' : 'Teilnehmer'}" aria-hidden="true"></span>
-                                    <span th:text="| ${event.name}"></span>
+                                    <span th:class="|${event.isOver() ? 'has-error ' : ''} fa ${event.getOrganizer().getId() == currentUser.getId() ? 'fa-calendar-check-o' : 'fa-calendar-o'}|" th:title="${event.getOrganizer().getId() == currentUser.getId() ? 'Organisator' : 'Teilnehmer'}" aria-hidden="true"></span>
+                                    <span th:class="|${event.isOver() ? 'has-error' : ''}|" th:text="| ${event.name}"></span>
                                 </h4>
                                 <ul class="list-group-item-text list-unstyled">
                                     <li>
                                         <span class="fa fa-user text-muted" aria-hidden="true" title="Organisator"></span>
                                         <span class="sr-only">Organisator:</span>
-                                        <span th:text="| ${event.getOrganizer().firstName} ${event.getOrganizer().firstName}|">orga</span>
+                                        <span th:text="| ${event.getOrganizer().firstName} ${event.getOrganizer().lastName}|">orga</span>
                                     </li>
                                     <li>
                                         <span class="fa fa-users text-muted" aria-hidden="true" title="Teilnehmer"></span>
@@ -93,9 +93,9 @@
                                         <span th:text="| ${event.description}">desc</span>
                                     </li>
                                     <li>
-                                        <span class="fa fa-clock-o text-muted" aria-hidden="true" title="Datum und Uhrzeit"></span>
+                                        <span th:class="|${event.isOver() ? 'has-error ' : ''}fa fa-clock-o text-muted|" aria-hidden="true" title="Datum und Uhrzeit"></span>
                                         <span class="sr-only">Datum und Uhrzeit:</span>
-                                        <span th:text="| ${#calendars.format(event.time, 'dd.MM.yyyy HH:mm')}">time</span>
+                                        <span th:class="|${event.isOver() ? 'has-error' : ''}|" th:text="| ${#calendars.format(event.time, 'dd.MM.yyyy HH:mm')}">time</span>
                                     </li>
                                     <li>
                                         <span class="fa fa-map-marker text-muted" aria-hidden="true" title="Ort"></span>

@@ -5,10 +5,6 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OrderColumn;
@@ -17,12 +13,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-@Entity
-public class GWEEvent implements Serializable {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+public class GWEEventEdit implements Serializable {
 
 	@NotEmpty(message = "Name is required.")
 	@Column(unique = true, nullable = false)
@@ -46,34 +37,7 @@ public class GWEEvent implements Serializable {
 	@OrderColumn
 	private List<GWEUser> participants;
 
-	public GWEEvent() {
-	}
-
-	public GWEEvent(GWEEvent event) {
-		this.id = event.id;
-		this.name = event.name;
-		this.organizer = event.organizer;
-		this.description = event.description;
-		this.participants = event.participants;
-		this.place = event.place;
-		this.time = event.time;
-	}
-
-	public void applyEventEdit(GWEEventEdit edit) {
-		this.name = edit.getName();
-		this.organizer = edit.getOrganizer();
-		this.description = edit.getDescription();
-		this.participants = edit.getParticipants();
-		this.place = edit.getPlace();
-		this.time = edit.getTime();
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
+	public GWEEventEdit() {
 	}
 
 	public String getName() {
@@ -130,11 +94,6 @@ public class GWEEvent implements Serializable {
 
 	public boolean isOver() {
 		return time.getTime() < System.currentTimeMillis();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		return obj != null && obj instanceof GWEEvent && ((GWEEvent) obj).id == this.id;
 	}
 
 	private static final long serialVersionUID = -3514681042696071509L;

@@ -19,12 +19,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import de.gymwak.gwe.data.GWEEventRepository;
 import de.gymwak.gwe.data.GWERepository;
 import de.gymwak.gwe.model.GWEEvent;
+import de.gymwak.gwe.model.GWEEventEdit;
 import de.gymwak.gwe.model.GWEUser;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @EnableAsync
@@ -52,11 +53,18 @@ public class EventController {
 	}
 
 	@RequestMapping(value = "/event/new", method = RequestMethod.POST)
-	public String createEvent(@Valid GWEEvent event, @RequestParam(value = "dateString", required = true) String date) {
+	public String createEvent(@Valid GWEEvent event, @RequestParam(value = "dateString", required = true) String date,
+			RedirectAttributes rAttr) {
 		Timestamp stamp = null;
 		try {
 			stamp = new Timestamp(new SimpleDateFormat("dd.MM.yyyy HH:mm").parse(date).getTime());
 		} catch (ParseException e) {
+		}
+
+		if (stamp.getTime() <= System.currentTimeMillis()) {
+			rAttr.addFlashAttribute("event", event);
+			rAttr.addFlashAttribute("date", date);
+			return "redirect:/event/new?error=timePast";
 		}
 		event.setTime(stamp);
 		eventRepository.save(event);
@@ -130,11 +138,27 @@ public class EventController {
 	}
 
 	@RequestMapping(value = "/event/{eventId}/edit", method = RequestMethod.POST)
-	public ModelAndView applyEdit(@PathVariable int eventId) {
+	public ModelAndView applyEdit(@Valid GWEEventEdit edit, @RequestParam(value = "dateString", required = true) String date,
+			@PathVariable int eventId) {
+		Timestamp stamp = null;
+		try {
+			stamp = new Timestamp(new SimpleDateFormat("dd.MM.yyyy HH:mm").parse(date).getTime());
+		} catch (ParseException e) {
+		}
+
 		GWEEvent event = eventRepository.findOne((long) eventId);
 		if (event == null) {
 			return new ModelAndView("redirect:/error?type=noSearchResults");
 		}
+
+		if (stamp.getTime() <= System.currentTimeMillis()) {
+			ModelAndView mav = new ModelAndView("redirect:/event/" + eventId + "/edit?error=timePast");
+			mav.addObject("event", event);
+			mav.addObject("newDate", date);
+			return mav;
+		}
+
+		edit.setTime(stamp);
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		GWEUser currentUser = userRepository.findByEmail(auth.getName());
@@ -143,6 +167,8 @@ public class EventController {
 			return new ModelAndView("redirect:/event/" + event.getId());
 		}
 
+		event.applyEventEdit(edit);
+		eventRepository.save(event);
 		return new ModelAndView("redirect:/event/" + event.getId());
 	}
 }
