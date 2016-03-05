@@ -210,6 +210,8 @@
             $('[data-toggle="popover"]').popover()
         })
         $('#inputShowPastEvents').change(function () {
+            $('.selectAllBoxes').prop('checked', false);
+            $(ulEvents).height($(ulEvents).height()); //fix the height
             if ($(this).is(':checked'))  {
                 if (items.length > 0) {
                     document.getElementById("no-events").style["display"] = 'none';
@@ -235,6 +237,7 @@
                     }
                 }
         	}
+            $(ulEvents).removeAttr('style'); //Reset the height
         });
         /*]]>*/
     </script>

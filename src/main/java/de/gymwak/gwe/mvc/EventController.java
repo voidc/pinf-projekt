@@ -66,7 +66,12 @@ public class EventController {
 			rAttr.addFlashAttribute("date", date);
 			return "redirect:/event/new?error=timePast";
 		}
+
 		event.setTime(stamp);
+		if (event.hasParticipant(event.getOrganizer())) {
+			event.getParticipants().remove(event.getOrganizer());
+		}
+
 		eventRepository.save(event);
 		return "redirect:/event/" + event.getId();
 	}
@@ -165,6 +170,9 @@ public class EventController {
 
 		if(!event.getOrganizer().equals(currentUser)) {
 			return new ModelAndView("redirect:/event/" + event.getId());
+		}
+		if (edit.hasParticipant(edit.getOrganizer())) {
+			edit.getParticipants().remove(edit.getOrganizer());
 		}
 
 		event.applyEventEdit(edit);

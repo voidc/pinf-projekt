@@ -36,7 +36,8 @@
                             <div class="col-sm-10">
                                 <select style="height: 160px;" class="form-control" multiple="true" role="button" name="participants" type="text" id="inputParticipants" required="true">
                                     <option th:each="user : ${users}" th:value="${user.getId()}" th:text="|${user.firstName} ${user.lastName}|"
-                                    th:selected="${event != null} ? ${#lists.contains(event.participants, user)} : 'false'"></option>
+                                    th:selected="${event != null} ? ${#lists.contains(event.participants, user)} : 'false'"
+                                    th:unless="${user.equals(currentUser)}"></option>
                                 </select>
                                 <p class="help-block">Mit der Steuerung-Taste kannst du mehrere Teilnehmer auswählen.</p>
                             </div>
