@@ -71,9 +71,9 @@ public class EventController {
 		return "redirect:/event/" + event.getId();
 	}
 
-	@RequestMapping(path = "/event/{id}/delete", method = RequestMethod.POST)
+	@RequestMapping(value = "/event/{eventId}/delete", method = RequestMethod.POST)
 	public String deleteEvent(@PathVariable long eventId) {
-		GWEEvent event = eventRepository.findOne((long) eventId);
+		GWEEvent event = eventRepository.findOne(eventId);
 		if (event == null) {
 			return "redirect:/error?type=noSearchResults";
 		}
@@ -85,12 +85,12 @@ public class EventController {
 		}
 
 		eventRepository.delete(event);
-		return "redirect:/logout";
+		return "redirect:/overview";
 	}
 
 	@RequestMapping(value = "/event/{eventId}", method = RequestMethod.GET)
-	public ModelAndView event(@PathVariable int eventId) {
-		GWEEvent event = eventRepository.findOne((long) eventId);
+	public ModelAndView event(@PathVariable long eventId) {
+		GWEEvent event = eventRepository.findOne(eventId);
 		if (event == null) {
 			return new ModelAndView("redirect:/error?type=noSearchResults");
 		}

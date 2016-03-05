@@ -56,6 +56,11 @@ body {
     text-align: center;
 }
 
+.list-group-item-text > p {
+    margin: 0;
+    padding: 0;
+}
+
 .list-group-item .list-group-item-toggle:focus, .list-group-item .list-group-item-toggle:hover {
     background-color: #ddd;
 }
@@ -259,6 +264,10 @@ body {
 
 .panel-inner {
     margin: 0;
+}
+
+.event-overtime {
+    display: none;
 }
 
 @media all {
