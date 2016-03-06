@@ -23,10 +23,13 @@
                     </div>
                     <button type="submit" class="btn btn-lg btn-primary btn-block">Anmelden</button>
                 </form>
-                <div class="text-inline">
-                    <a th:href="@{/signup}" class="btn btn-link pull-left" id="create-account">Registrieren</a>
+                <div class="text-inline" style="margin-bottom: 5px;">
+                    <a th:href="@{/signup}" class="btn btn-link" id="create-account">Registrieren</a>
                     <a th:href="@{/reset}" class="btn btn-link pull-right" id="reset-password">Passwort vergessen?</a>
                 </div>
+                    <a th:href="@{/info}" class="btn btn-primary btn-block" id="more-information" style="text-align: center; background-color: #eee; color: #555;">
+                        <strong><span class="fa fa-info-circle"></span> Erfahre mehr</strong>
+                    </a>
             </div>
         </div>
     </div>
