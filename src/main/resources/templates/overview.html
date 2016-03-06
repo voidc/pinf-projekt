@@ -19,8 +19,8 @@
                             <tbody>
                                 <tr class="list-group-item" style="padding: 0;">
                                     <td style="border: none;">
-                                        <attr class="fa fa-graduation-cap text-muted" aria-hidden="true"
-                                              title="Abschlussjahr"></attr>
+                                        <span class="fa fa-graduation-cap fa-fw text-muted" aria-hidden="true"
+                                              title="Abschlussjahr"></span>
                                         <span class="sr-only">Abschlussjahrahrgang:</span>
                                     </td>
                                     <td style="border: none;">
@@ -30,16 +30,16 @@
                                 </tr>
                                 <tr class="list-group-item" style="padding: 0;">
                                     <td style="border: none;">
-                                        <attr class="fa fa-briefcase text-muted" aria-hidden="true"
-                                              title="Beschäftigung"></attr>
+                                        <span class="fa fa-briefcase fa-fw text-muted" aria-hidden="true"
+                                              title="Beschäftigung"></span>
                                         <span class="sr-only">Beschäftigung:</span>
                                     </td>
                                     <td style="border: none;" th:text="| ${currentUser.occupation}|">occu</td>
                                 </tr>
                                 <tr class="list-group-item" style="padding: 0;">
                                     <td style="border: none;">
-                                        <attr class="fa fa-book text-muted" aria-hidden="true"
-                                              title="Fachgebiet"></attr>
+                                        <span class="fa fa-book fa-fw text-muted" aria-hidden="true"
+                                              title="Fachgebiet"></span>
                                         <span class="sr-only">Fachgebiet:</span>
                                     </td>
                                     <td style="border: none;" th:text="| ${currentUser.discipline.desc}">disc</td>
@@ -76,7 +76,7 @@
                             <p class="text-center lead text-muted" id="no-events" style="margin-top: 5%;" th:onload="|$(this).style['display'] = '${not #lists.isEmpty(events) ? 'block' : 'noVisibleElements()'}'|">Keine Veranstaltungen</p>
                         </div>
                         <ul class="list-group list-scroll" id="events">
-                            <li th:each="event : ${events}" th:class="|list-group-item ${event.isOver() ? 'event-overtime' : ''}|" style="cursor: pointer;" th:onclick="|window.location='@{/event/{id}(id=${event.id})}'|" th:attr="id=|event${event.id}|">
+                            <li th:each="event : ${events}" th:class="|list-group-item link ${event.isOver() ? 'event-overtime' : ''}|" th:onclick="|window.location='@{/event/{id}(id=${event.id})}'|" th:attr="id=|event${event.id}|">
                                 <h4 class="list-group-item-heading">
                                     <span th:class="|${event.isOver() ? 'has-error ' : ''} fa ${event.getOrganizer().getId() == currentUser.getId() ? 'fa-calendar-check-o' : 'fa-calendar-o'}|" th:title="${event.getOrganizer().getId() == currentUser.getId() ? 'Organisator' : 'Teilnehmer'}" aria-hidden="true"></span>
                                     <span th:class="|${event.isOver() ? 'has-error' : ''}|" th:text="| ${event.name}"></span>
@@ -144,7 +144,7 @@
                             </p>
                         </div>
                         <div class="list-group list-scroll">
-                            <a class="list-group-item" th:each="user : ${year}" th:onclick="|document.location.href=getLink('@{/user/{id}(id=${user.id})}')|" href="javascript:void(0)">
+                            <div class="list-group-item link" th:each="user : ${year}" th:onclick="|document.location.href=getLink('@{/user/{id}(id=${user.id})}')|">
                                 <h5 style="display: inline;" class="list-group-item-heading">
                                     <span th:text="|${user.firstName} ${user.lastName}|">Username</span>
                                 </h5>
@@ -170,7 +170,7 @@
                                         <span th:text="| ${user.discipline.desc}">occu</span> 
                                     </li> 
                                 </ul> 
-                            </a>
+                            </div>
                         </div>
                         <!-- END Jahrgang -->
                     </div>

@@ -30,25 +30,25 @@
                         <div class="form-group">
                             <label for="inputEmail" class="col-sm-2 control-label">E-Mail</label>
                             <div class="col-sm-10">
-                                <input name="email" type="email" class="form-control" id="inputEmail" placeholder="E-Mail" required="true" autofocus="true" th:value="${signupUser != null} ? ${signupUser.email}" />
+                                <input name="email" type="email" class="form-control" id="inputEmail" placeholder="E-Mail" required="required" autofocus="autofocus" th:value="${signupUser != null} ? ${signupUser.email}" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="inputPassword" class="col-sm-2 control-label">Passwort</label>
                             <div class="col-sm-10">
-                                <input name="password" type="password" class="form-control" id="inputPassword" placeholder="Passwort" required="true" />
+                                <input name="password" type="password" class="form-control" id="inputPassword" placeholder="Passwort" required="required" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="inputFirstName" class="col-sm-2 control-label">Vorname</label>
                             <div class="col-sm-10">
-                                <input name="firstName" type="text" class="form-control" id="inputFirstName" placeholder="Vorname" required="true" th:value="${signupUser != null} ? ${signupUser.firstName}" />
+                                <input name="firstName" type="text" class="form-control" id="inputFirstName" placeholder="Vorname" required="required" th:value="${signupUser != null} ? ${signupUser.firstName}" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="inputLastName" class="col-sm-2 control-label">Nachname</label>
                             <div class="col-sm-10">
-                                <input name="lastName" type="text" class="form-control" id="inputLastName" placeholder="Nachname" required="true" th:value="${signupUser != null} ? ${signupUser.lastName}" />
+                                <input name="lastName" type="text" class="form-control" id="inputLastName" placeholder="Nachname" required="required" th:value="${signupUser != null} ? ${signupUser.lastName}" />
                             </div>
                         </div>
                         <h4>Abschluss</h4>
@@ -57,7 +57,7 @@
                             <div class="radio">
                                 <div class="col-sm-4" th:each="g : ${graduationTypes}">
                                     <label class="col-sm-offset-1">
-                                        <input id="inputGradType" name="graduationType" type="radio" required="true" th:text="${g.desc}" th:value="${g.name()}" />
+                                        <input id="inputGradType" name="graduationType" type="radio" required="required" th:text="${g.desc}" th:value="${g.name()}" />
                                     </label>
                                 </div>
                             </div>
@@ -65,7 +65,7 @@
                         <div class="form-group">
                             <label for="inputGradYear" class="col-sm-2 control-label">Abschlussjahr</label>
                             <div class="col-sm-10">
-                                <input name="graduationYear" type="number" class="form-control" id="inputGradYear" required="true" th:value="${signupUser != null} ? ${signupUser.graduationYear} : 2001" />
+                                <input name="graduationYear" type="number" class="form-control" id="inputGradYear" required="required" th:value="${signupUser != null} ? ${signupUser.graduationYear} : 2001" />
                             </div>
                         </div>
                         <h4>Tätigkeit</h4>
@@ -73,13 +73,13 @@
                         <div class="form-group">
                             <label for="inputOccupation" class="col-sm-2 control-label">Beschäftigung</label>
                             <div class="col-sm-10">
-                                <input name="occupation" type="text" class="form-control" id="inputOccupation" required="true" th:value="${signupUser != null} ? ${signupUser.occupation}" />
+                                <input name="occupation" type="text" class="form-control" id="inputOccupation" required="required" th:value="${signupUser != null} ? ${signupUser.occupation}" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="inputDiscipline" class="col-sm-2 control-label">Fachgebiet</label>
                             <div class="col-sm-10">
-                                <select role="button" name="discipline" type="text" class="form-control" id="inputDiscipline" required="true" th:value="${signupUser != null} ? ${signupUser.discipline}">
+                                <select role="button" name="discipline" class="form-control" id="inputDiscipline" required="required" th:value="${signupUser != null} ? ${signupUser.discipline}">
                                     <option th:each="d : ${disciplines}" th:text="${d.desc}" th:value="${d.name()}"></option>
                                 </select>
                             </div>
@@ -89,7 +89,7 @@
                         <div class="form-group">
                             <div class="checkbox">
                                 <label class="col-sm-offset-2">
-                                    <input type="checkbox" required="true" /> Ich akzeptiere die <a th:href="@{/impressum#datenschutz}">Datenschutzvereinbarung</a> der Schule
+                                    <input type="checkbox" required="required" /> Ich akzeptiere die <a th:href="@{/impressum#datenschutz}">Datenschutzvereinbarung</a> der Schule
                                 </label>
                             </div>
                         </div>

@@ -51,6 +51,17 @@ body {
     min-width: 20px;
 }
 
+.list-group-item.link {
+    color: #555;
+    cursor: pointer;
+}
+
+.list-group-item:focus, .list-group-item.link:hover {
+    color:#555;
+    text-decoration:none;
+    background-color:#f5f5f5
+}
+
 .list-group-item-text > li > .fa, .list-group-item-text > p > .fa {
     min-width: 16px;
     text-align: center;
@@ -324,40 +335,4 @@ body {
     .dropdown-menu .divider {
         margin-left: 10px;
     }
-}
-
-@media screen and (min-width: 768px)
-.carousel-control .fa-angle-left, .carousel-control .icon-prev {
-    margin-left: -10px;
-}
-
-@media screen and (min-width: 768px)
-.carousel-control .fa-angle-right, .carousel-control .icon-next {
-    margin-right: -10px;
-}
-
-@media screen and (min-width: 768px)
-.carousel-control .fa-angle-left, .carousel-control .fa-angle-right, .carousel-control .icon-next, .carousel-control .icon-prev {
-    width: 30px;
-    height: 30px;
-    margin-top: -10px;
-    font-size: 30px;
-}
-
-.carousel-control .fa-angle-left, .carousel-control .icon-prev {
-    left: 50%;
-    margin-left: -10px;
-}
-
-.carousel-control .fa-angle-right, .carousel-control .icon-next {
-    right: 50%;
-    margin-right: -10px;
-}
-
-.carousel-control .fa-angle-left, .carousel-control .fa-angle-right, .carousel-control .icon-next, .carousel-control .icon-prev {
-    position: absolute;
-    top: 50%;
-    z-index: 5;
-    display: inline-block;
-    margin-top: -10px;
 }

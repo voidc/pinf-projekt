@@ -46,20 +46,20 @@
                         <div class="form-group">
                             <label for="inputName" class="col-sm-2 control-label">Name</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="inputName" name="name" autofocus="true" required="true" th:value="${event.name}"/>
+                                <input type="text" class="form-control" id="inputName" name="name" autofocus="autofocus" required="required" th:value="${event.name}"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="inputOrganizer" class="col-sm-2 control-label">Veranstalter</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="inputOrganizer" disabled="true" th:value="|${event.organizer.firstName} ${event.organizer.lastName}|" />
+                                <input type="text" class="form-control" id="inputOrganizer" disabled="disabled" th:value="|${event.organizer.firstName} ${event.organizer.lastName}|" />
                                 <input type="hidden" name="organizer" th:value="${event.organizer.getId()}" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="inputParticipants" class="col-sm-2 control-label">Teilnehmer</label>
                             <div class="col-sm-10">
-                                <select style="height: 160px;" class="form-control" multiple="true" name="participants" type="text" id="inputParticipants" required="true" th:unless="${user.equals(currentUser)}">
+                                <select style="height: 160px;" class="form-control" multiple="multiple" name="participants" id="inputParticipants" required="required" th:unless="${user.equals(currentUser)}">
                                     <option th:each="u : ${allUsers}" th:value="${u.getId()}" th:text="|${u.firstName} ${u.lastName}|" th:selected="${#lists.contains(event.participants, u)}"></option>
                                 </select>
                                 <span class="help-block">Mit der Steuerung-Taste kannst du mehrere Teilnehmer auswählen.</span>
@@ -68,19 +68,19 @@
                         <div class="form-group">
                             <label for="inputDescription" class="col-sm-2 control-label">Beschreibung</label>
                             <div class="col-sm-10">
-                                <textarea id="inputDescription" class="form-control" name="description" rows="4" required="true" style="resize: none" th:text="${event.description}"></textarea>
+                                <textarea id="inputDescription" class="form-control" name="description" rows="4" required="required" style="resize: none" th:text="${event.description}"></textarea>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="inputPlace" class="col-sm-2 control-label">Ort</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="inputPlace" name="place" required="true" th:value="${event.place}" />
+                                <input type="text" class="form-control" id="inputPlace" name="place" required="required" th:value="${event.place}" />
                             </div>
                         </div>
                         <div th:class="|form-group ${newDate != null ? 'has-danger' : (event.isOver() ? 'has-warning' : '')}|">
                             <label for="inputDate" class="col-sm-2 control-label">Datum</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="inputDate" name="dateString" required="true" th:value="${newDate != null} ? ${newDate} : ${dateString}" />
+                                <input type="text" class="form-control" id="inputDate" name="dateString" required="required" th:value="${newDate != null} ? ${newDate} : ${dateString}" />
                                 <span class="help-block" th:if="${event.isOver()}">Veranstaltung bereits vorbei.</span>
                             </div>
                         </div>
