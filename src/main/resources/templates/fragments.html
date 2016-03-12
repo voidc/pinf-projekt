@@ -18,6 +18,26 @@
 <body>
     <!-- Header -->
     <th:block th:fragment="header">
+        <noscript th:unless="${param.noscript != null}">
+            <div class="modal" id="noscript-modal" tabindex="-1" role="dialog" aria-labelledby="JavaScript deaktiviert" style="display: block;">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myModalLabel"><strong>JavaScript deaktiviert</strong></h4>
+                        </div>
+                        <div class="modal-body">
+                            Ohne JavaScript kann die Website nicht richtig angezeigt werden. Dieser Hinweis erscheint immer beim Aufrufen der Seite wenn JavaScript deaktiviert ist.
+                            <p>Aktivieren Sie JavaScript in den Browsereinstellungen, um auf die Inhalte dieser Seite zugreifen zu können.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a th:href="@{/logout}" type="button" class="btn btn-success"><span class="fa fa-lock" aria-hidden="true"></span> Abmelden</a>
+                            <a href="?noscript" type="button" class="btn btn-danger"><span class="fa fa-times" aria-hidden="true"></span> Hinweis kurzzeitig ausblenden</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </noscript>
+
         <div th:replace="fragments :: ${currentUser == null} ? header-default : navbar"></div>
 
         <div class="alert alert-warning alert-caution" role="alert" th:if="${currentUser} and ${not currentUser.activated}">
