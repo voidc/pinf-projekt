@@ -54,7 +54,7 @@
                             <li>
                                 <a href="javascript:void(0)" onclick="applyFilter('year','')">Alle</a>
                             </li>
-                            <li th:each="y : ${#numbers.sequence(2001, #dates.year(#dates.createNow()))}">
+                            <li th:each="y : ${years}">
                                 <a href="javascript:void(0)" th:onclick="|applyFilter('year', '${y}')|" th:text="${y}"></a>
                             </li>
                         </ul>

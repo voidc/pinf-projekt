@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.TreeSet;
 
 import javax.validation.Valid;
 
@@ -48,7 +49,14 @@ public class EventController {
 	public ModelAndView newEvent() {
 		ModelAndView mav = new ModelAndView("newevent");
 		Sort sort = new Sort("lastName", "firstName", "graduationYear", "graduationType", "occupation", "discipline", "id");
-		mav.addObject("users", userRepository.findAll(sort));
+		Iterable<GWEUser> allUsers = userRepository.findAll(sort);
+		mav.addObject("users", allUsers);
+
+		TreeSet<Integer> years = new TreeSet<Integer>();
+		for (GWEUser user : allUsers) {
+			years.add(user.getGraduationYear());
+		}
+		mav.addObject("years", years);
 		return mav;
 	}
 
@@ -135,7 +143,14 @@ public class EventController {
 		ModelAndView mav = new ModelAndView("editevent");
 
 		Sort sort = new Sort("lastName", "firstName", "graduationYear", "graduationType", "occupation", "discipline", "id");
-		mav.addObject("allUsers", userRepository.findAll(sort));
+		Iterable<GWEUser> allUsers = userRepository.findAll(sort);
+		mav.addObject("allUsers", allUsers);
+
+		TreeSet<Integer> years = new TreeSet<Integer>();
+		for (GWEUser user : allUsers) {
+			years.add(user.getGraduationYear());
+		}
+		mav.addObject("years", years);
 
 		mav.addObject("event", event);
 		mav.addObject("dateString", new SimpleDateFormat("dd.MM.yyyy HH:mm").format(new Date(event.getTime().getTime())));

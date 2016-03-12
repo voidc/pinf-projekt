@@ -1,7 +1,10 @@
 package de.gymwak.gwe.mvc;
 
-import de.gymwak.gwe.data.GWERepository;
-import de.gymwak.gwe.model.GWEUser;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -11,9 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+import de.gymwak.gwe.data.GWERepository;
+import de.gymwak.gwe.model.GWEUser;
 
 @Controller
 @RequestMapping("/search")
@@ -54,7 +56,14 @@ public class SearchController {
 			}
 		}
 
-		Stream<GWEUser> users = StreamSupport.stream(userRepository.findAll(s).spliterator(), false);
+		Iterable<GWEUser> allUsers = userRepository.findAll(s);
+
+		TreeSet<Integer> years = new TreeSet<Integer>();
+		for (GWEUser user : allUsers) {
+			years.add(user.getGraduationYear());
+		}
+
+		Stream<GWEUser> users = StreamSupport.stream(allUsers.spliterator(), false);
 
 		if(disc != null && !disc.isEmpty()) {
 			try {
@@ -75,7 +84,7 @@ public class SearchController {
 				mav.addObject("query", q);
 			}
 		}
-		
+
 		if (!mav.getModel().containsKey("year") && year != null && year.length() > 0) {	
 			try {
 				int graduationYear = Integer.parseInt(year);
@@ -85,6 +94,7 @@ public class SearchController {
 			}
 		}
 
+		mav.addObject("years", years);
 		mav.addObject("results", users.collect(Collectors.toList()));
 		return mav;
 	}
