@@ -95,7 +95,9 @@
                                                 <span class="fa fa-users text-muted" aria-hidden="true" title="Teilnehmer"></span>
                                                 <span class="sr-only">Teilnehmer:</span>
                                             </td>
-                                            <td><span th:each="participant,iterStat : ${event.participants}" th:text="| ${participant.firstName} ${participant.lastName}${(!iterStat.last) ? ',' : ''}|"></span>part</td>
+                                            <td>
+                                                <span th:each="participant,iterStat : ${event.participants}" th:text="| ${participant.firstName} ${participant.lastName}${(!iterStat.last) ? ',' : ''}|">part</span>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>
