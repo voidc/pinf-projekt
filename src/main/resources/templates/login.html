@@ -4,11 +4,63 @@
 <head th:replace="fragments :: head ('Anmelden')"></head>
 
 <body>
-    <div class="content-wrap">
-        <div class="container">
-            <div th:replace="fragments :: header-login">
+<div class="content-wrap">
+    <div class="container">
+        <div th:replace="fragments :: header-login">
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-signin">
+                <div id="carousel-about" class="carousel slide" data-ride="carousel">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">
+                        <li data-target="#carousel-about" data-slide-to="0" class="active"></li>
+                        <li data-target="#carousel-about" data-slide-to="1"></li>
+                        <li data-target="#carousel-about" data-slide-to="2"></li>
+                    </ol>
+
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner" role="listbox">
+                        <div class="item active">
+                            <div style='position:relative;padding-bottom:calc(100% / 1.78)'>
+                                <iframe src='https://gfycat.com/ifr/ThunderousNearKestrel' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen="true">
+                                </iframe>
+                            </div>
+                            <div class="carousel-caption">
+                                <p>Feature</p>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div style='position:relative;padding-bottom:calc(100% / 1.78)'>
+                                <iframe src='https://gfycat.com/ifr/ThunderousNearKestrel' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen="true">
+                                </iframe>
+                            </div>
+                            <div class="carousel-caption">
+                                <p>Cool Feature</p>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div style='position:relative;padding-bottom:calc(100% / 1.78)'>
+                                <iframe src='https://gfycat.com/ifr/ThunderousNearKestrel' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen="true">
+                                </iframe>
+                            </div>
+                            <div class="carousel-caption">
+                                <p>Extremly Badass Super Feature</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Controls
+                <a class="left carousel-control" href="#carousel-about" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Zurück</span>
+                </a>
+                <a class="right carousel-control" href="#carousel-about" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Vor</span>
+                </a> -->
             </div>
-            <div class="panel panel-signin">
+            <div class="col-md-4 col-signin panel panel-signin">
                 <h2 class="panel-heading form-signin-heading">Anmelden</h2>
                 <div class="alert alert-danger" th:if="${param.error != null}" role="alert">
                     <!-- <small><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></small>  -->
@@ -17,25 +69,27 @@
                 <form th:action="@{/login}" method="post" class="form-signin">
                     <div class="form-group">
                         <label for="username" class="sr-only">E-Mail</label>
-                        <input type="text" name="username" id="username" placeholder="Email" class="form-control first-input" required="required" autofocus="autofocus" th:value="${username != null} ? ${username}" />
+                        <input type="text" name="username" id="username" placeholder="Email"
+                               class="form-control first-input" required="required" autofocus="autofocus"
+                               th:value="${username != null} ? ${username}"/>
                         <label for="password" class="sr-only">Passwort</label>
-                        <input type="password" name="password" id="password" placeholder="Passwort" class="form-control second-input" required="required" />
+                        <input type="password" name="password" id="password" placeholder="Passwort"
+                               class="form-control second-input" required="required"/>
                     </div>
                     <button type="submit" class="btn btn-lg btn-primary btn-block">Anmelden</button>
                 </form>
                 <div class="text-inline" style="margin-bottom: 5px;">
                     <a th:href="@{/signup}" class="btn btn-link" id="create-account">Registrieren</a>
-                    <a th:href="@{/reset}" class="btn btn-link pull-right" id="reset-password">Passwort vergessen?</a>
+                    <a th:href="@{/reset}" class="btn btn-link pull-right" id="reset-password">Passwort
+                        vergessen?</a>
                 </div>
-                    <a th:href="@{/about}" class="btn btn-primary btn-block" id="more-information" style="text-align: center; background-color: #eee; color: #555;">
-                        <strong><span class="fa fa-info-circle"></span> Mehr erfahren</strong>
-                    </a>
             </div>
         </div>
     </div>
+</div>
 
-    <div th:replace="fragments :: footer"></div>
-    <div th:replace="fragments :: bootstrap-script"></div>
+<div th:replace="fragments :: footer"></div>
+<div th:replace="fragments :: bootstrap-script"></div>
 </body>
 
 </html>
