@@ -32,17 +32,24 @@ Diese Version des Prototypen verwendet keine In-Memory Datenbank, sondern eine "
   - Klicke auf "Clone a Git repository..." und gebe "https://github.com/voidc/pinf-projekt.git" als URI und deine Anmeldedaten für GitHub ein
   - Wenn du das Projekt geclont hast, wechsle oben rechts zurück auf die "Java" Ansicht
   - Wähle "File/Import/Maven/Existing Maven Projects" und gebe den geclonten Ordner als Root Directory an
-3. Wenn alles funktioniert hat, kannst du jetzt die Application Klasse im de.gymwak.gwe Package als Java Application ausführen
-4. Warte 10-15s bis der Server gestartet ist und öffne "localhost:8080/gwe" im Browser
+3. Installiere den [Heroku Toolbelt](https://toolbelt.heroku.com/)
+4. Erstelle eine .env (siehe unten) Konfigurationsdatei im Hauptverzeichnis
+
+## .env Beispieldatei
+    DB_URL=jdbc:postgresql://localhost:5432/gwedb
+    DB_USER=postgres
+    DB_PASSWORD=<Datenbank Passwort>
+    EMAIL_USER=ehemalige@gymnasiumwaldkraiburg.de
+    EMAIL_PASSWORD=<Email Passwort>
+
+## Lokal Ausführen
+  - Packaging mit Maven (Goal: `package`)
+  - Führe `heroku-local.bat` in der CLI aus
 
 ## Deployment
-GWE wird auf einem Apache Tomcat 8 Server unter dem Kontextpfad "/gwe" deployed.
-Dazu muss der Code zunächst mit Maven in eine WAR Datei gepackaged werden,
-wozu die `scope` von `spring-boot-starter-tomcat` zunächst auf `provided` gesetzt werden muss.
-Diese kann über den Application Manager hochgeladen werden.
-Gegenwärtig kann der Application Manager über [diese Addresse](http://gymwbg.homelinux.com:8080/manager/html) erreicht werden.
+GWE wird auf Heroku deployt. Dass geschiet über das Heroku Dashboard, nachdem der Code auf GitHub gepusht wurde.
 
-[Seite aufrufen](http://gymwbg.homelinux.com:8080/gwe)
+[Seite aufrufen](https://gymwkb-gwe.herokuapp.com/)
 
 ## Resourcen
 - [Spring Guides](https://spring.io/guides)

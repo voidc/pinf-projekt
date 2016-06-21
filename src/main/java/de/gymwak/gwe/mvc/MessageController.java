@@ -39,7 +39,7 @@ public class MessageController {
 	@Value("${server.port}")
 	private String serverPort;
 
-	@Value("${gwe.email}")
+	@Value("${EMAIL_USER}")
 	private String adminMail;
 
 	@Autowired

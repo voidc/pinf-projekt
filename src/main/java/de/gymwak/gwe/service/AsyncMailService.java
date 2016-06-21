@@ -23,7 +23,7 @@ public class AsyncMailService {
 	private TokenGenerator tokenGen;
 	private GWERepository userRepository;
 
-	@Value("${gwe.email}")
+	@Value("${EMAIL_USER}")
 	private String adminMail;
 
 	@Value("${server.port}")

@@ -15,7 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class ImpressumController {
 	private AsyncMailService mailService;
 
-	@Value("${gwe.email}")
+	@Value("${EMAIL_USER}")
 	private String adminMail;
 
 	@Autowired
