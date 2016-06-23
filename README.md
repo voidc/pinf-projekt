@@ -41,6 +41,7 @@ Diese Version des Prototypen verwendet keine In-Memory Datenbank, sondern eine "
     DB_PASSWORD=<Datenbank Passwort>
     EMAIL_USER=ehemalige@gymnasiumwaldkraiburg.de
     EMAIL_PASSWORD=<Email Passwort>
+    GWE_ADDRESS=http://localhost:8080/
 
 ## Lokal Ausführen
   - Packaging mit Maven (Goal: `package`)

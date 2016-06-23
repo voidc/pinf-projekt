@@ -42,6 +42,9 @@ public class MessageController {
 	@Value("${EMAIL_USER}")
 	private String adminMail;
 
+	@Value("${GWE_ADDRESS}")
+	private String gweAddress;
+
 	@Autowired
 	public MessageController(GWERepository userRepository, GWEEventRepository eventRepository, AsyncMailService mailService,
 			TemplateEngine templateEngine) {
@@ -103,7 +106,7 @@ public class MessageController {
 		}
 
 		String cuName = currentUser.getFirstName() + " " + currentUser.getLastName();
-		String replyUrl = String.format(getAddress() + "/message?to=%d", currentUser.getId());
+		String replyUrl = String.format(gweAddress + "message?to=%d", currentUser.getId());
 		String messageContent = gweMessage.getContent().replace("\n", "<br/>");
 		
 		Context ctx = new Context();
@@ -136,17 +139,6 @@ public class MessageController {
 		} else {
 			return "redirect:/search";
 		}
-	}
-
-	private String getAddress() {
-		String serverAddress = "localhost";
-		try {
-			serverAddress = NetworkInterface.getNetworkInterfaces().nextElement().getInetAddresses().nextElement()
-					.getHostAddress();
-		} catch (SocketException e) {
-			e.printStackTrace();
-		}
-		return String.format("http://%s:%s", serverAddress, serverPort);
 	}
 
 }

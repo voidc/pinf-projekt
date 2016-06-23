@@ -26,8 +26,8 @@ public class AsyncMailService {
 	@Value("${EMAIL_USER}")
 	private String adminMail;
 
-	@Value("${server.port}")
-	private String serverPort;
+	@Value("${GWE_ADDRESS}")
+	private String gweAddress;
 
 	@Value("${gwe.reset-token-expiry}")
 	private long tokenExpiry;
@@ -53,7 +53,7 @@ public class AsyncMailService {
 		recipient.setActivationToken(token);
 		userRepository.save(recipient);
 
-		String activationUrl = getAddress() + "/gwe/activate?token=" + token;
+		String activationUrl = gweAddress + "activate?token=" + token;
 
 		sendMail(mime -> {
 			MimeMessageHelper mail = new MimeMessageHelper(mime, true, "UTF-8");
@@ -73,7 +73,7 @@ public class AsyncMailService {
 		recipient.setResetTokenIssued(new Timestamp(new Date().getTime()));
 		userRepository.save(recipient);
 
-		String resetUrl = getAddress() + "/gwe/reset?token=" + token;
+		String resetUrl = gweAddress + "reset?token=" + token;
 		String exprires = new SimpleDateFormat("dd.MM.yyyy HH:mm").format(new Date(recipient.getResetTokenIssued().getTime() + tokenExpiry));
 
 		sendMail(mime -> {
@@ -87,17 +87,6 @@ public class AsyncMailService {
 					+ "Der Link ist für 24 Stunden bis " + exprires + " gültig.", true);
 		});
 		return true;
-	}
-
-	public String getAddress() {
-		String serverAddress = "localhost";
-		try {
-			serverAddress = NetworkInterface.getNetworkInterfaces().nextElement().getInetAddresses().nextElement()
-					.getHostAddress();
-		} catch (SocketException e) {
-			e.printStackTrace();
-		}
-		return String.format("http://%s:%s", serverAddress, serverPort);
 	}
 
 }
