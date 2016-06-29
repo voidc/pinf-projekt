@@ -86,7 +86,7 @@ public class EventController {
 
 	@RequestMapping(value = "/event/{eventId}/delete", method = RequestMethod.POST)
 	public String deleteEvent(@PathVariable long eventId) {
-		GWEEvent event = eventRepository.findOne(eventId);
+		GWEEvent event = (GWEEvent) eventRepository.findOne(eventId);
 		if (event == null) {
 			return "redirect:/error?type=noSearchResults";
 		}
@@ -103,7 +103,7 @@ public class EventController {
 
 	@RequestMapping(value = "/event/{eventId}", method = RequestMethod.GET)
 	public ModelAndView event(@PathVariable long eventId) {
-		GWEEvent event = eventRepository.findOne(eventId);
+		GWEEvent event = (GWEEvent) eventRepository.findOne(eventId);
 		if (event == null) {
 			return new ModelAndView("redirect:/error?type=noSearchResults");
 		}
@@ -128,7 +128,7 @@ public class EventController {
 
 	@RequestMapping(value = "/event/{eventId}/edit", method = RequestMethod.GET)
 	public ModelAndView getEdit(@PathVariable int eventId) {
-		GWEEvent event = eventRepository.findOne((long) eventId);
+		GWEEvent event = (GWEEvent) eventRepository.findOne((long) eventId);
 		if (event == null) {
 			return new ModelAndView("redirect:/error?type=noSearchResults");
 		}
@@ -166,7 +166,7 @@ public class EventController {
 		} catch (ParseException e) {
 		}
 
-		GWEEvent event = eventRepository.findOne((long) eventId);
+		GWEEvent event = (GWEEvent) eventRepository.findOne((long) eventId);
 		if (event == null) {
 			return new ModelAndView("redirect:/error?type=noSearchResults");
 		}

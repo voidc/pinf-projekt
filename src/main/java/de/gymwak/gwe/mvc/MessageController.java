@@ -1,7 +1,5 @@
 package de.gymwak.gwe.mvc;
 
-import java.net.NetworkInterface;
-import java.net.SocketException;
 import java.util.Collections;
 import java.util.List;
 
@@ -61,7 +59,7 @@ public class MessageController {
 			mav.addObject("year", to.substring(4));
 		} else if (to.startsWith("event")) {
 			long eventId = Long.parseLong(to.substring(5));
-			GWEEvent event = eventRepository.findOne(eventId);
+			GWEEvent event = (GWEEvent) eventRepository.findOne(eventId);
 			mav.addObject("event", event);
 		} else {
 			long recipientId = Long.parseLong(to);
@@ -100,7 +98,7 @@ public class MessageController {
 //			recipientSalutation = "Ehemahliger Schüler des Abiturjahres " + gweMessage.getRecipientsYear();
 			recipientSalutation = "year";
 		} else {
-			event = eventRepository.findOne(gweMessage.getEventId());
+			event = (GWEEvent) eventRepository.findOne(gweMessage.getEventId());
 			recipients = event.getParticipants();
 			recipientSalutation = null;
 		}

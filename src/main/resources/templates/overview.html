@@ -238,6 +238,8 @@
         $(function () {
             if (!noEvents) {
                 document.getElementById("no-events").style["display"] = noVisibleEvents();
+            } else {
+            	document.getElementById("no-events").style["display"] = 'block';
             }
             $('[data-toggle="popover"]').popover()
         })
