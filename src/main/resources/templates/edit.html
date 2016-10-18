@@ -96,8 +96,8 @@
                         <div class="form-group">
                             <label for="inputDiscipline" class="col-sm-2 control-label">Fachgebiet</label>
                             <div class="col-sm-10">
-                                <select role="button" name="discipline" class="form-control" id="inputDiscipline" required="required">
-                                    <option th:each="d : ${disciplines}" th:text="${d.desc}" th:value="${d.name()}" th:selected="${currentUser.discipline == d}"></option>
+                                <select role="button" name="disciplines" class="form-control" id="inputDiscipline" required="required" multiple="multiple">
+                                    <option th:each="d : ${disciplines}" th:text="${d.desc}" th:value="${d.name()}" th:selected="${currentUser.hasDiscipline(d)}"></option>
                                 </select>
                             </div>
                         </div>

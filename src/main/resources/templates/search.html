@@ -97,7 +97,7 @@
                             <li>
                                 <span class="fa fa-book text-muted" aria-hidden="true" title="Fachgebiet"></span>
                                 <span class="sr-only">Fachgebiet:</span>
-                                <span th:text="| ${user.discipline.desc}">occu</span>
+                                <span th:text="| ${user.getDisciplinesAsString()}">occu</span>
                             </li>
                         </ul>
                     </div>

@@ -35,7 +35,7 @@ public class OverviewController {
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		GWEUser currentUser = userRepository.findByEmail(auth.getName());
-		Sort sort = new Sort("lastName", "firstName", "occupation", "discipline", "id");
+		Sort sort = new Sort("lastName", "firstName", "occupation", "disciplines", "id");
 
 		mav.addObject("year",
 				userRepository.findByGraduationYearAndGraduationTypeAndIdNot(

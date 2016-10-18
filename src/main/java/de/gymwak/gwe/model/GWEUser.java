@@ -2,15 +2,11 @@ package de.gymwak.gwe.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.EnumSet;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -80,7 +76,7 @@ public class GWEUser implements Serializable {
 		this.graduationType = edit.getGraduationType();
 		this.graduationYear = edit.getGraduationYear();
 		this.occupation = edit.getOccupation();
-		setDisciplines(EnumSet.copyOf(edit.getDisciplines()));
+		setDisciplines(edit.getDisciplines());
 	}
 
 	public Long getId() {
@@ -150,17 +146,30 @@ public class GWEUser implements Serializable {
 	public EnumSet<Discipline> getDisciplines() {
 		EnumSet<Discipline> set = EnumSet.noneOf(Discipline.class);
 		for(Discipline d : Discipline.values()) {
-			if((d.bitMask() & disciplines) != 0)
+			if(hasDiscipline(d))
 				set.add(d);
 		}
 		return set;
 	}
 
-	public void setDisciplines(EnumSet<Discipline> disciplines) {
+	public String getDisciplinesAsString() {
+		String str = "";
+		for(Discipline d : Discipline.values()) {
+			if(hasDiscipline(d))
+				str += (d.desc + ", ");
+		}
+		return str.length() >= 2 ? str.substring(0, str.length() - 2) : str;
+	}
+
+	public void setDisciplines(Collection<Discipline> disciplines) {
 		this.disciplines = 0;
 		for(Discipline d : disciplines) {
 			this.disciplines |= d.bitMask();
 		}
+	}
+
+	public boolean hasDiscipline(Discipline d) {
+		return (disciplines & d.bitMask()) != 0;
 	}
 
 	public String getResetToken() {

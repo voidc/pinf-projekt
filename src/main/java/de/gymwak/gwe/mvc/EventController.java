@@ -48,7 +48,7 @@ public class EventController {
 	@RequestMapping(value = "/event/new", method = RequestMethod.GET)
 	public ModelAndView newEvent() {
 		ModelAndView mav = new ModelAndView("newevent");
-		Sort sort = new Sort("lastName", "firstName", "graduationYear", "graduationType", "occupation", "discipline", "id");
+		Sort sort = new Sort("lastName", "firstName", "graduationYear", "graduationType", "occupation", "disciplines", "id");
 		Iterable<GWEUser> allUsers = userRepository.findAll(sort);
 		mav.addObject("users", allUsers);
 
@@ -142,7 +142,7 @@ public class EventController {
 
 		ModelAndView mav = new ModelAndView("editevent");
 
-		Sort sort = new Sort("lastName", "firstName", "graduationYear", "graduationType", "occupation", "discipline", "id");
+		Sort sort = new Sort("lastName", "firstName", "graduationYear", "graduationType", "occupation", "disciplines", "id");
 		Iterable<GWEUser> allUsers = userRepository.findAll(sort);
 		mav.addObject("allUsers", allUsers);
 

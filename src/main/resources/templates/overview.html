@@ -42,7 +42,7 @@
                                               title="Fachgebiet"></span>
                                         <span class="sr-only">Fachgebiet:</span>
                                     </td>
-                                    <td style="border: none;" th:text="| ${currentUser.discipline.desc}">disc</td>
+                                    <td style="border: none;" th:text="| ${currentUser.getDisciplinesAsString()}">disc</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -193,7 +193,7 @@
                                                 <span class="sr-only">Fachgebiet:</span>
                                             </td>
                                             <td>
-                                                <span th:text="| ${user.discipline.desc}">occu</span>
+                                                <span th:text="| ${user.getDisciplinesAsString()}">occu</span>
                                             </td>
                                         </tr>
                                     </tbody>

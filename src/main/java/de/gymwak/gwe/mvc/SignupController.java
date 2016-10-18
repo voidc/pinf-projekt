@@ -47,6 +47,7 @@ public class SignupController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String signup(@Valid GWEUser user, BindingResult result, RedirectAttributes rAttr) {
+		System.out.println(result.getRawFieldValue("disciplines"));
 		if (result.hasErrors()) {
 			rAttr.addFlashAttribute("signupUser", user);
 			return "redirect:/signup?error";
