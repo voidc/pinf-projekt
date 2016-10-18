@@ -1,1 +1,1 @@
-web: java -jar target/dependency/webapp-runner.jar --port 8080 target/*.war
+web: java -Dserver.port=8080 -jar target/gwe-1.0.1.jar
