@@ -2,6 +2,7 @@ package de.gymwak.gwe.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.EnumSet;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -46,8 +47,7 @@ public class GWEUser implements Serializable {
 	@NotEmpty(message = "Occupation is required.")
 	private String occupation;
 
-	@Enumerated(EnumType.STRING)
-	private Discipline discipline;
+	private int disciplines;
 	
 	private String resetToken;
 	
@@ -69,7 +69,7 @@ public class GWEUser implements Serializable {
 		this.graduationType = user.graduationType;
 		this.graduationYear = user.graduationYear;
 		this.occupation = user.occupation;
-		this.discipline = user.discipline;
+		this.disciplines = user.disciplines;
 		this.activated = user.activated;
 	}
 
@@ -80,7 +80,7 @@ public class GWEUser implements Serializable {
 		this.graduationType = edit.getGraduationType();
 		this.graduationYear = edit.getGraduationYear();
 		this.occupation = edit.getOccupation();
-		this.discipline = edit.getDiscipline();
+		setDisciplines(EnumSet.copyOf(edit.getDisciplines()));
 	}
 
 	public Long getId() {
@@ -147,12 +147,20 @@ public class GWEUser implements Serializable {
 		this.occupation = occupation;
 	}
 
-	public Discipline getDiscipline() {
-		return discipline;
+	public EnumSet<Discipline> getDisciplines() {
+		EnumSet<Discipline> set = EnumSet.noneOf(Discipline.class);
+		for(Discipline d : Discipline.values()) {
+			if((d.bitMask() & disciplines) != 0)
+				set.add(d);
+		}
+		return set;
 	}
 
-	public void setDiscipline(Discipline discipline) {
-		this.discipline = discipline;
+	public void setDisciplines(EnumSet<Discipline> disciplines) {
+		this.disciplines = 0;
+		for(Discipline d : disciplines) {
+			this.disciplines |= d.bitMask();
+		}
 	}
 
 	public String getResetToken() {
@@ -215,6 +223,10 @@ public class GWEUser implements Serializable {
 		public final String desc;
 		Discipline(String desc) {
 			this.desc = desc;
+		}
+
+		int bitMask() {
+			return 1 << ordinal();
 		}
 	}
 

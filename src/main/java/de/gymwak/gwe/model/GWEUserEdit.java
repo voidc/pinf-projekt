@@ -1,14 +1,12 @@
 package de.gymwak.gwe.model;
 
-import java.io.Serializable;
-
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.Collection;
 
 public class GWEUserEdit implements Serializable {
 
@@ -31,8 +29,7 @@ public class GWEUserEdit implements Serializable {
 	@NotEmpty(message = "Occupation is required.")
 	private String occupation;
 
-	@Enumerated(EnumType.STRING)
-	private GWEUser.Discipline discipline;
+	private Collection<GWEUser.Discipline> disciplines;
 
 	public GWEUserEdit() {
 	}
@@ -85,12 +82,12 @@ public class GWEUserEdit implements Serializable {
 		this.occupation = occupation;
 	}
 
-	public GWEUser.Discipline getDiscipline() {
-		return discipline;
+	public Collection<GWEUser.Discipline> getDisciplines() {
+		return disciplines;
 	}
 
-	public void setDiscipline(GWEUser.Discipline discipline) {
-		this.discipline = discipline;
+	public void setDisciplines(Collection<GWEUser.Discipline> disciplines) {
+		this.disciplines = disciplines;
 	}
 
 	private static final long serialVersionUID = -6037756829879653917L;
