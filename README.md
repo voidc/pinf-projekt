@@ -8,20 +8,12 @@ Unser derzeitiger Plan ist es, eine Java basierte Web Anwendung zu erstellen. Di
 - Dokumentation, Protokollierung des Projekts
 - Testing
 
-## Roadmap
-- [x] Nachricht an mehere Nutzer (an ganzen Jahrgang)
-- [x] Link in der Mail um über GWE zu antworten (keine direkte Antwort per Mail -> E-Mails bleiben privat)
-- [ ] Weitere Einstellungen für Nutzer: E-Mail für andere sichtbar machen, Nachrichten zulassen, E-Mail-Benachrichtigungs-Einstellungen, Account löschen ...
-- [ ] Buxfixes
-- [x] Deployment auf den Schulserver
-
 ## Projekt Setup
 Diese Version des Prototypen verwendet keine In-Memory Datenbank, sondern eine "richtige" SQL Datenbank
 
 1. Vorraussetzung: [Java](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (JRE und JDK)
 3. Installiere die [PostgreSQL](http://www.enterprisedb.com/products-services-training/pgdownload#windows) Datenbank
-  - Wähle während der Installation "47bVZ7nt8#c6" als Passwort
-  - Lasse den vorgegebenen Wert 5432 als Port
+  - Wähle während der Installation ein Passwort
   - Starte nach der Installation das Programm "pgAdmin III"
   - Wähle links im Objektbrowser den "PostgreSQL 9.5 (localhost:5432)" Server aus und verbinde dich mit einem Rechtsklick
   - Im Objektbrowser findest du nun "Datenbanken" als Unterpunkt des Servers
