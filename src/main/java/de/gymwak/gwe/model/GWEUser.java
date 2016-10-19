@@ -153,18 +153,23 @@ public class GWEUser implements Serializable {
 	}
 
 	public String getDisciplinesAsString() {
+		if(disciplines == 0)
+			return "Keine";
+
 		String str = "";
 		for(Discipline d : Discipline.values()) {
 			if(hasDiscipline(d))
 				str += (d.desc + ", ");
 		}
-		return str.length() >= 2 ? str.substring(0, str.length() - 2) : str;
+		return str.substring(0, str.length() - 2);
 	}
 
 	public void setDisciplines(Collection<Discipline> disciplines) {
 		this.disciplines = 0;
-		for(Discipline d : disciplines) {
-			this.disciplines |= d.bitMask();
+		if(disciplines != null) {
+			for(Discipline d : disciplines) {
+				this.disciplines |= d.bitMask();
+			}
 		}
 	}
 
@@ -212,22 +217,19 @@ public class GWEUser implements Serializable {
 	private static final long serialVersionUID = 2738859149330833739L;
 
 	public enum Discipline {
-		D("Deutsch"),
-		E("Englisch"),
-		F("Französisch"),
-		L("Latein"),
-		KU("Kunst"),
-		MU("Musik"),
-		GEO("Geographie"),
-		GSK("Geschichte / Sozialk."),
-		WR("Wirtschaft / Recht"),
-		RE("Religion / Ethik"),
-		M("Mathematik"),
-		BIO("Biologie"),
-		CH("Chemie"),
-		PH("Physik"),
-		INF("Informatik"),
-		SP("Sport");
+		LANG("Fremdsprachen, Germanistik"),
+		ART("Kunst, Architektur, Design"),
+		MUSIC("Musik, Instrumente"),
+		GEO("Geographie, Geologie"),
+		SOCIAL("Solzialwissenschaften, Historik"),
+		LAW("Jura, Recht, Öffentliche Verwaltung"),
+		ECO("Wirtschaft, Finazen"),
+		PHIL("Religion, Ethik, Philosophie"),
+		MATH("Mathematik, Informatik"),
+		BIOCHEM("Biologie, Chemie"),
+		PHY("Physik, Maschienenbau, Elektrotechnik"),
+		MED("Sport, Medizin, Gesundheit"),
+		PSY("Psychologie, Pädagogik");
 
 		public final String desc;
 		Discipline(String desc) {
