@@ -14,11 +14,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.security.SecureRandom;
 
-@Configuration @EnableWebSecurity @EnableGlobalMethodSecurity(prePostEnabled = true) public class SecurityConfig
+@Configuration
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class SecurityConfig
 		extends WebSecurityConfigurerAdapter {
 
-	@Override protected void configure(HttpSecurity http) throws Exception {
-		// @formatter:off
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        // @formatter:off
 		http.csrf().disable()
 			.formLogin()
 				.loginPage("/login")
@@ -33,19 +37,22 @@ import java.security.SecureRandom;
 				.antMatchers("/css/**", "/img/**", "/signup", "/impressum", "/reset", "/activate", "/error", "/about").permitAll()
 				.anyRequest().authenticated();
 		// @formatter:on
-	}
+    }
 
-	@Autowired public void configureGlobal(AuthenticationManagerBuilder auth, UserDetailsService service,
-			PasswordEncoder encoder) throws Exception {
-		auth.userDetailsService(service).passwordEncoder(encoder);
-	}
+    @Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth, UserDetailsService service,
+                                PasswordEncoder encoder) throws Exception {
+        auth.userDetailsService(service).passwordEncoder(encoder);
+    }
 
-	@Bean public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-	@Bean SecureRandom secureRandom() {
-		return new SecureRandom();
-	}
+    @Bean
+    SecureRandom secureRandom() {
+        return new SecureRandom();
+    }
 
 }

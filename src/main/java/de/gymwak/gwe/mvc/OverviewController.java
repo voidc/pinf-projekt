@@ -12,31 +12,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-@Controller public class OverviewController {
-	private GWERepository userRepository;
-	private GWEEventRepository eventRepository;
+@Controller
+public class OverviewController {
+    private GWERepository userRepository;
+    private GWEEventRepository eventRepository;
 
-	@Autowired public OverviewController(GWERepository userRepository, GWEEventRepository eventRepository) {
-		this.userRepository = userRepository;
-		this.eventRepository = eventRepository;
-	}
+    @Autowired
+    public OverviewController(GWERepository userRepository, GWEEventRepository eventRepository) {
+        this.userRepository = userRepository;
+        this.eventRepository = eventRepository;
+    }
 
-	@RequestMapping(path = "/", method = RequestMethod.GET) public String get() {
-		return "redirect:/overview";
-	}
+    @RequestMapping(path = "/", method = RequestMethod.GET)
+    public String get() {
+        return "redirect:/overview";
+    }
 
-	@RequestMapping(path = "/overview", method = RequestMethod.GET) public ModelAndView overviewDetails() {
-		ModelAndView mav = new ModelAndView("overview");
+    @RequestMapping(path = "/overview", method = RequestMethod.GET)
+    public ModelAndView overviewDetails() {
+        ModelAndView mav = new ModelAndView("overview");
 
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		GWEUser currentUser = userRepository.findByEmail(auth.getName());
-		Sort sort = new Sort("lastName", "firstName", "occupation", "disciplines", "id");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        GWEUser currentUser = userRepository.findByEmail(auth.getName());
+        Sort sort = new Sort("lastName", "firstName", "occupation", "disciplines", "id");
 
-		mav.addObject("year", userRepository
-				.findByGraduationYearAndGraduationTypeAndIdNot(currentUser.getGraduationYear(),
-						currentUser.getGraduationType(), currentUser.getId(), sort));
+        mav.addObject("year", userRepository
+                .findByGraduationYearAndGraduationTypeAndIdNot(currentUser.getGraduationYear(),
+                        currentUser.getGraduationType(), currentUser.getId(), sort));
 
-		mav.addObject("events", eventRepository.findAll());
-		return mav;
-	}
+        mav.addObject("events", eventRepository.findAll());
+        return mav;
+    }
 }

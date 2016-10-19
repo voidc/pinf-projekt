@@ -9,21 +9,26 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
-@ControllerAdvice @Order(Ordered.HIGHEST_PRECEDENCE) public class ErrorAdvice {
+@ControllerAdvice
+@Order(Ordered.HIGHEST_PRECEDENCE)
+public class ErrorAdvice {
 
-	@ExceptionHandler(NoHandlerFoundException.class) @ResponseStatus(HttpStatus.NOT_FOUND) public ModelAndView handle404(
-			NoHandlerFoundException ex) {
-		ModelAndView mav = new ModelAndView("error");
-		mav.addObject("errmsg", "404 - Seite nicht gefunden");
-		return mav;
-	}
+    @ExceptionHandler(NoHandlerFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ModelAndView handle404(
+            NoHandlerFoundException ex) {
+        ModelAndView mav = new ModelAndView("error");
+        mav.addObject("errmsg", "404 - Seite nicht gefunden");
+        return mav;
+    }
 
-	@ExceptionHandler(Throwable.class) public ModelAndView handleException(Throwable ex) {
-		ex.printStackTrace();
-		ModelAndView mav = new ModelAndView("error");
-		mav.addObject("exception", ex);
-		mav.addObject("stackTrace", ex.getStackTrace());
-		return mav;
-	}
+    @ExceptionHandler(Throwable.class)
+    public ModelAndView handleException(Throwable ex) {
+        ex.printStackTrace();
+        ModelAndView mav = new ModelAndView("error");
+        mav.addObject("exception", ex);
+        mav.addObject("stackTrace", ex.getStackTrace());
+        return mav;
+    }
 
 }

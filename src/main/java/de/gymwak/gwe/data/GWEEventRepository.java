@@ -6,5 +6,5 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import java.util.List;
 
 public interface GWEEventRepository extends PagingAndSortingRepository<GWEEvent, Long> {
-	List<GWEEvent> findByOrganizerId(long organizerId);
+    List<GWEEvent> findByOrganizerId(long organizerId);
 }

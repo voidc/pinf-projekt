@@ -6,22 +6,25 @@ import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 
-@Service public class TokenGenerator {
-	private SecureRandom rnd;
+@Service
+public class TokenGenerator {
+    private SecureRandom rnd;
 
-	@Value("${gwe.token-length}") private int tokenLength;
+    @Value("${gwe.token-length}")
+    private int tokenLength;
 
-	@Autowired public TokenGenerator(SecureRandom rnd) {
-		this.rnd = rnd;
-	}
+    @Autowired
+    public TokenGenerator(SecureRandom rnd) {
+        this.rnd = rnd;
+    }
 
-	public String nextToken() {
-		char[] chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < tokenLength; i++) {
-			char c = chars[rnd.nextInt(chars.length)];
-			sb.append(c);
-		}
-		return sb.toString();
-	}
+    public String nextToken() {
+        char[] chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < tokenLength; i++) {
+            char c = chars[rnd.nextInt(chars.length)];
+            sb.append(c);
+        }
+        return sb.toString();
+    }
 }

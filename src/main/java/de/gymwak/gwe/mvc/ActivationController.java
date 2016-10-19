@@ -12,41 +12,45 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-@Controller public class ActivationController {
-	private GWERepository userRepository;
-	private AsyncMailService mailService;
+@Controller
+public class ActivationController {
+    private GWERepository userRepository;
+    private AsyncMailService mailService;
 
-	@Autowired public ActivationController(GWERepository userRepository, AsyncMailService mailService) {
-		this.userRepository = userRepository;
-		this.mailService = mailService;
-	}
+    @Autowired
+    public ActivationController(GWERepository userRepository, AsyncMailService mailService) {
+        this.userRepository = userRepository;
+        this.mailService = mailService;
+    }
 
-	@RequestMapping(path = "/activate", method = RequestMethod.GET, params = { "token" }) public String get(
-			@RequestParam("token") String token, RedirectAttributes rAttr) {
-		if (token == null) {
-			rAttr.addFlashAttribute("status", "Aktivierung fehlgeschlagen");
-			return "redirect:/login";
-		}
+    @RequestMapping(path = "/activate", method = RequestMethod.GET, params = {"token"})
+    public String get(
+            @RequestParam("token") String token, RedirectAttributes rAttr) {
+        if (token == null) {
+            rAttr.addFlashAttribute("status", "Aktivierung fehlgeschlagen");
+            return "redirect:/login";
+        }
 
-		GWEUser activationUser = userRepository.findByActivationToken(token);
-		if (activationUser != null) {
-			activationUser.setActivated(true);
-			userRepository.save(activationUser);
-			rAttr.addFlashAttribute("status", "Aktivierung erfolgreich");
-			return "redirect:/login";
-		} else {
-			rAttr.addFlashAttribute("status", "Aktivierung fehlgeschlagen");
-			return "redirect:/login";
-		}
-	}
+        GWEUser activationUser = userRepository.findByActivationToken(token);
+        if (activationUser != null) {
+            activationUser.setActivated(true);
+            userRepository.save(activationUser);
+            rAttr.addFlashAttribute("status", "Aktivierung erfolgreich");
+            return "redirect:/login";
+        } else {
+            rAttr.addFlashAttribute("status", "Aktivierung fehlgeschlagen");
+            return "redirect:/login";
+        }
+    }
 
-	@RequestMapping(path = "/activationmail", method = RequestMethod.GET) public String sendActivationMail(
-			RedirectAttributes rAttr) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		GWEUser currentUser = userRepository.findByEmail(auth.getName());
-		mailService.sendActivationMail(currentUser);
-		rAttr.addFlashAttribute("status", "Aktivierungsmail gesendet");
-		return "redirect:/user";
-	}
+    @RequestMapping(path = "/activationmail", method = RequestMethod.GET)
+    public String sendActivationMail(
+            RedirectAttributes rAttr) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        GWEUser currentUser = userRepository.findByEmail(auth.getName());
+        mailService.sendActivationMail(currentUser);
+        rAttr.addFlashAttribute("status", "Aktivierungsmail gesendet");
+        return "redirect:/user";
+    }
 
 }

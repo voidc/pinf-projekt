@@ -9,21 +9,24 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-@ControllerAdvice public class UserAdvice {
-	private GWERepository userRepository;
+@ControllerAdvice
+public class UserAdvice {
+    private GWERepository userRepository;
 
-	@Autowired public UserAdvice(GWERepository userRepository) {
-		this.userRepository = userRepository;
-	}
+    @Autowired
+    public UserAdvice(GWERepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
-	@ModelAttribute("currentUser") public GWEUser currentUser() {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    @ModelAttribute("currentUser")
+    public GWEUser currentUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-		if (auth == null || auth instanceof AnonymousAuthenticationToken || !auth.isAuthenticated()) {
-			return null;
-		}
+        if (auth == null || auth instanceof AnonymousAuthenticationToken || !auth.isAuthenticated()) {
+            return null;
+        }
 
-		return userRepository.findByEmail(auth.getName());
-	}
+        return userRepository.findByEmail(auth.getName());
+    }
 
 }

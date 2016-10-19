@@ -11,39 +11,44 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-@Controller public class UserController {
-	private GWERepository userRepository;
+@Controller
+public class UserController {
+    private GWERepository userRepository;
 
-	@Autowired public UserController(GWERepository userRepository) {
-		this.userRepository = userRepository;
-	}
+    @Autowired
+    public UserController(GWERepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
-	@RequestMapping(path = "/user", method = RequestMethod.GET) public String userDetails() {
-		return "user";
-	}
+    @RequestMapping(path = "/user", method = RequestMethod.GET)
+    public String userDetails() {
+        return "user";
+    }
 
-	@RequestMapping(path = "/delete", method = RequestMethod.POST) public String deleteUser() {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		GWEUser currentUser = userRepository.findByEmail(auth.getName());
-		userRepository.delete(currentUser);
-		return "redirect:/logout";
-	}
+    @RequestMapping(path = "/delete", method = RequestMethod.POST)
+    public String deleteUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        GWEUser currentUser = userRepository.findByEmail(auth.getName());
+        userRepository.delete(currentUser);
+        return "redirect:/logout";
+    }
 
-	@RequestMapping(path = "/user/{userId}", method = RequestMethod.GET) public ModelAndView userProfile(
-			@PathVariable int userId) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		GWEUser currentUser = userRepository.findByEmail(auth.getName());
+    @RequestMapping(path = "/user/{userId}", method = RequestMethod.GET)
+    public ModelAndView userProfile(
+            @PathVariable int userId) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        GWEUser currentUser = userRepository.findByEmail(auth.getName());
 
-		if (currentUser.getId() == userId)
-			return new ModelAndView("redirect:/");
+        if (currentUser.getId() == userId)
+            return new ModelAndView("redirect:/");
 
-		GWEUser user = userRepository.findOne((long) userId);
-		if (user == null) {
-			return new ModelAndView("redirect:/error?type=noSearchResults");
-		}
-		ModelAndView mav = new ModelAndView("profile");
-		mav.addObject("user", user);
-		return mav;
-	}
+        GWEUser user = userRepository.findOne((long) userId);
+        if (user == null) {
+            return new ModelAndView("redirect:/error?type=noSearchResults");
+        }
+        ModelAndView mav = new ModelAndView("profile");
+        mav.addObject("user", user);
+        return mav;
+    }
 
 }

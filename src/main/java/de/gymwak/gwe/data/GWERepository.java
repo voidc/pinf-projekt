@@ -7,14 +7,14 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import java.util.List;
 
 public interface GWERepository extends PagingAndSortingRepository<GWEUser, Long> {
-	GWEUser findByEmail(String email);
+    GWEUser findByEmail(String email);
 
-	GWEUser findByResetToken(String resetToken);
+    GWEUser findByResetToken(String resetToken);
 
-	List<GWEUser> findByGraduationYear(int graduationYear);
+    List<GWEUser> findByGraduationYear(int graduationYear);
 
-	GWEUser findByActivationToken(String token);
+    GWEUser findByActivationToken(String token);
 
-	List<GWEUser> findByGraduationYearAndGraduationTypeAndIdNot(int graduationYear,
-			GWEUser.GraduationType graduationType, long id, Sort sort);
+    List<GWEUser> findByGraduationYearAndGraduationTypeAndIdNot(int graduationYear,
+                                                                GWEUser.GraduationType graduationType, long id, Sort sort);
 }
