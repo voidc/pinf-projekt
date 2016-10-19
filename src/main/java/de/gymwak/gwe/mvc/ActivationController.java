@@ -1,5 +1,8 @@
 package de.gymwak.gwe.mvc;
 
+import de.gymwak.gwe.data.GWERepository;
+import de.gymwak.gwe.model.GWEUser;
+import de.gymwak.gwe.service.AsyncMailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -9,23 +12,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import de.gymwak.gwe.data.GWERepository;
-import de.gymwak.gwe.model.GWEUser;
-import de.gymwak.gwe.service.AsyncMailService;
-
-@Controller
-public class ActivationController {
+@Controller public class ActivationController {
 	private GWERepository userRepository;
 	private AsyncMailService mailService;
 
-	@Autowired
-	public ActivationController(GWERepository userRepository, AsyncMailService mailService) {
+	@Autowired public ActivationController(GWERepository userRepository, AsyncMailService mailService) {
 		this.userRepository = userRepository;
 		this.mailService = mailService;
 	}
 
-	@RequestMapping(path = "/activate", method = RequestMethod.GET, params = {"token"})
-	public String get(@RequestParam("token") String token, RedirectAttributes rAttr) {
+	@RequestMapping(path = "/activate", method = RequestMethod.GET, params = { "token" }) public String get(
+			@RequestParam("token") String token, RedirectAttributes rAttr) {
 		if (token == null) {
 			rAttr.addFlashAttribute("status", "Aktivierung fehlgeschlagen");
 			return "redirect:/login";
@@ -43,8 +40,8 @@ public class ActivationController {
 		}
 	}
 
-	@RequestMapping(path = "/activationmail", method = RequestMethod.GET)
-	public String sendActivationMail(RedirectAttributes rAttr) {
+	@RequestMapping(path = "/activationmail", method = RequestMethod.GET) public String sendActivationMail(
+			RedirectAttributes rAttr) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		GWEUser currentUser = userRepository.findByEmail(auth.getName());
 		mailService.sendActivationMail(currentUser);

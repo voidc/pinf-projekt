@@ -57,9 +57,9 @@ body {
 }
 
 .list-group-item:focus, .list-group-item.link:hover {
-    color:#555;
-    text-decoration:none;
-    background-color:#f5f5f5
+    color: #555;
+    text-decoration: none;
+    background-color: #f5f5f5
 }
 
 .list-group-item-text > li > .fa, .list-group-item-text > p > .fa,
@@ -241,7 +241,8 @@ body {
 
 .dropdown-menu > li > button {
     width: 100%;
-    text-align: left;" 
+    text-align: left;
+"
 }
 
 .seperator {
@@ -298,9 +299,11 @@ body {
         width: 15rem;
         float: none;
     }
+
     .logo-text {
         text-align: center;
     }
+
     .page-header {
         padding-bottom: 9px;
         margin: 0 0 0;
@@ -314,14 +317,17 @@ body {
         height: auto;
         float: left;
     }
+
     .logo-login {
         margin-left: 25%;
         float: left;
         width: 16.66666667%;
     }
+
     .logo-text {
         text-align: left;
     }
+
     .page-header {
         padding-bottom: 9px;
         margin: 40px 0 20px;
@@ -334,7 +340,7 @@ body {
         background-color: #f7f7f7;
     }
 
-    .navbar-nav .open .dropdown-menu .dropdown-header, .navbar-nav .open .dropdown-menu >li> a {
+    .navbar-nav .open .dropdown-menu .dropdown-header, .navbar-nav .open .dropdown-menu > li > a {
         margin-left: 10px;
     }
 

@@ -1,9 +1,10 @@
 package de.gymwak.gwe.mvc;
 
-import java.util.Calendar;
-
-import javax.validation.Valid;
-
+import de.gymwak.gwe.data.GWERepository;
+import de.gymwak.gwe.model.GWEUser;
+import de.gymwak.gwe.model.GWEUser.GraduationType;
+import de.gymwak.gwe.model.GWEUserEdit;
+import de.gymwak.gwe.service.AsyncMailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,37 +16,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import de.gymwak.gwe.data.GWERepository;
-import de.gymwak.gwe.model.GWEUser;
-import de.gymwak.gwe.model.GWEUser.GraduationType;
-import de.gymwak.gwe.model.GWEUserEdit;
-import de.gymwak.gwe.service.AsyncMailService;
+import javax.validation.Valid;
+import java.util.Calendar;
 
-@Controller
-@RequestMapping("/edit")
-public class EditController {
+@Controller @RequestMapping("/edit") public class EditController {
 	private GWERepository userRepository;
 	private PasswordEncoder encoder;
 	private AsyncMailService mailService;
 
-	@Autowired
-	public EditController(GWERepository userRepository, PasswordEncoder encoder, AsyncMailService mailService) {
+	@Autowired public EditController(GWERepository userRepository, PasswordEncoder encoder,
+			AsyncMailService mailService) {
 		this.userRepository = userRepository;
 		this.encoder = encoder;
 		this.mailService = mailService;
 	}
 
-	@RequestMapping(method = RequestMethod.GET)
-	public String get() {
+	@RequestMapping(method = RequestMethod.GET) public String get() {
 		return "edit";
 	}
 
-	@RequestMapping(method = RequestMethod.POST)
-	public String edit(@Valid GWEUserEdit userEdit, BindingResult result) {
+	@RequestMapping(method = RequestMethod.POST) public String edit(@Valid GWEUserEdit userEdit, BindingResult result) {
 		//@ModelAttribute übernimmt Werte aus dem Request (Form)
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		GWEUser currentUser = userRepository.findByEmail(auth.getName());
-		
+
 		if (result.hasErrors()) {
 			return "redirect:/edit?error";
 		}
@@ -55,11 +49,11 @@ public class EditController {
 		if (changedUsername && userRepository.findByEmail(userEdit.getEmail()) != null) {
 			return "redirect:/edit?error";
 		}
-		
-		if (((userEdit.getGraduationType() == GraduationType.ABITUR_WALDKRAIBURG
-						|| (userEdit.getGraduationType() == null && currentUser.getGraduationType() == GraduationType.ABITUR_WALDKRAIBURG))
-						&& userEdit.getGraduationYear() < 2001)
-				|| userEdit.getGraduationYear() < 1940
+
+		if (((userEdit.getGraduationType() == GraduationType.ABITUR_WALDKRAIBURG || (
+				userEdit.getGraduationType() == null
+						&& currentUser.getGraduationType() == GraduationType.ABITUR_WALDKRAIBURG))
+				&& userEdit.getGraduationYear() < 2001) || userEdit.getGraduationYear() < 1940
 				|| userEdit.getGraduationYear() > Calendar.getInstance().get(Calendar.YEAR) + 2) {
 
 			userEdit.setGraduationYear(currentUser.getGraduationYear());
@@ -81,8 +75,8 @@ public class EditController {
 		return changedUsername ? "redirect:/logout" : "redirect:/edit?action=success#top";
 	}
 
-	@RequestMapping(method = RequestMethod.POST, params = { "oldPassword", "password" })
-	public String changePassword(@RequestParam String oldPassword, @RequestParam String password) {
+	@RequestMapping(method = RequestMethod.POST, params = { "oldPassword", "password" }) public String changePassword(
+			@RequestParam String oldPassword, @RequestParam String password) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		GWEUser currentUser = userRepository.findByEmail(auth.getName());
 
@@ -97,13 +91,11 @@ public class EditController {
 		return "redirect:/edit?action=success#top";
 	}
 
-	@ModelAttribute("disciplines")
-	public GWEUser.Discipline[] disciplines() {
+	@ModelAttribute("disciplines") public GWEUser.Discipline[] disciplines() {
 		return GWEUser.Discipline.values();
 	}
 
-	@ModelAttribute("graduationTypes")
-	public GWEUser.GraduationType[] graduationTypes() {
+	@ModelAttribute("graduationTypes") public GWEUser.GraduationType[] graduationTypes() {
 		return GWEUser.GraduationType.values();
 	}
 

@@ -1,10 +1,9 @@
 package de.gymwak.gwe.data;
 
-import java.util.List;
-
+import de.gymwak.gwe.model.GWEEvent;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-import de.gymwak.gwe.model.GWEEvent;
+import java.util.List;
 
 public interface GWEEventRepository extends PagingAndSortingRepository<GWEEvent, Long> {
 	List<GWEEvent> findByOrganizerId(long organizerId);

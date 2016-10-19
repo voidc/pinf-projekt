@@ -5,71 +5,74 @@
 
 <body>
 
-    <div class="modal fade" id="modal-delete" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Schließen"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Account löschen</h4>
-                </div>
-                <div class="modal-body">
-                    <p>Sind Sie sicher, dass Sie ihren Account unwiderruflich löschen wollen?</p>
-                </div>
-                <div class="modal-footer">
-                    <form th:action="@{/delete}" method="POST">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Zurück</button>
-                        <button type="submit" class="btn btn-danger">Löschen</button>
-                    </form>
-                </div>
+<div class="modal fade" id="modal-delete" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Schließen"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Account löschen</h4>
+            </div>
+            <div class="modal-body">
+                <p>Sind Sie sicher, dass Sie ihren Account unwiderruflich löschen wollen?</p>
+            </div>
+            <div class="modal-footer">
+                <form th:action="@{/delete}" method="POST">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Zurück</button>
+                    <button type="submit" class="btn btn-danger">Löschen</button>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="content-wrap">
-        <div class="container">
-            <div th:replace="fragments :: header"></div>
-            <div class="panel panel-primary">
-                <div class="panel-heading">Benutzerdaten</div>
-                <table class="table table-hover">
-                    <tr>
-                        <td>E-Mail</td>
-                        <td th:text="${currentUser.email}">GWEUser.email</td>
-                    </tr>
-                    <tr>
-                        <td>Vorname</td>
-                        <td th:text="${currentUser.firstName}">GWEUser.firstName</td>
-                    </tr>
-                    <tr>
-                        <td>Nachname</td>
-                        <td th:text="${currentUser.lastName}">GWEUser.lastName</td>
-                    </tr>
-                    <tr>
-                        <td>Abiturjahr</td>
-                        <td th:text="${currentUser.graduationYear}">GWEUser.graduationYear</td>
-                    </tr>
-                    <tr>
-                        <td>Beschäftigung</td>
-                        <td th:text="${currentUser.occupation}">GWEUser.occupation</td>
-                    </tr>
-                    <tr>
-                        <td>Fachgebiet</td>
-                        <td th:text="${currentUser.getDisciplinesAsString()}">GWEUser.discipline</td>
-                    </tr>
-                </table>
-                <div class="panel-footer">
-                    <form th:action="@{/logout}" method="post">
-                        <button class="btn btn-warning" type="submit">Abmelden</button>
-                        <a th:href="@{/edit}" class="btn btn-success">Bearbeiten</a>
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete">Account löschen</button>
-                    </form>
-                </div>
+<div class="content-wrap">
+    <div class="container">
+        <div th:replace="fragments :: header"></div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">Benutzerdaten</div>
+            <table class="table table-hover">
+                <tr>
+                    <td>E-Mail</td>
+                    <td th:text="${currentUser.email}">GWEUser.email</td>
+                </tr>
+                <tr>
+                    <td>Vorname</td>
+                    <td th:text="${currentUser.firstName}">GWEUser.firstName</td>
+                </tr>
+                <tr>
+                    <td>Nachname</td>
+                    <td th:text="${currentUser.lastName}">GWEUser.lastName</td>
+                </tr>
+                <tr>
+                    <td>Abiturjahr</td>
+                    <td th:text="${currentUser.graduationYear}">GWEUser.graduationYear</td>
+                </tr>
+                <tr>
+                    <td>Beschäftigung</td>
+                    <td th:text="${currentUser.occupation}">GWEUser.occupation</td>
+                </tr>
+                <tr>
+                    <td>Fachgebiet</td>
+                    <td th:text="${currentUser.getDisciplinesAsString()}">GWEUser.discipline</td>
+                </tr>
+            </table>
+            <div class="panel-footer">
+                <form th:action="@{/logout}" method="post">
+                    <button class="btn btn-warning" type="submit">Abmelden</button>
+                    <a th:href="@{/edit}" class="btn btn-success">Bearbeiten</a>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete">Account
+                        löschen
+                    </button>
+                </form>
             </div>
-
         </div>
-    </div>
 
-    <div th:replace="fragments :: footer"></div>
-    <div th:replace="fragments :: bootstrap-script"></div>
+    </div>
+</div>
+
+<div th:replace="fragments :: footer"></div>
+<div th:replace="fragments :: bootstrap-script"></div>
 </body>
 
 </html>

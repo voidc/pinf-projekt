@@ -2,18 +2,21 @@
 <html lang="de" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 
 <body>
-    <p>
-        Hallo<span th:if="${recipient != null}"> <i th:text="${recipient}">Recipient</i></span>,
-        <br/>
-        <i th:text="${sender}">Sender</i> hat <span th:text="${recipient == 'year'} ? 'deinem Jahrgang' : 'dir'">dir</span> über das Ehemaligen Portal des Gymnsiums Waldkraiburg <span th:text="${event != null} ? 'in Bezug auf deine Teilnahme an der Veranstaltung ' + ${event.name} : ''"></span> eine Nachricht gesendet:
-    </p>
-    <p th:utext="${message}"></p>
+<p>
+    Hallo<span th:if="${recipient != null}"> <i th:text="${recipient}">Recipient</i></span>,
     <br/>
-    <a th:href="${replyUrl}">Antworten</a>
+    <i th:text="${sender}">Sender</i> hat <span th:text="${recipient == 'year'} ? 'deinem Jahrgang' : 'dir'">dir</span>
+    über das Ehemaligen Portal des Gymnsiums Waldkraiburg <span
+        th:text="${event != null} ? 'in Bezug auf deine Teilnahme an der Veranstaltung ' + ${event.name} : ''"></span>
+    eine Nachricht gesendet:
+</p>
+<p th:utext="${message}"></p>
+<br/>
+<a th:href="${replyUrl}">Antworten</a>
 </body>
 
 </html>

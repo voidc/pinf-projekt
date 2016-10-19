@@ -4,131 +4,140 @@
 <head th:replace="fragments :: head ('Suchergebnisse')"></head>
 
 <body>
-    <div class="content-wrap">
-        <div class="container">
-            <div th:replace="fragments :: header"></div>
-            <div class="panel panel-primary" style="min-height: 320px">
-                <div class="panel-heading">
-                    Suchergebnisse
-                    <span th:if="${query}" th:text="| für &quot;${query}&quot;|"></span>
-                </div>
-                <form class="panel-body" role="search" th:action="@{/search}" method="get">
-                    <div class="input-group" role="group">
-                        <input class="form-control" type="search" name="q" placeholder="Nutzersuche..." th:value="${query}" />
-                        <span class="input-group-btn">
-                            <button type="submit" class="btn btn-default"><span class="fa fa-search" aria-hidden="true"></span></button>
+<div class="content-wrap">
+    <div class="container">
+        <div th:replace="fragments :: header"></div>
+        <div class="panel panel-primary" style="min-height: 320px">
+            <div class="panel-heading">
+                Suchergebnisse
+                <span th:if="${query}" th:text="| für &quot;${query}&quot;|"></span>
+            </div>
+            <form class="panel-body" role="search" th:action="@{/search}" method="get">
+                <div class="input-group" role="group">
+                    <input class="form-control" type="search" name="q" placeholder="Nutzersuche..."
+                           th:value="${query}"/>
+                    <span class="input-group-btn">
+                            <button type="submit" class="btn btn-default"><span class="fa fa-search"
+                                                                                aria-hidden="true"></span></button>
                         </span>
-                    </div>
-                </form>
-                <ul class="nav nav-pills">
-                    <li role="presentation" th:if="${query}">
-                        <a role="button" aria-haspopup="true" aria-expanded="false" onclick="applyFilter('q', '')">Alle Nutzer</a>
-                    </li>
-                    <li class="dropdown" role="presentation">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" role="button" aria-haspopup="true" aria-expanded="false">
-                                Sortierung<span th:if="${sortText}" th:text="|: ${sortText}|"></span><span class="caret"></span>
-                            </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="javascript:void(0)" onclick="applyFilter('sort', '')">Keine</a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0)" onclick="applyFilter('sort', 'name')">Name</a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0)" onclick="applyFilter('sort', 'year')">Abschlussjahr</a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0)" onclick="applyFilter('sort', 'occu')">Beschäftigung</a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0)" onclick="applyFilter('sort', 'disc')">Fachgebiet</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown" role="presentation">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" role="button" aria-haspopup="true" aria-expanded="false">
-                                Abschlussjahr<span th:if="${year}" th:text="|: ${year}|"></span><span class="caret"></span>
-                            </a>
-                        <ul class="dropdown-menu dropdown-scroll">
-                            <li>
-                                <a href="javascript:void(0)" onclick="applyFilter('year','')">Alle</a>
-                            </li>
-                            <li th:each="y : ${years}">
-                                <a href="javascript:void(0)" th:onclick="|applyFilter('year', '${y}')|" th:text="${y}"></a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown" role="presentation">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" role="button" aria-haspopup="true" aria-expanded="false">
-                            Fachgebiet<span th:if="${disc}" th:text="|: ${disc.desc}|"></span><span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-scroll">
-                            <li>
-                                <a href="javascript:void(0)" onclick="applyFilter('disc','')">Alle</a>
-                            </li>
-                            <li th:each="d : ${disciplines}">
-                                <a href="javascript:void(0)" th:onclick="|applyFilter('disc', '${d.name()}')|" th:text="${d.desc}"></a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li role="presentation" th:if="${year}">
-                        <a th:href="@{/message(to=${'year' + year})}" role="button" aria-haspopup="true" aria-expanded="false">Nachricht an Jahrgang</a>
-                    </li>
-                </ul>
-                <div class="panel-body" th:if="${#lists.isEmpty(results)}">
-                    <p class="text-center lead text-muted" style="margin-top: 64px;">Es wurden keine Nutzer gefunden.</p>
                 </div>
-                <div class="list-group">
-                    <a class="list-group-item link" th:each="user : ${results}" th:href="@{/user/{id}(id=${user.id})}">
-                        <h4 class="list-group-item-heading" th:text="|${user.firstName} ${user.lastName}|">Benutzer</h4>
-                        <ul class="list-group-item-text list-unstyled">
-                            <li>
-                                <span class="fa fa-graduation-cap text-muted" aria-hidden="true" title="Abschlussjahr"></span>
-                                <span class="sr-only">Abschlussjahr:</span>
-                                <span th:text="| ${user.graduationYear}|">year</span>
-                                <span class="text-muted" th:text="| (${user.graduationType.desc})|">gradType</span>
-                            </li>
-                            <li>
-                                <span class="fa fa-briefcase text-muted" aria-hidden="true" title="Beschäftigung"></span>
-                                <span class="sr-only">Beschäftigung:</span>
-                                <span th:text="| ${user.occupation}|">occu</span>
-                            </li>
-                            <li>
-                                <span class="fa fa-book text-muted" aria-hidden="true" title="Fachgebiete"></span>
-                                <span class="sr-only">Fachgebiet:</span>
-                                <span th:text="| ${user.getDisciplinesAsString()}">occu</span>
-                            </li>
-                        </ul>
+            </form>
+            <ul class="nav nav-pills">
+                <li role="presentation" th:if="${query}">
+                    <a role="button" aria-haspopup="true" aria-expanded="false" onclick="applyFilter('q', '')">Alle
+                        Nutzer</a>
+                </li>
+                <li class="dropdown" role="presentation">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" role="button"
+                       aria-haspopup="true" aria-expanded="false">
+                        Sortierung<span th:if="${sortText}" th:text="|: ${sortText}|"></span><span class="caret"></span>
                     </a>
-                </div>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="javascript:void(0)" onclick="applyFilter('sort', '')">Keine</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" onclick="applyFilter('sort', 'name')">Name</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" onclick="applyFilter('sort', 'year')">Abschlussjahr</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" onclick="applyFilter('sort', 'occu')">Beschäftigung</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" onclick="applyFilter('sort', 'disc')">Fachgebiet</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown" role="presentation">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" role="button"
+                       aria-haspopup="true" aria-expanded="false">
+                        Abschlussjahr<span th:if="${year}" th:text="|: ${year}|"></span><span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-scroll">
+                        <li>
+                            <a href="javascript:void(0)" onclick="applyFilter('year','')">Alle</a>
+                        </li>
+                        <li th:each="y : ${years}">
+                            <a href="javascript:void(0)" th:onclick="|applyFilter('year', '${y}')|" th:text="${y}"></a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown" role="presentation">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" role="button"
+                       aria-haspopup="true" aria-expanded="false">
+                        Fachgebiet<span th:if="${disc}" th:text="|: ${disc.desc}|"></span><span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-scroll">
+                        <li>
+                            <a href="javascript:void(0)" onclick="applyFilter('disc','')">Alle</a>
+                        </li>
+                        <li th:each="d : ${disciplines}">
+                            <a href="javascript:void(0)" th:onclick="|applyFilter('disc', '${d.name()}')|"
+                               th:text="${d.desc}"></a>
+                        </li>
+                    </ul>
+                </li>
+                <li role="presentation" th:if="${year}">
+                    <a th:href="@{/message(to=${'year' + year})}" role="button" aria-haspopup="true"
+                       aria-expanded="false">Nachricht an Jahrgang</a>
+                </li>
+            </ul>
+            <div class="panel-body" th:if="${#lists.isEmpty(results)}">
+                <p class="text-center lead text-muted" style="margin-top: 64px;">Es wurden keine Nutzer gefunden.</p>
+            </div>
+            <div class="list-group">
+                <a class="list-group-item link" th:each="user : ${results}" th:href="@{/user/{id}(id=${user.id})}">
+                    <h4 class="list-group-item-heading" th:text="|${user.firstName} ${user.lastName}|">Benutzer</h4>
+                    <ul class="list-group-item-text list-unstyled">
+                        <li>
+                            <span class="fa fa-graduation-cap text-muted" aria-hidden="true"
+                                  title="Abschlussjahr"></span>
+                            <span class="sr-only">Abschlussjahr:</span>
+                            <span th:text="| ${user.graduationYear}|">year</span>
+                            <span class="text-muted" th:text="| (${user.graduationType.desc})|">gradType</span>
+                        </li>
+                        <li>
+                            <span class="fa fa-briefcase text-muted" aria-hidden="true" title="Beschäftigung"></span>
+                            <span class="sr-only">Beschäftigung:</span>
+                            <span th:text="| ${user.occupation}|">occu</span>
+                        </li>
+                        <li>
+                            <span class="fa fa-book text-muted" aria-hidden="true" title="Fachgebiete"></span>
+                            <span class="sr-only">Fachgebiet:</span>
+                            <span th:text="| ${user.getDisciplinesAsString()}">occu</span>
+                        </li>
+                    </ul>
+                </a>
             </div>
         </div>
     </div>
+</div>
 
-    <div th:replace="fragments :: footer"></div>
-    <div th:replace="fragments :: bootstrap-script"></div>
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        var filters = {
-            q: /*[[${query}]]*/ null,
-            sort: /*[[${param.sort != null ? param.sort[0] : null}]]*/ null,
-            year: /*[[${year}]]*/ null,
-            disc: /*[[${disc != null ? disc.name() : null}]]*/ null
-        };
+<div th:replace="fragments :: footer"></div>
+<div th:replace="fragments :: bootstrap-script"></div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var filters = {
+        q: /*[[${query}]]*/ null,
+        sort: /*[[${param.sort != null ? param.sort[0] : null}]]*/ null,
+        year: /*[[${year}]]*/ null,
+        disc: /*[[${disc != null ? disc.name() : null}]]*/ null
+    };
 
-        function applyFilter(type, value) {
-            filters[type] = value;
-            var params = [];
-            for (var filter in filters) {
-                if (filters[filter]) {
-                    params.push(filter + '=' + encodeURIComponent(filters[filter]));
-                }
+    function applyFilter(type, value) {
+        filters[type] = value;
+        var params = [];
+        for (var filter in filters) {
+            if (filters[filter]) {
+                params.push(filter + '=' + encodeURIComponent(filters[filter]));
             }
-            location.search = params.join('&');
         }
-        /*]]>*/
-    </script>
+        location.search = params.join('&');
+    }
+    /*]]>*/
+</script>
 </body>
 
 </html>

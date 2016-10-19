@@ -10,26 +10,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-@Controller
-@RequestMapping("/impressum")
-public class ImpressumController {
+@Controller @RequestMapping("/impressum") public class ImpressumController {
 	private AsyncMailService mailService;
 
-	@Value("${EMAIL_USER}")
-	private String adminMail;
+	@Value("${EMAIL_USER}") private String adminMail;
 
-	@Autowired
-	public ImpressumController(AsyncMailService mailService) {
+	@Autowired public ImpressumController(AsyncMailService mailService) {
 		this.mailService = mailService;
 	}
 
-	@RequestMapping(method = RequestMethod.GET)
-	public String get() {
+	@RequestMapping(method = RequestMethod.GET) public String get() {
 		return "impressum";
 	}
 
-	@RequestMapping(method = RequestMethod.POST)
-	public String reportBug(@RequestParam String email, @RequestParam String message, RedirectAttributes rAttr) {
+	@RequestMapping(method = RequestMethod.POST) public String reportBug(@RequestParam String email,
+			@RequestParam String message, RedirectAttributes rAttr) {
 		if (email.isEmpty() || message.isEmpty()) {
 			rAttr.addFlashAttribute("email", email);
 			rAttr.addFlashAttribute("message", message);

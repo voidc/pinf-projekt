@@ -1,8 +1,6 @@
 package de.gymwak.gwe.model;
 
-import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.List;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Column;
 import javax.persistence.ManyToMany;
@@ -10,32 +8,25 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OrderColumn;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.NotEmpty;
+import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.List;
 
 public class GWEEventEdit implements Serializable {
 
-	@NotEmpty(message = "Name is required.")
-	@Column(unique = true, nullable = false)
-	private String name;
+	@NotEmpty(message = "Name is required.") @Column(unique = true, nullable = false) private String name;
 
-	@NotNull()
-	@ManyToOne()
-	private GWEUser organizer;
+	@NotNull() @ManyToOne() private GWEUser organizer;
 
 	@NotEmpty(message = "Description is required.")
 	//@Lob (description sollte mehr al 255 Zeichen haben können)
-	@Size(max = 1000)
-	private String description;
+	@Size(max = 1000) private String description;
 
 	private java.sql.Timestamp time;
 
-	@NotEmpty(message = "Place is required.")
-	private String place;
+	@NotEmpty(message = "Place is required.") private String place;
 
-	@ManyToMany()
-	@OrderColumn
-	private List<GWEUser> participants;
+	@ManyToMany() @OrderColumn private List<GWEUser> participants;
 
 	public GWEEventEdit() {
 	}

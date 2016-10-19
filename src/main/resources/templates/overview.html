@@ -4,277 +4,312 @@
 <head th:replace="fragments :: head ('Übersicht')"></head>
 
 <body>
-    <div class="content-wrap">
-        <div class="container">
-            <div th:replace="fragments :: header"></div>
-            <div class="panel panel-primary panel-overview">
-                <div class="panel-heading">Übersicht</div>
-                <div class="panel-body row">
-                    <div class="col-sm-6">
-                        <!-- Profil -->
-                        <h4><span class="fa fa-user" aria-hidden="true"></span> Mein Profil</h4>
-                        <div class="seperator"></div>
-                        <div class="form-group">
+<div class="content-wrap">
+    <div class="container">
+        <div th:replace="fragments :: header"></div>
+        <div class="panel panel-primary panel-overview">
+            <div class="panel-heading">Übersicht</div>
+            <div class="panel-body row">
+                <div class="col-sm-6">
+                    <!-- Profil -->
+                    <h4><span class="fa fa-user" aria-hidden="true"></span> Mein Profil</h4>
+                    <div class="seperator"></div>
+                    <div class="form-group">
                         <table class="table list-group">
                             <tbody>
-                                <tr class="list-group-item" style="padding: 0;">
-                                    <td style="border: none;">
+                            <tr class="list-group-item" style="padding: 0;">
+                                <td style="border: none;">
                                         <span class="fa fa-graduation-cap fa-fw text-muted" aria-hidden="true"
                                               title="Abschlussjahr"></span>
-                                        <span class="sr-only">Abschlussjahrahrgang:</span>
-                                    </td>
-                                    <td style="border: none;">
-                                        <span th:text="| ${currentUser.graduationYear}|">year</span>
-                                        <span class="text-muted" th:text="| (${currentUser.graduationType.desc})|">gradType</span>
-                                    </td>
-                                </tr>
-                                <tr class="list-group-item" style="padding: 0;">
-                                    <td style="border: none;">
+                                    <span class="sr-only">Abschlussjahrahrgang:</span>
+                                </td>
+                                <td style="border: none;">
+                                    <span th:text="| ${currentUser.graduationYear}|">year</span>
+                                    <span class="text-muted"
+                                          th:text="| (${currentUser.graduationType.desc})|">gradType</span>
+                                </td>
+                            </tr>
+                            <tr class="list-group-item" style="padding: 0;">
+                                <td style="border: none;">
                                         <span class="fa fa-briefcase fa-fw text-muted" aria-hidden="true"
                                               title="Beschäftigung"></span>
-                                        <span class="sr-only">Beschäftigung:</span>
-                                    </td>
-                                    <td style="border: none;" th:text="| ${currentUser.occupation}|">occu</td>
-                                </tr>
-                                <tr class="list-group-item" style="padding: 0;">
-                                    <td style="border: none;">
+                                    <span class="sr-only">Beschäftigung:</span>
+                                </td>
+                                <td style="border: none;" th:text="| ${currentUser.occupation}|">occu</td>
+                            </tr>
+                            <tr class="list-group-item" style="padding: 0;">
+                                <td style="border: none;">
                                         <span class="fa fa-book fa-fw text-muted" aria-hidden="true"
                                               title="Fachgebiete"></span>
-                                        <span class="sr-only">Fachgebiet:</span>
-                                    </td>
-                                    <td style="border: none;" th:text="| ${currentUser.getDisciplinesAsString()}">disc</td>
-                                </tr>
+                                    <span class="sr-only">Fachgebiet:</span>
+                                </td>
+                                <td style="border: none;" th:text="| ${currentUser.getDisciplinesAsString()}">disc</td>
+                            </tr>
                             </tbody>
                         </table>
                         <a th:href="@{/edit}" class="btn btn-default">
                             <span class="fa fa-gear" aria-hidden="true"></span>
                             Einstellungen
                         </a>
-                        </div>
-                        <!-- END Profil -->
-                        <!-- Veranstaltungen -->
-                        <h4><span th:class="|fa ${#lists.isEmpty(events) ? 'fa-calendar-o' : 'fa-calendar'}|" aria-hidden="true"></span> Veranstaltungen</h4>
-                        <div class="seperator"></div>
-                        <div class="form-group">
-                            <a th:href="@{/event}" class="btn btn-default" role="button" th:if="${currentUser.activated}">
-                                <span class="fa fa-calendar-plus-o" aria-hidden="true"></span>
-                                 Veranstaltung erstellen
-                            </a>
+                    </div>
+                    <!-- END Profil -->
+                    <!-- Veranstaltungen -->
+                    <h4><span th:class="|fa ${#lists.isEmpty(events) ? 'fa-calendar-o' : 'fa-calendar'}|"
+                              aria-hidden="true"></span> Veranstaltungen</h4>
+                    <div class="seperator"></div>
+                    <div class="form-group">
+                        <a th:href="@{/event}" class="btn btn-default" role="button" th:if="${currentUser.activated}">
+                            <span class="fa fa-calendar-plus-o" aria-hidden="true"></span>
+                            Veranstaltung erstellen
+                        </a>
 
-                            <a href="javascript:void(0)" class="btn btn-default" role="button" th:unless="${currentUser.activated}"
-                            tabindex="0" data-toggle="popover" data-trigger="focus" data-content="Aktivierung hierfür erforderlich!">
-                                <span class="fa fa-calendar-plus-o" aria-hidden="true"></span>
-                                Veranstaltung erstellen
-                            </a>
-                            <div class="btn-group" data-toggle="buttons">
-                                <label class="btn btn-default">
-                                    <input id="inputShowPastEvents" type="checkbox" autocomplete="off" /><span class="fa fa-clock-o" aria-hidden="true"></span> Vergangene Veranstaltungen anzeigen
-                                </label>
-                            </div>
+                        <a href="javascript:void(0)" class="btn btn-default" role="button"
+                           th:unless="${currentUser.activated}"
+                           tabindex="0" data-toggle="popover" data-trigger="focus"
+                           data-content="Aktivierung hierfür erforderlich!">
+                            <span class="fa fa-calendar-plus-o" aria-hidden="true"></span>
+                            Veranstaltung erstellen
+                        </a>
+                        <div class="btn-group" data-toggle="buttons">
+                            <label class="btn btn-default">
+                                <input id="inputShowPastEvents" type="checkbox" autocomplete="off"/><span
+                                    class="fa fa-clock-o" aria-hidden="true"></span> Vergangene Veranstaltungen anzeigen
+                            </label>
                         </div>
-                        <div class="panel-body" id="no-events" style="display: none;">
-                            <p class="text-center lead text-muted" style="margin-top: 5%;">Keine Veranstaltungen</p>
-                        </div>
-                        <ul class="list-group list-scroll" id="events">
-                            <li th:each="event : ${events}" th:class="|list-group-item link ${event.isOver() ? 'event-overtime' : ''}|" th:onclick="|window.location='@{/event/{id}(id=${event.id})}'|" th:attr="id=|event${event.id}|">
-                                <h4 class="list-group-item-heading">
-                                    <span th:class="|${event.isOver() ? 'has-error ' : ''} fa ${event.getOrganizer().getId() == currentUser.getId() ? 'fa-calendar-check-o' : 'fa-calendar-o'}|" th:title="${event.getOrganizer().getId() == currentUser.getId() ? 'Organisator' : 'Teilnehmer'}" aria-hidden="true"></span>
-                                    <span th:class="|${event.isOver() ? 'has-error' : ''}|" th:text="| ${event.name}"></span>
-                                </h4>
-                                <table class="list-group-item-text list-unstyled">
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <span class="fa fa-user text-muted" aria-hidden="true" title="Organisator"></span>
-                                                <span class="sr-only">Organisator:</span>
-                                            </td>
-                                            <td th:text="| ${event.getOrganizer().firstName} ${event.getOrganizer().lastName}|">orga</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <span class="fa fa-users text-muted" aria-hidden="true" title="Teilnehmer"></span>
-                                                <span class="sr-only">Teilnehmer:</span>
-                                            </td>
-                                            <td>
-                                                <span th:each="participant,iterStat : ${event.participants}" th:text="| ${participant.firstName} ${participant.lastName}${(!iterStat.last) ? ',' : ''}|">part</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <span class="fa fa-info text-muted" aria-hidden="true" title="Beschreibung"></span>
-                                                <span class="sr-only">Beschreibung:</span>
-                                            </td>
-                                            <td th:text="| ${event.description}">desc</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <span th:class="|${event.isOver() ? 'has-error ' : ''}fa fa-clock-o text-muted|" aria-hidden="true" title="Datum und Uhrzeit"></span>
-                                                <span class="sr-only">Datum und Uhrzeit:</span>
-                                            </td>
-                                            <td th:class="|${event.isOver() ? 'has-error' : ''}|" th:text="| ${#calendars.format(event.time, 'dd.MM.yyyy HH:mm')}">time</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <span class="fa fa-map-marker text-muted" aria-hidden="true" title="Ort"></span>
-                                                <span class="sr-only">Ort:</span>
-                                            </td>
-                                            <td th:text="| ${event.place}">plac</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </li>
-                        </ul>
-                        <!-- END Veranstaltungen -->
                     </div>
-                    <div class="col-sm-6">
-                        <!-- Jahrgang -->
-                        <h4><span class="fa fa-graduation-cap" aria-hidden="true"></span><span th:text="| Abschlussjahrgang ${currentUser.graduationYear}|"></span></h4>
-                        <div class="seperator"></div>
-                        <div class="form-group">
-                            <form role="search" th:action="@{/search}" method="get" style="margin: 1%;">
-                                <div class="input-group" role="group">
-                                    <input class="form-control" type="search" name="q" placeholder="Nach Nutzern aus dem Jahrgang suchen..."/>
-                                    <input type="hidden" name="year" th:value="${currentUser.graduationYear}"/>
-                                    <span class="input-group-btn">
-                                        <button type="submit" class="btn btn-default"><span class="fa fa-search" aria-hidden="true"></span></button>
+                    <div class="panel-body" id="no-events" style="display: none;">
+                        <p class="text-center lead text-muted" style="margin-top: 5%;">Keine Veranstaltungen</p>
+                    </div>
+                    <ul class="list-group list-scroll" id="events">
+                        <li th:each="event : ${events}"
+                            th:class="|list-group-item link ${event.isOver() ? 'event-overtime' : ''}|"
+                            th:onclick="|window.location='@{/event/{id}(id=${event.id})}'|"
+                            th:attr="id=|event${event.id}|">
+                            <h4 class="list-group-item-heading">
+                                <span th:class="|${event.isOver() ? 'has-error ' : ''} fa ${event.getOrganizer().getId() == currentUser.getId() ? 'fa-calendar-check-o' : 'fa-calendar-o'}|"
+                                      th:title="${event.getOrganizer().getId() == currentUser.getId() ? 'Organisator' : 'Teilnehmer'}"
+                                      aria-hidden="true"></span>
+                                <span th:class="|${event.isOver() ? 'has-error' : ''}|"
+                                      th:text="| ${event.name}"></span>
+                            </h4>
+                            <table class="list-group-item-text list-unstyled">
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <span class="fa fa-user text-muted" aria-hidden="true"
+                                              title="Organisator"></span>
+                                        <span class="sr-only">Organisator:</span>
+                                    </td>
+                                    <td th:text="| ${event.getOrganizer().firstName} ${event.getOrganizer().lastName}|">
+                                        orga
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="fa fa-users text-muted" aria-hidden="true"
+                                              title="Teilnehmer"></span>
+                                        <span class="sr-only">Teilnehmer:</span>
+                                    </td>
+                                    <td>
+                                        <span th:each="participant,iterStat : ${event.participants}"
+                                              th:text="| ${participant.firstName} ${participant.lastName}${(!iterStat.last) ? ',' : ''}|">part</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="fa fa-info text-muted" aria-hidden="true"
+                                              title="Beschreibung"></span>
+                                        <span class="sr-only">Beschreibung:</span>
+                                    </td>
+                                    <td th:text="| ${event.description}">desc</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span th:class="|${event.isOver() ? 'has-error ' : ''}fa fa-clock-o text-muted|"
+                                              aria-hidden="true" title="Datum und Uhrzeit"></span>
+                                        <span class="sr-only">Datum und Uhrzeit:</span>
+                                    </td>
+                                    <td th:class="|${event.isOver() ? 'has-error' : ''}|"
+                                        th:text="| ${#calendars.format(event.time, 'dd.MM.yyyy HH:mm')}">time
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="fa fa-map-marker text-muted" aria-hidden="true" title="Ort"></span>
+                                        <span class="sr-only">Ort:</span>
+                                    </td>
+                                    <td th:text="| ${event.place}">plac</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </li>
+                    </ul>
+                    <!-- END Veranstaltungen -->
+                </div>
+                <div class="col-sm-6">
+                    <!-- Jahrgang -->
+                    <h4><span class="fa fa-graduation-cap" aria-hidden="true"></span><span
+                            th:text="| Abschlussjahrgang ${currentUser.graduationYear}|"></span></h4>
+                    <div class="seperator"></div>
+                    <div class="form-group">
+                        <form role="search" th:action="@{/search}" method="get" style="margin: 1%;">
+                            <div class="input-group" role="group">
+                                <input class="form-control" type="search" name="q"
+                                       placeholder="Nach Nutzern aus dem Jahrgang suchen..."/>
+                                <input type="hidden" name="year" th:value="${currentUser.graduationYear}"/>
+                                <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-default"><span class="fa fa-search"
+                                                                                            aria-hidden="true"></span></button>
                                     </span>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="form-group">
-                            <a th:href="@{/message(to=${'year' + currentUser.graduationYear})}" class="btn btn-default" th:if="${currentUser.activated}">
-                                <span class="fa fa-envelope-o" aria-hidden="true"></span>
-                                 Nachricht an Jahrgang
-                            </a>
-                            <a href="javascript:void(0)" class="btn btn-default" role="button" th:unless="${currentUser.activated}"
-                                tabindex="0" data-toggle="popover" data-trigger="focus" data-content="Aktivierung hierfür erforderlich!">
-                                <span class="fa fa-envelope-o" aria-hidden="true"></span>
-                                Nachricht an Jahrgang
-                            </a>
-                        </div>
-                        <div class="panel-body" th:if="${#lists.isEmpty(year)}">
-                            <p class="text-center lead text-muted" style="margin-top: 5%;" th:if="${#lists.isEmpty(year)}">
-                                Keine weiteren Nutzer.
-                            </p>
-                        </div>
-                        <div class="list-group list-scroll">
-                            <div class="list-group-item link" th:each="user : ${year}" th:onclick="|document.location.href=getLink('@{/user/{id}(id=${user.id})}')|">
-                                <h5 style="display: inline;" class="list-group-item-heading">
-                                    <span th:text="|${user.firstName} ${user.lastName}|">Username</span>
-                                </h5>
-                                <button id="user-details-collapse" type="button" class="list-group-item-toggle collapsed" onclick="openDetails()" data-toggle="collapse" data-target="#user-details" th:attr="data-target=|#user-details-${user.id}|" aria-expanded="false">
-                                    <span class="sr-only">Mehr Informationen</span>
-                                    <span class="fa fa-caret-down"></span>
-                                </button>
-                                <table class="list-group-item-text list-unstyled collapse" id="user-details" th:attr="id=|user-details-${user.id}|">
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <span class="fa fa-graduation-cap text-muted" aria-hidden="true" title="Abschlussjahr"></span> 
-                                                <span class="sr-only">Abschlussjahrahrgang:</span>
-                                            </td>
-                                            <td>
-                                                <span th:text="| ${user.graduationYear}|">year</span> 
-                                                <span class="text-muted" th:text="| (${user.graduationType.desc})|">gradType</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <span class="fa fa-briefcase text-muted" aria-hidden="true" title="Beschäftigung"></span> 
-                                                <span class="sr-only">Beschäftigung:</span>
-                                            </td>
-                                            <td>
-                                                <span th:text="| ${user.occupation}|">occu</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <span class="fa fa-book text-muted" aria-hidden="true" title="Fachgebiete"></span>
-                                                <span class="sr-only">Fachgebiet:</span>
-                                            </td>
-                                            <td>
-                                                <span th:text="| ${user.getDisciplinesAsString()}">occu</span>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table> 
                             </div>
-                        </div>
-                        <!-- END Jahrgang -->
+                        </form>
                     </div>
+                    <div class="form-group">
+                        <a th:href="@{/message(to=${'year' + currentUser.graduationYear})}" class="btn btn-default"
+                           th:if="${currentUser.activated}">
+                            <span class="fa fa-envelope-o" aria-hidden="true"></span>
+                            Nachricht an Jahrgang
+                        </a>
+                        <a href="javascript:void(0)" class="btn btn-default" role="button"
+                           th:unless="${currentUser.activated}"
+                           tabindex="0" data-toggle="popover" data-trigger="focus"
+                           data-content="Aktivierung hierfür erforderlich!">
+                            <span class="fa fa-envelope-o" aria-hidden="true"></span>
+                            Nachricht an Jahrgang
+                        </a>
+                    </div>
+                    <div class="panel-body" th:if="${#lists.isEmpty(year)}">
+                        <p class="text-center lead text-muted" style="margin-top: 5%;" th:if="${#lists.isEmpty(year)}">
+                            Keine weiteren Nutzer.
+                        </p>
+                    </div>
+                    <div class="list-group list-scroll">
+                        <div class="list-group-item link" th:each="user : ${year}"
+                             th:onclick="|document.location.href=getLink('@{/user/{id}(id=${user.id})}')|">
+                            <h5 style="display: inline;" class="list-group-item-heading">
+                                <span th:text="|${user.firstName} ${user.lastName}|">Username</span>
+                            </h5>
+                            <button id="user-details-collapse" type="button" class="list-group-item-toggle collapsed"
+                                    onclick="openDetails()" data-toggle="collapse" data-target="#user-details"
+                                    th:attr="data-target=|#user-details-${user.id}|" aria-expanded="false">
+                                <span class="sr-only">Mehr Informationen</span>
+                                <span class="fa fa-caret-down"></span>
+                            </button>
+                            <table class="list-group-item-text list-unstyled collapse" id="user-details"
+                                   th:attr="id=|user-details-${user.id}|">
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <span class="fa fa-graduation-cap text-muted" aria-hidden="true"
+                                              title="Abschlussjahr"></span>
+                                        <span class="sr-only">Abschlussjahrahrgang:</span>
+                                    </td>
+                                    <td>
+                                        <span th:text="| ${user.graduationYear}|">year</span>
+                                        <span class="text-muted"
+                                              th:text="| (${user.graduationType.desc})|">gradType</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="fa fa-briefcase text-muted" aria-hidden="true"
+                                              title="Beschäftigung"></span>
+                                        <span class="sr-only">Beschäftigung:</span>
+                                    </td>
+                                    <td>
+                                        <span th:text="| ${user.occupation}|">occu</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="fa fa-book text-muted" aria-hidden="true"
+                                              title="Fachgebiete"></span>
+                                        <span class="sr-only">Fachgebiet:</span>
+                                    </td>
+                                    <td>
+                                        <span th:text="| ${user.getDisciplinesAsString()}">occu</span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- END Jahrgang -->
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <div th:replace="fragments :: footer"></div>
-    <div th:replace="fragments :: bootstrap-script"></div>
-    <script type="text/javascript" th:inline="javascript">
-        /*<![CDATA[*/
-        var noEvents = /*[[${#lists.isEmpty(events)}]]*/ true;
-        var openedDetails = false;
-        var ulEvents = document.getElementById("events");
-        var items = ulEvents.getElementsByTagName("li");
-        function openDetails() {
-            openedDetails = true;
-        };
-        var getLink = function(link) {
-            if (openedDetails) {
-                openedDetails = false;
-                return 'javascript:void(0)';
-            } else {
-                return link;
+<div th:replace="fragments :: footer"></div>
+<div th:replace="fragments :: bootstrap-script"></div>
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    var noEvents = /*[[${#lists.isEmpty(events)}]]*/ true;
+    var openedDetails = false;
+    var ulEvents = document.getElementById("events");
+    var items = ulEvents.getElementsByTagName("li");
+    function openDetails() {
+        openedDetails = true;
+    }
+    ;
+    var getLink = function (link) {
+        if (openedDetails) {
+            openedDetails = false;
+            return 'javascript:void(0)';
+        } else {
+            return link;
+        }
+    }
+    var noVisibleEvents = function () {
+        var noVisibleElements = true;
+        for (var i = 0; i < items.length; ++i) {
+            if (!$(items[i]).hasClass("event-overtime")) {
+                noVisibleElements = false;
             }
         }
-        var noVisibleEvents = function() {
-        	var noVisibleElements = true;
+        return noVisibleElements ? 'block' : 'none';
+    }
+    $(function () {
+        if (!noEvents) {
+            document.getElementById("no-events").style["display"] = noVisibleEvents();
+        } else {
+            document.getElementById("no-events").style["display"] = 'block';
+        }
+        $('[data-toggle="popover"]').popover()
+    })
+    $('#inputShowPastEvents').change(function () {
+        $('.selectAllBoxes').prop('checked', false);
+        $(ulEvents).height($(ulEvents).height()); //fix the height
+        if ($(this).is(':checked')) {
+            if (items.length > 0) {
+                document.getElementById("no-events").style["display"] = 'none';
+            }
             for (var i = 0; i < items.length; ++i) {
-                if (!$(items[i]).hasClass("event-overtime")) {
-                    noVisibleElements = false;
+                if ($(items[i]).hasClass("event-overtime")) {
+                    $(items[i]).fadeIn("fast");
                 }
             }
-            return noVisibleElements ? 'block' : 'none';
-        }
-        $(function () {
-            if (!noEvents) {
-                document.getElementById("no-events").style["display"] = noVisibleEvents();
-            } else {
-            	document.getElementById("no-events").style["display"] = 'block';
-            }
-            $('[data-toggle="popover"]').popover()
-        })
-        $('#inputShowPastEvents').change(function () {
-            $('.selectAllBoxes').prop('checked', false);
-            $(ulEvents).height($(ulEvents).height()); //fix the height
-            if ($(this).is(':checked'))  {
-                if (items.length > 0) {
-                    document.getElementById("no-events").style["display"] = 'none';
-                }
-                for (var i = 0; i < items.length; ++i) {
-                    if ($(items[i]).hasClass("event-overtime")) {
-                        $(items[i]).fadeIn("fast");
-                    }
-                }
-            } else {
-                var containsVisibleElements = false;
-                for (var i = 0; i < items.length; ++i) {
-                    if ($(items[i]).hasClass("event-overtime")) {
-                        if (i == (items.length - 1) && !containsVisibleElements) {
-                            $(items[i]).fadeOut("fast", function() {
-                            	document.getElementById("no-events").style["display"] = 'block';
-                            });
-                        } else {
-                            $(items[i]).fadeOut("fast");
-                        }
+        } else {
+            var containsVisibleElements = false;
+            for (var i = 0; i < items.length; ++i) {
+                if ($(items[i]).hasClass("event-overtime")) {
+                    if (i == (items.length - 1) && !containsVisibleElements) {
+                        $(items[i]).fadeOut("fast", function () {
+                            document.getElementById("no-events").style["display"] = 'block';
+                        });
                     } else {
-                        containsVisibleElements = true;
+                        $(items[i]).fadeOut("fast");
                     }
+                } else {
+                    containsVisibleElements = true;
                 }
-        	}
-            $(ulEvents).removeAttr('style'); //Reset the height
-        });
-        /*]]>*/
-    </script>
+            }
+        }
+        $(ulEvents).removeAttr('style'); //Reset the height
+    });
+    /*]]>*/
+</script>
 </body>
 
 </html>

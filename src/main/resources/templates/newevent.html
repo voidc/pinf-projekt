@@ -4,118 +4,136 @@
 <head th:replace="fragments :: head ('Veranstaltung erstellen')"></head>
 
 <body>
-    <div class="content-wrap">
-        <div class="container">
-            <div th:replace="fragments :: header"></div>
-            <form class="form-horizontal form-signup" th:action="@{/event/new}" method="post">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">Neue Veranstaltung</div>
-                    <div class="panel-body">
-                        <div class="alert alert-danger alert-dismissible fade in" th:if="${(param.error != null) and (param.error[0] == 'timePast')}" role="alert">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <strong>Erstellung fehlgeschlagen: Veranstaltungszeitpunkt bereits vergangen</strong>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputName" class="col-sm-2 control-label">Name</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="inputName" name="name" autofocus="autofocus" required="required" th:value="${event != null} ? ${event.name}" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputOrganizer" class="col-sm-2 control-label">Veranstalter</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="inputOrganizer" disabled="disabled"
-                                th:value="${event != null} ? |${event.organizer.firstName} ${event.organizer.lastName}| : |${currentUser.firstName} ${currentUser.lastName}|" />
-                                <input type="hidden" name="organizer" th:value="${event != null} ? ${event.organizer.getId()} : ${currentUser.getId()}" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputParticipants" class="col-sm-2 control-label">Teilnehmer</label>
-                            <div class="col-sm-10">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default" style="margin-bottom: 0px;" onclick="clearSelection('inputParticipants')">
-                                        <span class="fa fa-times" aria-hidden="true"></span> Auswahl löschen
-                                    </button>
-                                </div>
-                                <div class="btn-group">
-                                    <button class="btn btn-default dropdown-toggle" type="button" id="selectGraduationYear" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="margin-bottom: 0px;">
-                                        <span class="fa fa-graduation-cap" aria-hidden="true"></span> Jahrgang auswählen <span class="fa fa-caret-down" aria-hidden="true"></span>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-scroll">
-                                        <li>
-                                            <a href="javascript:void(0)" onclick="selectYear('inputParticipants','all')">Alle</a>
-                                        </li>
-                                        <li th:each="y : ${years}">
-                                            <a href="javascript:void(0)" th:onclick="|selectYear('inputParticipants', '${y}')|" th:text="${y}"></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <select style="height: 160px; margin-top: 8px;" class="form-control" multiple="multiple" role="button" name="participants" id="inputParticipants" required="required">
-                                    <option th:each="user : ${users}" th:value="${user.getId()}" th:text="|${user.firstName} ${user.lastName}|" th:attr="data-year=|${user.getGraduationYear()}|"
-                                    th:selected="${event != null} ? ${#lists.contains(event.participants, user)} : 'false'"
-                                    th:unless="${user.equals(currentUser)}"></option>
-                                </select>
-                                <p class="help-block">Mit der Steuerung-Taste kannst du mehrere Teilnehmer auswählen.</p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputDescription" class="col-sm-2 control-label">Beschreibung</label>
-                            <div class="col-sm-10">
-                                <textarea id="inputDescription" class="form-control" name="description" rows="4" required="required" style="resize: none" th:text="${event != null} ? ${event.description}"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputPlace" class="col-sm-2 control-label">Ort</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="inputPlace" name="place" required="required" th:value="${event != null} ? ${event.place}" />
-                            </div>
-                        </div>
-                        <div th:class="|form-group ${param.error != null and param.error[0] == 'timePast' ? 'has-error' : ''}|">
-                            <label for="inputDate" class="col-sm-2 control-label">Datum</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="inputDate" name="dateString" required="required" th:value="${date != null} ? ${date}" />
-                            </div>
+<div class="content-wrap">
+    <div class="container">
+        <div th:replace="fragments :: header"></div>
+        <form class="form-horizontal form-signup" th:action="@{/event/new}" method="post">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Neue Veranstaltung</div>
+                <div class="panel-body">
+                    <div class="alert alert-danger alert-dismissible fade in"
+                         th:if="${(param.error != null) and (param.error[0] == 'timePast')}" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <strong>Erstellung fehlgeschlagen: Veranstaltungszeitpunkt bereits vergangen</strong>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputName" class="col-sm-2 control-label">Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputName" name="name" autofocus="autofocus"
+                                   required="required" th:value="${event != null} ? ${event.name}"/>
                         </div>
                     </div>
-                    <div class="panel-footer">
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <button type="submit" class="btn btn-success" th:disabled="${not currentUser.activated}">Veranstaltung erstellen</button>
-                                <a href="javascript:history.back()" class="btn btn-default">Abbrechen</a>
-                                <!-- Help-Box sollte immer ganz unten stehen -->
-                                <p th:if="${not currentUser.activated}" class="help-block">Sie können keine Veranstaltungen erstellen, solange Sie Ihre E-Mail noch nicht bestätigt haben.</p>
-                            </div>
+                    <div class="form-group">
+                        <label for="inputOrganizer" class="col-sm-2 control-label">Veranstalter</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputOrganizer" disabled="disabled"
+                                   th:value="${event != null} ? |${event.organizer.firstName} ${event.organizer.lastName}| : |${currentUser.firstName} ${currentUser.lastName}|"/>
+                            <input type="hidden" name="organizer"
+                                   th:value="${event != null} ? ${event.organizer.getId()} : ${currentUser.getId()}"/>
                         </div>
                     </div>
-
+                    <div class="form-group">
+                        <label for="inputParticipants" class="col-sm-2 control-label">Teilnehmer</label>
+                        <div class="col-sm-10">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default" style="margin-bottom: 0px;"
+                                        onclick="clearSelection('inputParticipants')">
+                                    <span class="fa fa-times" aria-hidden="true"></span> Auswahl löschen
+                                </button>
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn btn-default dropdown-toggle" type="button" id="selectGraduationYear"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
+                                        style="margin-bottom: 0px;">
+                                    <span class="fa fa-graduation-cap" aria-hidden="true"></span> Jahrgang auswählen
+                                    <span class="fa fa-caret-down" aria-hidden="true"></span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-scroll">
+                                    <li>
+                                        <a href="javascript:void(0)" onclick="selectYear('inputParticipants','all')">Alle</a>
+                                    </li>
+                                    <li th:each="y : ${years}">
+                                        <a href="javascript:void(0)"
+                                           th:onclick="|selectYear('inputParticipants', '${y}')|" th:text="${y}"></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <select style="height: 160px; margin-top: 8px;" class="form-control" multiple="multiple"
+                                    role="button" name="participants" id="inputParticipants" required="required">
+                                <option th:each="user : ${users}" th:value="${user.getId()}"
+                                        th:text="|${user.firstName} ${user.lastName}|"
+                                        th:attr="data-year=|${user.getGraduationYear()}|"
+                                        th:selected="${event != null} ? ${#lists.contains(event.participants, user)} : 'false'"
+                                        th:unless="${user.equals(currentUser)}"></option>
+                            </select>
+                            <p class="help-block">Mit der Steuerung-Taste kannst du mehrere Teilnehmer auswählen.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputDescription" class="col-sm-2 control-label">Beschreibung</label>
+                        <div class="col-sm-10">
+                            <textarea id="inputDescription" class="form-control" name="description" rows="4"
+                                      required="required" style="resize: none"
+                                      th:text="${event != null} ? ${event.description}"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPlace" class="col-sm-2 control-label">Ort</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputPlace" name="place" required="required"
+                                   th:value="${event != null} ? ${event.place}"/>
+                        </div>
+                    </div>
+                    <div th:class="|form-group ${param.error != null and param.error[0] == 'timePast' ? 'has-error' : ''}|">
+                        <label for="inputDate" class="col-sm-2 control-label">Datum</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputDate" name="dateString" required="required"
+                                   th:value="${date != null} ? ${date}"/>
+                        </div>
+                    </div>
                 </div>
-            </form>
-        </div>
-    </div>
+                <div class="panel-footer">
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-success" th:disabled="${not currentUser.activated}">
+                                Veranstaltung erstellen
+                            </button>
+                            <a href="javascript:history.back()" class="btn btn-default">Abbrechen</a>
+                            <!-- Help-Box sollte immer ganz unten stehen -->
+                            <p th:if="${not currentUser.activated}" class="help-block">Sie können keine Veranstaltungen
+                                erstellen, solange Sie Ihre E-Mail noch nicht bestätigt haben.</p>
+                        </div>
+                    </div>
+                </div>
 
-    <div th:replace="fragments :: footer"></div>
-    <div th:replace="fragments :: bootstrap-script"></div>
-    <script>
-        $(function () {
-            $('#inputDate').datetimepicker({
-                locale: 'de'
-            });
+            </div>
+        </form>
+    </div>
+</div>
+
+<div th:replace="fragments :: footer"></div>
+<div th:replace="fragments :: bootstrap-script"></div>
+<script>
+    $(function () {
+        $('#inputDate').datetimepicker({
+            locale: 'de'
         });
-        function clearSelection(select) {
-            for (var i = document.getElementById(select).options.length; i --> 0;) {
-                document.getElementById(select).options[i].selected = false;
+    });
+    function clearSelection(select) {
+        for (var i = document.getElementById(select).options.length; i-- > 0;) {
+            document.getElementById(select).options[i].selected = false;
+        }
+    }
+    function selectYear(select, year) {
+        for (var i = document.getElementById(select).options.length; i-- > 0;) {
+            if (document.getElementById(select).options[i].dataset.year == year || year == 'all') {
+                document.getElementById(select).options[i].selected = true;
             }
         }
-        function selectYear(select, year) {
-            for (var i = document.getElementById(select).options.length; i --> 0;) {
-                if (document.getElementById(select).options[i].dataset.year == year || year == 'all') {
-                    document.getElementById(select).options[i].selected = true;
-                }
-            }
-        }
-    </script>
+    }
+</script>
 </body>
 
 </html>

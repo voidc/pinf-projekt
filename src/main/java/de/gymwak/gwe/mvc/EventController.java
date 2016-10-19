@@ -1,14 +1,10 @@
 package de.gymwak.gwe.mvc;
 
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.TreeSet;
-
-import javax.validation.Valid;
-
+import de.gymwak.gwe.data.GWEEventRepository;
+import de.gymwak.gwe.data.GWERepository;
+import de.gymwak.gwe.model.GWEEvent;
+import de.gymwak.gwe.model.GWEEventEdit;
+import de.gymwak.gwe.model.GWEUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -22,33 +18,31 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import de.gymwak.gwe.data.GWEEventRepository;
-import de.gymwak.gwe.data.GWERepository;
-import de.gymwak.gwe.model.GWEEvent;
-import de.gymwak.gwe.model.GWEEventEdit;
-import de.gymwak.gwe.model.GWEUser;
+import javax.validation.Valid;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.TreeSet;
 
-@Controller
-@EnableAsync
-public class EventController {
+@Controller @EnableAsync public class EventController {
 	private GWERepository userRepository;
 	private GWEEventRepository eventRepository;
 
-	@Autowired
-	public EventController(GWERepository userRepository, GWEEventRepository eventRepository) {
+	@Autowired public EventController(GWERepository userRepository, GWEEventRepository eventRepository) {
 		this.userRepository = userRepository;
 		this.eventRepository = eventRepository;
 	}
 
-	@RequestMapping(value = "/event", method = RequestMethod.GET)
-	public String get() {
+	@RequestMapping(value = "/event", method = RequestMethod.GET) public String get() {
 		return "redirect:/event/new";
 	}
 
-	@RequestMapping(value = "/event/new", method = RequestMethod.GET)
-	public ModelAndView newEvent() {
+	@RequestMapping(value = "/event/new", method = RequestMethod.GET) public ModelAndView newEvent() {
 		ModelAndView mav = new ModelAndView("newevent");
-		Sort sort = new Sort("lastName", "firstName", "graduationYear", "graduationType", "occupation", "disciplines", "id");
+		Sort sort = new Sort("lastName", "firstName", "graduationYear", "graduationType", "occupation", "disciplines",
+				"id");
 		Iterable<GWEUser> allUsers = userRepository.findAll(sort);
 		mav.addObject("users", allUsers);
 
@@ -60,9 +54,8 @@ public class EventController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/event/new", method = RequestMethod.POST)
-	public String createEvent(@Valid GWEEvent event, @RequestParam(value = "dateString", required = true) String date,
-			RedirectAttributes rAttr) {
+	@RequestMapping(value = "/event/new", method = RequestMethod.POST) public String createEvent(@Valid GWEEvent event,
+			@RequestParam(value = "dateString", required = true) String date, RedirectAttributes rAttr) {
 		Timestamp stamp = null;
 		try {
 			stamp = new Timestamp(new SimpleDateFormat("dd.MM.yyyy HH:mm").parse(date).getTime());
@@ -84,8 +77,8 @@ public class EventController {
 		return "redirect:/event/" + event.getId();
 	}
 
-	@RequestMapping(value = "/event/{eventId}/delete", method = RequestMethod.POST)
-	public String deleteEvent(@PathVariable long eventId) {
+	@RequestMapping(value = "/event/{eventId}/delete", method = RequestMethod.POST) public String deleteEvent(
+			@PathVariable long eventId) {
 		GWEEvent event = (GWEEvent) eventRepository.findOne(eventId);
 		if (event == null) {
 			return "redirect:/error?type=noSearchResults";
@@ -101,8 +94,8 @@ public class EventController {
 		return "redirect:/overview";
 	}
 
-	@RequestMapping(value = "/event/{eventId}", method = RequestMethod.GET)
-	public ModelAndView event(@PathVariable long eventId) {
+	@RequestMapping(value = "/event/{eventId}", method = RequestMethod.GET) public ModelAndView event(
+			@PathVariable long eventId) {
 		GWEEvent event = (GWEEvent) eventRepository.findOne(eventId);
 		if (event == null) {
 			return new ModelAndView("redirect:/error?type=noSearchResults");
@@ -113,7 +106,8 @@ public class EventController {
 
 		ModelAndView mav = new ModelAndView("event");
 		mav.addObject("event", event);
-		mav.addObject("dateString", new SimpleDateFormat("dd.MM.yyyy HH:mm").format(new Date(event.getTime().getTime())));
+		mav.addObject("dateString",
+				new SimpleDateFormat("dd.MM.yyyy HH:mm").format(new Date(event.getTime().getTime())));
 		mav.addObject("participant", event.hasParticipant(currentUser) || event.getOrganizer().equals(currentUser));
 
 		String participants = "";
@@ -126,8 +120,8 @@ public class EventController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/event/{eventId}/edit", method = RequestMethod.GET)
-	public ModelAndView getEdit(@PathVariable int eventId) {
+	@RequestMapping(value = "/event/{eventId}/edit", method = RequestMethod.GET) public ModelAndView getEdit(
+			@PathVariable int eventId) {
 		GWEEvent event = (GWEEvent) eventRepository.findOne((long) eventId);
 		if (event == null) {
 			return new ModelAndView("redirect:/error?type=noSearchResults");
@@ -136,13 +130,14 @@ public class EventController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		GWEUser currentUser = userRepository.findByEmail(auth.getName());
 
-		if(!event.getOrganizer().equals(currentUser)) {
+		if (!event.getOrganizer().equals(currentUser)) {
 			return new ModelAndView("redirect:/event/" + event.getId());
 		}
 
 		ModelAndView mav = new ModelAndView("editevent");
 
-		Sort sort = new Sort("lastName", "firstName", "graduationYear", "graduationType", "occupation", "disciplines", "id");
+		Sort sort = new Sort("lastName", "firstName", "graduationYear", "graduationType", "occupation", "disciplines",
+				"id");
 		Iterable<GWEUser> allUsers = userRepository.findAll(sort);
 		mav.addObject("allUsers", allUsers);
 
@@ -153,12 +148,13 @@ public class EventController {
 		mav.addObject("years", years);
 
 		mav.addObject("event", event);
-		mav.addObject("dateString", new SimpleDateFormat("dd.MM.yyyy HH:mm").format(new Date(event.getTime().getTime())));
+		mav.addObject("dateString",
+				new SimpleDateFormat("dd.MM.yyyy HH:mm").format(new Date(event.getTime().getTime())));
 		return mav;
 	}
 
-	@RequestMapping(value = "/event/{eventId}/edit", method = RequestMethod.POST)
-	public ModelAndView applyEdit(@Valid GWEEventEdit edit, @RequestParam(value = "dateString", required = true) String date,
+	@RequestMapping(value = "/event/{eventId}/edit", method = RequestMethod.POST) public ModelAndView applyEdit(
+			@Valid GWEEventEdit edit, @RequestParam(value = "dateString", required = true) String date,
 			@PathVariable int eventId) {
 		Timestamp stamp = null;
 		try {
@@ -183,7 +179,7 @@ public class EventController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		GWEUser currentUser = userRepository.findByEmail(auth.getName());
 
-		if(!event.getOrganizer().equals(currentUser)) {
+		if (!event.getOrganizer().equals(currentUser)) {
 			return new ModelAndView("redirect:/event/" + event.getId());
 		}
 		if (edit.hasParticipant(edit.getOrganizer())) {

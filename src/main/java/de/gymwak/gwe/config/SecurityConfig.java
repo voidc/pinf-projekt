@@ -1,7 +1,5 @@
 package de.gymwak.gwe.config;
 
-import java.security.SecureRandom;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,13 +12,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+import java.security.SecureRandom;
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+@Configuration @EnableWebSecurity @EnableGlobalMethodSecurity(prePostEnabled = true) public class SecurityConfig
+		extends WebSecurityConfigurerAdapter {
+
+	@Override protected void configure(HttpSecurity http) throws Exception {
 		// @formatter:off
 		http.csrf().disable()
 			.formLogin()
@@ -38,19 +35,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// @formatter:on
 	}
 
-	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth, UserDetailsService service, PasswordEncoder encoder)
-			throws Exception {
+	@Autowired public void configureGlobal(AuthenticationManagerBuilder auth, UserDetailsService service,
+			PasswordEncoder encoder) throws Exception {
 		auth.userDetailsService(service).passwordEncoder(encoder);
 	}
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
+	@Bean public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
-	@Bean
-	SecureRandom secureRandom() {
+	@Bean SecureRandom secureRandom() {
 		return new SecureRandom();
 	}
 

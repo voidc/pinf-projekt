@@ -4,52 +4,55 @@
 <head th:replace="fragments :: head ('Benutzerprofil')"></head>
 
 <body>
-    <div class="content-wrap">
-        <div class="container">
-            <div th:replace="fragments :: header">
-            </div>
-            <div class="panel panel-primary">
-                <div class="panel-heading" th:inline="text">Benutzerprofil von [[${user.firstName}]] [[${user.lastName}]]
-                </div>
-                <table class="table table-hover">
-                    <tr>
-                        <td>Vorname</td>
-                        <td th:text="${user.firstName}">GWEUser.firstName</td>
-                    </tr>
-                    <tr>
-                        <td>Nachname</td>
-                        <td th:text="${user.lastName}">GWEUser.lastName</td>
-                    </tr>
-                    <tr>
-                        <td>Abiturjahr</td>
-                        <td><span th:text="${user.graduationYear}">GWEUser.graduationYear</span><span class="text-muted" th:text="| (${user.graduationType.desc})|">GWEUser.graduationType</span></td>
-                    </tr>
-                    <tr>
-                        <td>Beschäftigung</td>
-                        <td th:text="${user.occupation}">GWEUser.occupation</td>
-                    </tr>
-                </table>
-                <div class="panel-footer">
-                    <a class="btn btn-success" th:href="@{/message(to=${user.id})}" th:if="${currentUser.activated}">
-                        <span class="fa fa-envelope"></span> Nachricht
-                    </a>
-                    <a href="javascript:void(0)" class="btn btn-success" role="button" th:unless="${currentUser.activated}"
-                       tabindex="0" data-toggle="popover" data-trigger="focus" data-content="Aktivierung hierfür erforderlich!">
-                        Nachricht
-                    </a>
-                </div>
-            </div>
-
+<div class="content-wrap">
+    <div class="container">
+        <div th:replace="fragments :: header">
         </div>
-    </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading" th:inline="text">Benutzerprofil von [[${user.firstName}]] [[${user.lastName}]]
+            </div>
+            <table class="table table-hover">
+                <tr>
+                    <td>Vorname</td>
+                    <td th:text="${user.firstName}">GWEUser.firstName</td>
+                </tr>
+                <tr>
+                    <td>Nachname</td>
+                    <td th:text="${user.lastName}">GWEUser.lastName</td>
+                </tr>
+                <tr>
+                    <td>Abiturjahr</td>
+                    <td><span th:text="${user.graduationYear}">GWEUser.graduationYear</span><span class="text-muted"
+                                                                                                  th:text="| (${user.graduationType.desc})|">GWEUser.graduationType</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Beschäftigung</td>
+                    <td th:text="${user.occupation}">GWEUser.occupation</td>
+                </tr>
+            </table>
+            <div class="panel-footer">
+                <a class="btn btn-success" th:href="@{/message(to=${user.id})}" th:if="${currentUser.activated}">
+                    <span class="fa fa-envelope"></span> Nachricht
+                </a>
+                <a href="javascript:void(0)" class="btn btn-success" role="button" th:unless="${currentUser.activated}"
+                   tabindex="0" data-toggle="popover" data-trigger="focus"
+                   data-content="Aktivierung hierfür erforderlich!">
+                    Nachricht
+                </a>
+            </div>
+        </div>
 
-    <div th:replace="fragments :: footer"></div>
-    <div th:replace="fragments :: bootstrap-script"></div>
-    <script>
-        $(function () {
-            $('[data-toggle="popover"]').popover()
-        })
-    </script>
+    </div>
+</div>
+
+<div th:replace="fragments :: footer"></div>
+<div th:replace="fragments :: bootstrap-script"></div>
+<script>
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    })
+</script>
 </body>
 
 </html>

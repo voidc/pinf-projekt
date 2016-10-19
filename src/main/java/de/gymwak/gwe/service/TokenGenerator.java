@@ -1,20 +1,17 @@
 package de.gymwak.gwe.service;
 
-import java.security.SecureRandom;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-@Service
-public class TokenGenerator {
+import java.security.SecureRandom;
+
+@Service public class TokenGenerator {
 	private SecureRandom rnd;
 
-	@Value("${gwe.token-length}")
-	private int tokenLength;
+	@Value("${gwe.token-length}") private int tokenLength;
 
-	@Autowired
-	public TokenGenerator(SecureRandom rnd) {
+	@Autowired public TokenGenerator(SecureRandom rnd) {
 		this.rnd = rnd;
 	}
 

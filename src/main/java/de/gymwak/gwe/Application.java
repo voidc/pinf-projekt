@@ -2,10 +2,8 @@ package de.gymwak.gwe;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
 
-@SpringBootApplication
-public class Application {
+@SpringBootApplication public class Application {
 
 	/**
 	 * Diese main Methode startet beim Ausfuehren einen Tomcat Server auf dem

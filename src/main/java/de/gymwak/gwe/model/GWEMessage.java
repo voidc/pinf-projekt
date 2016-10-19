@@ -1,19 +1,18 @@
 package de.gymwak.gwe.model;
 
-import java.io.Serializable;
-
 import org.hibernate.validator.constraints.NotEmpty;
+
+import java.io.Serializable;
 
 public class GWEMessage implements Serializable {
 
 	private long recipientId = -1;
 
 	private long eventId = -1;
-	
+
 	private int recipientsYear = -1;
 
-	@NotEmpty(message = "Text is required.")
-	private String content;
+	@NotEmpty(message = "Text is required.") private String content;
 
 	public GWEMessage() {
 	}

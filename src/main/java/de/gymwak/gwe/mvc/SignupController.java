@@ -1,10 +1,9 @@
 package de.gymwak.gwe.mvc;
 
-import java.util.Calendar;
-import java.util.List;
-
-import javax.validation.Valid;
-
+import de.gymwak.gwe.data.GWERepository;
+import de.gymwak.gwe.model.GWEUser;
+import de.gymwak.gwe.model.GWEUser.GraduationType;
+import de.gymwak.gwe.service.AsyncMailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,32 +20,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import de.gymwak.gwe.data.GWERepository;
-import de.gymwak.gwe.model.GWEUser;
-import de.gymwak.gwe.model.GWEUser.GraduationType;
-import de.gymwak.gwe.service.AsyncMailService;
+import javax.validation.Valid;
+import java.util.Calendar;
+import java.util.List;
 
-@Controller
-@RequestMapping("/signup")
-public class SignupController {
+@Controller @RequestMapping("/signup") public class SignupController {
 	private GWERepository userRepository;
 	private PasswordEncoder encoder;
 	private AsyncMailService mailService;
 
-	@Autowired
-	public SignupController(GWERepository userRepository, PasswordEncoder encoder, AsyncMailService mailService) {
+	@Autowired public SignupController(GWERepository userRepository, PasswordEncoder encoder,
+			AsyncMailService mailService) {
 		this.userRepository = userRepository;
 		this.encoder = encoder;
 		this.mailService = mailService;
 	}
 
-	@RequestMapping(method = RequestMethod.GET)
-	public String get() {
+	@RequestMapping(method = RequestMethod.GET) public String get() {
 		return "signup";
 	}
 
-	@RequestMapping(method = RequestMethod.POST)
-	public String signup(@Valid GWEUser user, BindingResult result, RedirectAttributes rAttr) {
+	@RequestMapping(method = RequestMethod.POST) public String signup(@Valid GWEUser user, BindingResult result,
+			RedirectAttributes rAttr) {
 		if (result.hasErrors()) {
 			rAttr.addFlashAttribute("signupUser", user);
 			return "redirect:/signup?error";
@@ -78,13 +73,11 @@ public class SignupController {
 
 	}
 
-	@ModelAttribute("disciplines")
-	public GWEUser.Discipline[] disciplines() {
+	@ModelAttribute("disciplines") public GWEUser.Discipline[] disciplines() {
 		return GWEUser.Discipline.values();
 	}
 
-	@ModelAttribute("graduationTypes")
-	public GWEUser.GraduationType[] graduationTypes() {
+	@ModelAttribute("graduationTypes") public GWEUser.GraduationType[] graduationTypes() {
 		return GWEUser.GraduationType.values();
 	}
 }

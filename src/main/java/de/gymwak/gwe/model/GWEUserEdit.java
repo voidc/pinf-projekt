@@ -10,24 +10,17 @@ import java.util.Collection;
 
 public class GWEUserEdit implements Serializable {
 
-	@Email(message = "Please provide a valid email address.")
-	@NotEmpty(message = "Email is required.")
-	private String email;
+	@Email(message = "Please provide a valid email address.") @NotEmpty(message = "Email is required.") private String email;
 
-	@NotEmpty(message = "First name is required.")
-	private String firstName;
+	@NotEmpty(message = "First name is required.") private String firstName;
 
-	@NotEmpty(message = "Last name is required.")
-	private String lastName;
+	@NotEmpty(message = "Last name is required.") private String lastName;
 
-	@NotNull(message = "Graduation type is required.")
-	private GWEUser.GraduationType graduationType;
+	@NotNull(message = "Graduation type is required.") private GWEUser.GraduationType graduationType;
 
-	@Min(1940)
-	private int graduationYear;
+	@Min(1940) private int graduationYear;
 
-	@NotEmpty(message = "Occupation is required.")
-	private String occupation;
+	@NotEmpty(message = "Occupation is required.") private String occupation;
 
 	private Collection<GWEUser.Discipline> disciplines;
 

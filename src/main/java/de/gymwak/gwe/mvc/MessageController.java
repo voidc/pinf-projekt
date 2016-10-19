@@ -1,10 +1,11 @@
 package de.gymwak.gwe.mvc;
 
-import java.util.Collections;
-import java.util.List;
-
-import javax.validation.Valid;
-
+import de.gymwak.gwe.data.GWEEventRepository;
+import de.gymwak.gwe.data.GWERepository;
+import de.gymwak.gwe.model.GWEEvent;
+import de.gymwak.gwe.model.GWEMessage;
+import de.gymwak.gwe.model.GWEUser;
+import de.gymwak.gwe.service.AsyncMailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -19,41 +20,31 @@ import org.springframework.web.servlet.ModelAndView;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import de.gymwak.gwe.data.GWEEventRepository;
-import de.gymwak.gwe.data.GWERepository;
-import de.gymwak.gwe.model.GWEEvent;
-import de.gymwak.gwe.model.GWEMessage;
-import de.gymwak.gwe.model.GWEUser;
-import de.gymwak.gwe.service.AsyncMailService;
+import javax.validation.Valid;
+import java.util.Collections;
+import java.util.List;
 
-@Controller
-@EnableAsync
-public class MessageController {
+@Controller @EnableAsync public class MessageController {
 	private GWERepository userRepository;
 	private GWEEventRepository eventRepository;
 	private AsyncMailService mailService;
 	private TemplateEngine templateEngine;
 
-	@Value("${server.port}")
-	private String serverPort;
+	@Value("${server.port}") private String serverPort;
 
-	@Value("${EMAIL_USER}")
-	private String adminMail;
+	@Value("${EMAIL_USER}") private String adminMail;
 
-	@Value("${GWE_ADDRESS}")
-	private String gweAddress;
+	@Value("${GWE_ADDRESS}") private String gweAddress;
 
-	@Autowired
-	public MessageController(GWERepository userRepository, GWEEventRepository eventRepository, AsyncMailService mailService,
-			TemplateEngine templateEngine) {
+	@Autowired public MessageController(GWERepository userRepository, GWEEventRepository eventRepository,
+			AsyncMailService mailService, TemplateEngine templateEngine) {
 		this.eventRepository = eventRepository;
 		this.userRepository = userRepository;
 		this.mailService = mailService;
 		this.templateEngine = templateEngine;
 	}
 
-	@RequestMapping(value = "/message", method = RequestMethod.GET)
-	public ModelAndView get(@RequestParam String to) {
+	@RequestMapping(value = "/message", method = RequestMethod.GET) public ModelAndView get(@RequestParam String to) {
 		ModelAndView mav = new ModelAndView("message");
 		if (to.startsWith("year")) {
 			mav.addObject("year", to.substring(4));
@@ -69,8 +60,8 @@ public class MessageController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/send", method = RequestMethod.POST)
-	public String sendMessage(@Valid GWEMessage gweMessage) {
+	@RequestMapping(value = "/send", method = RequestMethod.POST) public String sendMessage(
+			@Valid GWEMessage gweMessage) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		GWEUser currentUser = userRepository.findByEmail(auth.getName());
 
@@ -95,7 +86,7 @@ public class MessageController {
 			recipientSalutation = recipientUser.getFirstName() + " " + recipientUser.getLastName();
 		} else if (gweMessage.getRecipientsYear() != -1) {
 			recipients = userRepository.findByGraduationYear(gweMessage.getRecipientsYear());
-//			recipientSalutation = "Ehemahliger Schüler des Abiturjahres " + gweMessage.getRecipientsYear();
+			//			recipientSalutation = "Ehemahliger Schüler des Abiturjahres " + gweMessage.getRecipientsYear();
 			recipientSalutation = "year";
 		} else {
 			event = (GWEEvent) eventRepository.findOne(gweMessage.getEventId());
@@ -106,9 +97,9 @@ public class MessageController {
 		String cuName = currentUser.getFirstName() + " " + currentUser.getLastName();
 		String replyUrl = String.format(gweAddress + "message?to=%d", currentUser.getId());
 		String messageContent = gweMessage.getContent().replace("\n", "<br/>");
-		
+
 		Context ctx = new Context();
-		
+
 		if (recipientSalutation != null) {
 			ctx.setVariable("recipient", recipientSalutation);
 			ctx.setVariable("event", event);

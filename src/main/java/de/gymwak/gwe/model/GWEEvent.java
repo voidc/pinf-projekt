@@ -1,50 +1,31 @@
 package de.gymwak.gwe.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OrderColumn;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+@Entity public class GWEEvent implements Serializable {
 
-import org.hibernate.validator.constraints.NotEmpty;
+	@Id @GeneratedValue(strategy = GenerationType.AUTO) private Long id;
 
-@Entity
-public class GWEEvent implements Serializable {
+	@NotEmpty(message = "Name is required.") @Column(unique = true, nullable = false) private String name;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-
-	@NotEmpty(message = "Name is required.")
-	@Column(unique = true, nullable = false)
-	private String name;
-
-	@NotNull()
-	@ManyToOne()
-	private GWEUser organizer;
+	@NotNull() @ManyToOne() private GWEUser organizer;
 
 	@NotEmpty(message = "Description is required.")
 	//@Lob (description sollte mehr al 255 Zeichen haben können)
-	@Size(max = 1000)
-	private String description;
+	@Size(max = 1000) private String description;
 
 	private java.sql.Timestamp time;
 
-	@NotEmpty(message = "Place is required.")
-	private String place;
+	@NotEmpty(message = "Place is required.") private String place;
 
-	@ManyToMany()
-	@OrderColumn
-	private List<GWEUser> participants;
+	@ManyToMany() @OrderColumn private List<GWEUser> participants;
 
 	public GWEEvent() {
 	}
@@ -132,8 +113,7 @@ public class GWEEvent implements Serializable {
 		return time.getTime() < System.currentTimeMillis();
 	}
 
-	@Override
-	public boolean equals(Object obj) {
+	@Override public boolean equals(Object obj) {
 		return obj != null && obj instanceof GWEEvent && ((GWEEvent) obj).id == this.id;
 	}
 

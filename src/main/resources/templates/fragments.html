@@ -2,165 +2,190 @@
 <html lang="de" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head th:fragment="head (title)">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <meta charset="UTF-8"/>
     <title th:text="${title}">Title</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css"/>
     <!-- Font Awesome Symbols -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css"/>
     <!-- Für Test Zwecke -->
     <!-- link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flat-ui/2.2.2/css/flat-ui.min.css" /-->
-    <link rel="stylesheet" th:href="@{/css/style.css}" />
-    <link rel="icon" th:href="@{/img/favicon.png}" type="image/png" />
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="icon" th:href="@{/img/favicon.png}" type="image/png"/>
 </head>
 
 <body>
-    <!-- Header -->
-    <th:block th:fragment="header">
-        <noscript th:unless="${param.noscript != null}">
-            <div class="modal" id="noscript-modal" tabindex="-1" role="dialog" aria-labelledby="JavaScript deaktiviert" style="display: block;">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="myModalLabel"><strong>JavaScript deaktiviert</strong></h4>
-                        </div>
-                        <div class="modal-body">
-                            Ohne JavaScript kann die Website nicht richtig angezeigt werden. Dieser Hinweis erscheint immer beim Aufrufen der Seite wenn JavaScript deaktiviert ist.
-                            <p>Aktivieren Sie JavaScript in den Browsereinstellungen, um auf die Inhalte dieser Seite zugreifen zu können.</p>
-                        </div>
-                        <div class="modal-footer">
-                            <a th:href="@{/logout}" type="button" class="btn btn-success"><span class="fa fa-lock" aria-hidden="true"></span> Abmelden</a>
-                            <a href="?noscript" type="button" class="btn btn-danger"><span class="fa fa-times" aria-hidden="true"></span> Hinweis kurzzeitig ausblenden</a>
-                        </div>
+<!-- Header -->
+<th:block th:fragment="header">
+    <noscript th:unless="${param.noscript != null}">
+        <div class="modal" id="noscript-modal" tabindex="-1" role="dialog" aria-labelledby="JavaScript deaktiviert"
+             style="display: block;">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel"><strong>JavaScript deaktiviert</strong></h4>
+                    </div>
+                    <div class="modal-body">
+                        Ohne JavaScript kann die Website nicht richtig angezeigt werden. Dieser Hinweis erscheint immer
+                        beim Aufrufen der Seite wenn JavaScript deaktiviert ist.
+                        <p>Aktivieren Sie JavaScript in den Browsereinstellungen, um auf die Inhalte dieser Seite
+                            zugreifen zu können.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a th:href="@{/logout}" type="button" class="btn btn-success"><span class="fa fa-lock"
+                                                                                            aria-hidden="true"></span>
+                            Abmelden</a>
+                        <a href="?noscript" type="button" class="btn btn-danger"><span class="fa fa-times"
+                                                                                       aria-hidden="true"></span>
+                            Hinweis kurzzeitig ausblenden</a>
                     </div>
                 </div>
             </div>
-        </noscript>
+        </div>
+    </noscript>
 
-        <div th:replace="fragments :: ${currentUser == null} ? header-default : navbar"></div>
+    <div th:replace="fragments :: ${currentUser == null} ? header-default : navbar"></div>
 
-        <div class="alert alert-warning alert-caution" role="alert" th:if="${currentUser} and ${not currentUser.activated}">
-            <div class="alert-heading">
-                <strong class="alert-heading">Aktivierung austehend!</strong>
+    <div class="alert alert-warning alert-caution" role="alert" th:if="${currentUser} and ${not currentUser.activated}">
+        <div class="alert-heading">
+            <strong class="alert-heading">Aktivierung austehend!</strong>
+        </div>
+        <div class="alert-body">
+            <p>Um alle Funktionen nutzen zu können, aktiviere deinen Account bitte über den per E-Mail gesendeten
+                Link.</p>
+            <a th:href="@{/activationmail}" class="alert-link">Erneut senden</a>
+        </div>
+    </div>
+
+    <div class="alert alert-info" role="alert" th:if="${status}">
+        <p th:text="${status}">Status</p>
+    </div>
+</th:block>
+
+<nav class="navbar navbar-default no-border-radius" th:fragment="navbar">
+    <div class="container-fluid">
+        <div class="navbar-header navbar-height">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse"
+                    aria-expanded="false">
+                <span class="sr-only">Navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="navbar-left navbar-brand">
+                <a th:href="@{/}">
+                    <img title="Gymnasium Waldkraiburg" th:src="@{/img/logo-notext-transparent-sq-46px.png}"/>
+                </a>
             </div>
-            <div class="alert-body">
-                <p>Um alle Funktionen nutzen zu können, aktiviere deinen Account bitte über den per E-Mail gesendeten Link.</p>
-                <a th:href="@{/activationmail}" class="alert-link">Erneut senden</a>
+            <div class="pull-left navbar-heading navbar-height">
+                <h5>Ehemalige<br/>
+                    <small>des Gymnasiums Waldkraiburg</small>
+                </h5>
             </div>
         </div>
 
-        <div class="alert alert-info" role="alert" th:if="${status}">
-            <p th:text="${status}">Status</p>
-        </div>
-    </th:block>
-
-    <nav class="navbar navbar-default no-border-radius" th:fragment="navbar">
-        <div class="container-fluid">
-            <div class="navbar-header navbar-height">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
-                    <span class="sr-only">Navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <div class="navbar-left navbar-brand">
-                    <a th:href="@{/}">
-                        <img title="Gymnasium Waldkraiburg" th:src="@{/img/logo-notext-transparent-sq-46px.png}" />
+        <div class="collapse navbar-collapse" id="navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a th:href="@{/overview}">
+                        <span style="font-size: 1.34em;" class="fa fa-home" aria-hidden="true" aria-label="Übersicht"
+                              title="Übersicht"></span>
                     </a>
-                </div>
-                <div class="pull-left navbar-heading navbar-height">
-                    <h5>Ehemalige<br/><small>des Gymnasiums Waldkraiburg</small></h5>
-                </div>
-            </div>
-
-            <div class="collapse navbar-collapse" id="navbar-collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a th:href="@{/overview}">
-                            <span style="font-size: 1.34em;" class="fa fa-home" aria-hidden="true" aria-label="Übersicht" title="Übersicht"></span>
-                        </a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            <span style="font-size: 1.2em;" class="fa fa-user" aria-hidden="true" aria-label="Account" title="Account"></span>
-                            <span class="fa fa-caret-down" aria-hidden="true"></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li class="dropdown-header text-inline">
-                                <h5>
-                                    <span> Angemeldet als </span>
-                                    <b>
-                                        <a th:href="@{/}" class="text-muted" th:text="|${currentUser.firstName} ${currentUser.lastName}|">Admin</a>
-                                    </b>
-                                </h5>
-                            </li>
-                            <li><a th:href="@{/edit}"><span class="fa fa-gear" aria-hidden="true"></span><span class="col-xs-16">Einstellungen</span></a></li>
-                            <li role="separator" class="divider"></li>
-                            <li>
-                            <a th:href="@{/logout}"><span class="fa fa-lock" aria-hidden="true"></span><span class="col-xs-16">Abmelden</span></a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <form class="navbar-form navbar-right" role="search" th:action="@{/search}" method="get">
-                    <div class="input-group" role="group">
-                        <input class="form-control" type="search" name="q" placeholder="Nutzersuche..." />
-                        <span class="input-group-btn">
-                            <button type="submit" class="btn btn-default"><span class="fa fa-search" aria-hidden="true"></span></button>
+                </li>
+                <li class="dropdown">
+                    <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                       aria-haspopup="true" aria-expanded="false">
+                        <span style="font-size: 1.2em;" class="fa fa-user" aria-hidden="true" aria-label="Account"
+                              title="Account"></span>
+                        <span class="fa fa-caret-down" aria-hidden="true"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-header text-inline">
+                            <h5>
+                                <span> Angemeldet als </span>
+                                <b>
+                                    <a th:href="@{/}" class="text-muted"
+                                       th:text="|${currentUser.firstName} ${currentUser.lastName}|">Admin</a>
+                                </b>
+                            </h5>
+                        </li>
+                        <li><a th:href="@{/edit}"><span class="fa fa-gear" aria-hidden="true"></span><span
+                                class="col-xs-16">Einstellungen</span></a></li>
+                        <li role="separator" class="divider"></li>
+                        <li>
+                            <a th:href="@{/logout}"><span class="fa fa-lock" aria-hidden="true"></span><span
+                                    class="col-xs-16">Abmelden</span></a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form class="navbar-form navbar-right" role="search" th:action="@{/search}" method="get">
+                <div class="input-group" role="group">
+                    <input class="form-control" type="search" name="q" placeholder="Nutzersuche..."/>
+                    <span class="input-group-btn">
+                            <button type="submit" class="btn btn-default"><span class="fa fa-search"
+                                                                                aria-hidden="true"></span></button>
                         </span>
-                    </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
-    </nav>
-
-    <div class="page-header row" th:fragment="header-default">
-        <div class="logo">
-            <a th:href="@{/}"><img title="Gymnasium Waldkraiburg" th:src="@{/img/logo-transparent-sq-120px.png}" /></a>
-        </div>
-        <h1 class="logo-text col-md-10">Ehemalige<br/><small>des Gymnasiums Waldkraiburg</small></h1>
     </div>
+</nav>
 
-    <div class="page-header row" th:fragment="header-login">
-        <div class="col-md-offset-3 logo-login col-md-2">
-            <a th:href="@{/}"><img title="Gymnasium Waldkraiburg" th:src="@{/img/logo-transparent-sq-120px.png}" /></a>
-        </div>
-        <h1 class="logo-text col-md-7">Ehemalige<br/><small>des Gymnasiums Waldkraiburg</small></h1>
+<div class="page-header row" th:fragment="header-default">
+    <div class="logo">
+        <a th:href="@{/}"><img title="Gymnasium Waldkraiburg" th:src="@{/img/logo-transparent-sq-120px.png}"/></a>
     </div>
-    <!-- END Header -->
+    <h1 class="logo-text col-md-10">Ehemalige<br/>
+        <small>des Gymnasiums Waldkraiburg</small>
+    </h1>
+</div>
 
-    <!-- Footer -->
-    <footer class="footer footer-login hidden-print" th:fragment="footer">
-        <div class="container">
-            <div class="textbox text-muted">
-                <p class="text-faded pull-left">&copy; 2016 Gymnasium Waldkraiburg</p>
-                <ul class="list-inline text-faded pull-right">
-                    <li th:if="${currentUser}">
-                        <span>Angemeldet als </span>
-                        <a th:href="@{/}"><strong th:text="|${currentUser.firstName} ${currentUser.lastName}|">User Name</strong></a>
-                    </li>
-                    <li th:unless="${currentUser}">
-                        <a th:href="@{/login}"><strong>Anmelden</strong></a>
-                    </li>
-                    <li><a th:href="@{/impressum}">Impressum</a></li>
-                    <li><a th:href="@{/impressum#datenschutz}">Datenschutz</a></li>
-                    <li><a th:href="@{/impressum#feedback}">Feedback</a></li>
-                </ul>
-            </div>
+<div class="page-header row" th:fragment="header-login">
+    <div class="col-md-offset-3 logo-login col-md-2">
+        <a th:href="@{/}"><img title="Gymnasium Waldkraiburg" th:src="@{/img/logo-transparent-sq-120px.png}"/></a>
+    </div>
+    <h1 class="logo-text col-md-7">Ehemalige<br/>
+        <small>des Gymnasiums Waldkraiburg</small>
+    </h1>
+</div>
+<!-- END Header -->
+
+<!-- Footer -->
+<footer class="footer footer-login hidden-print" th:fragment="footer">
+    <div class="container">
+        <div class="textbox text-muted">
+            <p class="text-faded pull-left">&copy; 2016 Gymnasium Waldkraiburg</p>
+            <ul class="list-inline text-faded pull-right">
+                <li th:if="${currentUser}">
+                    <span>Angemeldet als </span>
+                    <a th:href="@{/}"><strong th:text="|${currentUser.firstName} ${currentUser.lastName}|">User
+                        Name</strong></a>
+                </li>
+                <li th:unless="${currentUser}">
+                    <a th:href="@{/login}"><strong>Anmelden</strong></a>
+                </li>
+                <li><a th:href="@{/impressum}">Impressum</a></li>
+                <li><a th:href="@{/impressum#datenschutz}">Datenschutz</a></li>
+                <li><a th:href="@{/impressum#feedback}">Feedback</a></li>
+            </ul>
         </div>
-    </footer>
-    <!-- END Footer -->
+    </div>
+</footer>
+<!-- END Footer -->
 
-    <!-- Bootstrap JS -->
-    <th:block th:fragment="bootstrap-script">
-        <script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment-with-locales.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
-    </th:block>
-    <!-- END Bootstrap JS -->
+<!-- Bootstrap JS -->
+<th:block th:fragment="bootstrap-script">
+    <script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment-with-locales.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
+</th:block>
+<!-- END Bootstrap JS -->
 </body>
 
 </html>
