@@ -96,6 +96,7 @@ public class SearchController {
 
 		mav.addObject("years", years);
 		mav.addObject("results", users.collect(Collectors.toList()));
+		users.close();
 		return mav;
 	}
 
