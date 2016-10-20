@@ -60,9 +60,10 @@ public class AsyncMailService {
             mail.setFrom(adminMail, "GWE");
             mail.setTo(recipient.getEmail());
             mail.setText(
-                    "Ihr Account wurde noch nicht aktiviert. Daher stehen Ihnen einige Funktionen des Portals noch nicht zur Verfügung.<br>"
-                            + "Durch Klicken auf den folgenden Link wird Ihre E-Mail-Addresse bestätigt und Sie können anschließend auf alle Funktionen zugreifen.<br>"
-                            + "<a href='" + activationUrl + "'>Account aktivieren</a><br>"
+                    "Vielen Dank für Ihre Registrierung beim Ehemaligen-Portal des Gymnasiums Waldkraiburg!<br><br>"
+                            + "Bevor Sie ihren Account in vollem Umfang nutzen können, müssen Sie Ihren Account aktivieren.<br>"
+                            + "Durch Klicken auf den folgenden Link wird Ihre E-Mail-Addresse bestätigt und Sie können anschließend auf alle Funktionen zugreifen.<br><br>"
+                            + "<a href='" + activationUrl + "'>Account aktivieren</a><br><br>"
                             + "Der Link wird ungültig sobald eine neue Aktivierungs-E-Mail gesendet wurde.", true);
         });
     }
