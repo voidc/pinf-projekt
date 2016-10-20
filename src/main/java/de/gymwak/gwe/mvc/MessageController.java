@@ -88,14 +88,15 @@ public class MessageController {
         List<GWEUser> recipients;
         GWEEvent event = null;
         String recipientSalutation;
+        boolean recipientYear = false;
         if (gweMessage.getRecipientId() != -1) {
             GWEUser recipientUser = userRepository.findOne(gweMessage.getRecipientId());
             recipients = Collections.singletonList(recipientUser);
             recipientSalutation = recipientUser.getFirstName() + " " + recipientUser.getLastName();
         } else if (gweMessage.getRecipientsYear() != -1) {
             recipients = userRepository.findByGraduationYear(gweMessage.getRecipientsYear());
-            //			recipientSalutation = "Ehemahliger Schüler des Abiturjahres " + gweMessage.getRecipientsYear();
-            recipientSalutation = "year";
+            recipientSalutation = "Schüler";
+            recipientYear = true;
         } else {
             event = (GWEEvent) eventRepository.findOne(gweMessage.getEventId());
             recipients = event.getParticipants();
@@ -112,6 +113,7 @@ public class MessageController {
             ctx.setVariable("recipient", recipientSalutation);
             ctx.setVariable("event", event);
         }
+        ctx.setVariable("recipientYear", recipientYear);
         ctx.setVariable("sender", cuName);
         ctx.setVariable("message", messageContent);
         ctx.setVariable("replyUrl", replyUrl);
