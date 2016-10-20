@@ -217,9 +217,9 @@ public class GWEUser implements Serializable {
     public enum Discipline {
         LANG("Fremdsprachen, Germanistik"), ART("Kunst, Architektur, Design"), MUSIC("Musik, Instrumente"), GEO(
                 "Geographie, Geologie"), SOCIAL("Solzialwissenschaften, Historik"), LAW(
-                "Jura, Recht, Öffentliche Verwaltung"), ECO("Wirtschaft, Finazen"), PHIL(
+                "Jura, Recht, Öffentliche Verwaltung"), ECO("Wirtschaft, Finanzen"), PHIL(
                 "Religion, Ethik, Philosophie"), MATH("Mathematik, Informatik"), BIOCHEM("Biologie, Chemie"), PHY(
-                "Physik, Maschienenbau, Elektrotechnik"), MED("Sport, Medizin, Gesundheit"), PSY(
+                "Physik, Maschinenbau, Elektrotechnik"), MED("Sport, Medizin, Gesundheit"), PSY(
                 "Psychologie, Pädagogik");
 
         public final String desc;
