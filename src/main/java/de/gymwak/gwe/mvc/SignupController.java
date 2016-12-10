@@ -1,5 +1,6 @@
 package de.gymwak.gwe.mvc;
 
+import de.gymwak.gwe.config.RecaptchaConfig;
 import de.gymwak.gwe.data.GWERepository;
 import de.gymwak.gwe.model.GWEUser;
 import de.gymwak.gwe.model.GWEUser.GraduationType;
@@ -18,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -30,13 +32,15 @@ public class SignupController {
     private GWERepository userRepository;
     private PasswordEncoder encoder;
     private AsyncMailService mailService;
+    private RecaptchaConfig.RecaptchaValidator recaptchaValidator;
 
     @Autowired
     public SignupController(GWERepository userRepository, PasswordEncoder encoder,
-                            AsyncMailService mailService) {
+                            AsyncMailService mailService, RecaptchaConfig.RecaptchaValidator recaptchaValidator) {
         this.userRepository = userRepository;
         this.encoder = encoder;
         this.mailService = mailService;
+        this.recaptchaValidator = recaptchaValidator;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -46,10 +50,15 @@ public class SignupController {
 
     @RequestMapping(method = RequestMethod.POST)
     public String signup(@Valid GWEUser user, BindingResult result,
-                         RedirectAttributes rAttr) {
+                         @RequestParam("g-recaptcha-response") String captcha, RedirectAttributes rAttr) {
         if (result.hasErrors()) {
             rAttr.addFlashAttribute("signupUser", user);
             return "redirect:/signup?error";
+        }
+
+        if (!recaptchaValidator.validate(captcha)) {
+            rAttr.addFlashAttribute("signupUser", user);
+            return "redirect:/signup?error=captcha";
         }
 
         if (userRepository.findByEmail(user.getEmail()) != null) {
