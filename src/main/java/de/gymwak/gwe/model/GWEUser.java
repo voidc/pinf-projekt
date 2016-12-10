@@ -2,6 +2,7 @@ package de.gymwak.gwe.model;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.unbescape.html.HtmlEscape;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -39,6 +40,7 @@ public class GWEUser implements Serializable {
     private int graduationYear;
 
     @NotEmpty(message = "Occupation is required.")
+    @Column(columnDefinition = "TEXT")
     private String occupation;
 
     private int disciplines;
@@ -117,6 +119,10 @@ public class GWEUser implements Serializable {
         this.lastName = lastName;
     }
 
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
+
     public GraduationType getGraduationType() {
         return graduationType;
     }
@@ -135,6 +141,16 @@ public class GWEUser implements Serializable {
 
     public String getOccupation() {
         return occupation;
+    }
+
+    public String getShortOccupation() {
+        int i = occupation.indexOf('\n');
+        return occupation.substring(0, i >= 0 ? i : occupation.length());
+    }
+
+    public String getFullOccupation() {
+        return HtmlEscape.escapeHtml4Xml(occupation)
+                .replace(System.getProperty("line.separator"), "<br />");
     }
 
     public void setOccupation(String occupation) {

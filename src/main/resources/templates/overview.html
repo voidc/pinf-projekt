@@ -15,7 +15,7 @@
                     <h4><span class="fa fa-user" aria-hidden="true"></span> Mein Profil</h4>
                     <div class="seperator"></div>
                     <div class="form-group">
-                        <table class="table list-group">
+                        <table class="table list-group" style="table-layout: fixed">
                             <tbody>
                             <tr class="list-group-item" style="padding: 0;">
                                 <td style="border: none;">
@@ -24,7 +24,7 @@
                                     <span class="sr-only">Abschlussjahrahrgang:</span>
                                 </td>
                                 <td style="border: none;">
-                                    <span th:text="| ${currentUser.graduationYear}|">year</span>
+                                    <span th:text="${currentUser.graduationYear}">year</span>
                                     <span class="text-muted"
                                           th:text="| (${currentUser.graduationType.desc})|">gradType</span>
                                 </td>
@@ -35,7 +35,7 @@
                                               title="Beschäftigung"></span>
                                     <span class="sr-only">Beschäftigung:</span>
                                 </td>
-                                <td style="border: none;" th:text="| ${currentUser.occupation}|">occu</td>
+                                <td style="border: none;" th:utext="${currentUser.getFullOccupation()}"></td>
                             </tr>
                             <tr class="list-group-item" style="padding: 0;">
                                 <td style="border: none;">
@@ -43,7 +43,7 @@
                                               title="Fachgebiete"></span>
                                     <span class="sr-only">Fachgebiet:</span>
                                 </td>
-                                <td style="border: none;" th:text="| ${currentUser.getDisciplinesAsString()}">disc</td>
+                                <td style="border: none;" th:text="${currentUser.getDisciplinesAsString()}">disc</td>
                             </tr>
                             </tbody>
                         </table>
@@ -187,7 +187,7 @@
                         <div class="list-group-item link" th:each="user : ${year}"
                              th:onclick="|document.location.href=getLink('@{/user/{id}(id=${user.id})}')|">
                             <h5 style="display: inline;" class="list-group-item-heading">
-                                <span th:text="|${user.firstName} ${user.lastName}|">Username</span>
+                                <span th:text="${user.getFullName()}">Username</span>
                             </h5>
                             <button id="user-details-collapse" type="button" class="list-group-item-toggle collapsed"
                                     onclick="openDetails()" data-toggle="collapse" data-target="#user-details"
@@ -217,7 +217,7 @@
                                         <span class="sr-only">Beschäftigung:</span>
                                     </td>
                                     <td>
-                                        <span th:text="| ${user.occupation}|">occu</span>
+                                        <span th:text="| ${user.getShortOccupation()}|">occu</span>
                                     </td>
                                 </tr>
                                 <tr>
