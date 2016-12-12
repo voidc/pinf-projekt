@@ -62,7 +62,7 @@
                     </a>
                     <!-- Veranstaltung bearbeiten (wenn Veranstalter) -->
                     <a class="btn btn-primary" th:href="@{/event/{id}/edit(id=${event.id})}"
-                       th:if="${currentUser.activated}">
+                       th:if="${currentUser.getId() == event.getOrganizer().getId() and currentUser.activated}">
                         <span class="fa fa-pencil"></span> Veranstaltung Bearbeiten
                     </a>
                     <a class="btn btn-primary" th:href="javascript:void(0)" th:unless="${currentUser.activated}"
@@ -71,7 +71,8 @@
                         <span class="fa fa-pencil"></span> Veranstaltung Bearbeiten
                     </a>
                     <!-- Veranstaltung löschen (wenn Veranstalter) -->
-                    <button type="submit" class="btn btn-danger" th:if="${currentUser.activated}">
+                    <button type="submit" class="btn btn-danger"
+                       th:if="${currentUser.getId() == event.getOrganizer().getId() and currentUser.activated}">
                         <span class="fa fa-times"></span> Veranstaltung Löschen
                     </button>
                     <button type="button" class="btn btn-danger" th:unless="${currentUser.activated}"
