@@ -68,7 +68,8 @@
                             <div class="col-sm-4" th:each="g : ${graduationTypes}">
                                 <label class="col-sm-offset-1">
                                     <input id="inputGradType" name="graduationType" type="radio" required="required"
-                                           th:text="${g.desc}" th:value="${g.name()}"/>
+                                           th:text="${g.desc}" th:value="${g.name()}"
+                                           th:checked="${signupUser != null} ? ${signupUser.graduationType == g}"/>
                                 </label>
                             </div>
                         </div>
