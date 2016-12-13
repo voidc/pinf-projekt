@@ -3,20 +3,173 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style>
+        /*!
+         * Bootstrap v3.3.7 (http://getbootstrap.com)
+         * Copyright 2011-2016 Twitter, Inc.
+         * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+         */
+        /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
+        .no-border-radius {
+            border-radius: 0px;
+        }
+        .navbar-default {
+            background-color: #f8f8f8;
+            border-color: #e7e7e7;
+        }
+        .navbar {
+            margin-top: 40px;
+            padding: 8px;
+            background-color: #ffffff;
+            -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+        }
+        @media (min-width: 768px)
+        .navbar {
+            border-radius: 4px;
+        }
+        .navbar {
+            position: relative;
+            min-height: 50px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+        }
+        nav {
+            display: block;
+        }
+        .container-fluid {
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+        .navbar-header {
+            margin-right: 0;
+            margin-left: 0;
+        }
+        .navbar-height {
+            height: 50px;
+        }
+        .navbar>.container .navbar-brand, .navbar>.container-fluid .navbar-brand {
+            margin-left: -15px;
+        }
+        .navbar-default .navbar-brand {
+            color: #777;
+        }
+        .navbar-left {
+            float: left!important;
+        }
+        .navbar-brand {
+            float: left;
+            height: 50px;
+            padding: 15px 15px;
+            font-size: 18px;
+            line-height: 20px;
+        }
+        .navbar-brand {
+            float: left;
+            padding: 2px 10px;
+            font-size: 18px;
+            line-height: 20px;
+        }
+        .navbar-heading {
+            padding-left: 10px;
+            padding-right: 10px;
+            min-width: 165px;
+            background-color: #ffffff;
+        }
+        .pull-left {
+            float: left!important;
+        }
+        .well {
+            min-height: 20px;
+            padding: 19px;
+            margin-bottom: 20px;
+            background-color: #ffffff;
+            border: 1px solid #e3e3e3;
+            border-radius: 4px;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+        }
+        a {
+            color: #337ab7;
+            text-decoration: none;
+        }
+        .btn {
+            display: inline-block;
+            padding: 6px 12px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.42857143;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            background-image: none;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+        .btn-default {
+            color: #333;
+            background-color: #fff;
+            border-color: #ccc;
+        }
+    </style>
 </head>
 
-<body>
-<p>
-    Hallo<span th:if="${recipient != null}"> <i th:text="${recipient}">Recipient</i></span>,
-    <br/>
-    <i th:text="${sender}">Sender</i> hat <span th:text="${recipientYear == true} ? 'deinem Jahrgang' : 'dir'">dir</span>
-    über das Ehemaligen-Portal des Gymnsiums Waldkraiburg <span
-        th:text="${event != null} ? 'in Bezug auf deine Teilnahme an der Veranstaltung ' + ${event.name} : ''"></span>
-    eine Nachricht gesendet:
-</p>
-<p th:utext="${message}"></p>
-<br/>
-<a th:href="${replyUrl}">Antworten</a>
+<body style="display: table; width: 100%; background-color: #eee;">
+    <div style="font-family: Helvetica,Arial,sans-serif; font-size: 14px; line-height: 1.42857143; color: #333; margin-left: auto; margin-right: auto; padding-left: 10px; padding-right: 10px;">
+        <div class="navbar navbar-default no-border-radius" th:fragment="navbar">
+            <div class="container-fluid">
+                <div class="navbar-header navbar-height">
+                    <div class="navbar-left navbar-brand">
+                        <img style="width: 46px; height: 46px;" title="Gymnasium Waldkraiburg" th:src="${imgUrl}"/>
+                    </div>
+                    <div class="pull-left navbar-heading navbar-height">
+                        <h5 style="font-size: 14px; margin-top: 10px; margin-bottom: 10px; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; box-sizing: border-box;">Ehemalige<br/>
+                            <small style="font-weight: 400; line-height: 1; color: #777; box-sizing: border-box;">des Gymnasiums Waldkraiburg</small>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="box-sizing: border-box; display: block; margin-top: 40px; margin-bottom: 40px; padding: 8px; background-color: #ffffff;">
+            <p>
+                Hallo<span th:if="${recipient != null}"> <i th:text="${recipient}">Recipient</i></span>,
+                <br/>
+                <i th:text="${sender}">Sender</i> hat <span th:text="${recipientYear == true} ? 'Ihrem Jahrgang' : 'Ihnen'">Ihnen</span>
+                über das Ehemaligen-Portal des Gymnsiums Waldkraiburg <span
+                    th:text="${event != null} ? 'in Bezug auf deine Teilnahme an der Veranstaltung ' + ${event.name} : ''"></span>
+                eine Nachricht gesendet:
+            </p>
+            <div class="well">
+                <span th:utext="${message}"></span>
+            </div>
+            <p>
+                Bitte nutzen Sie die nachstehende Antwort-Funktion, Antwort-E-Mails werden nicht weiter beachtet.
+            </p>
+            <a class="btn btn-default" th:href="${replyUrl}">Antworten</a>
+        </div>
+        <p style="text-align: center; margin-bottom: 0;">
+            <small>
+                &copy; Gymnasium Waldkraiburg
+            </small>
+        </p>
+        <!--
+        <p style="text-align: center; margin-top: 0;">
+            <small>
+                Sie können dem Erhalt dieser Nachrichten jederzeit widersprechen, indem Sie Ihren Account auf <a th:href="${settingsUrl}">hier</a> löschen.
+            </small>
+        </p>
+        -->
+    </div>
 </body>
 
 </html>

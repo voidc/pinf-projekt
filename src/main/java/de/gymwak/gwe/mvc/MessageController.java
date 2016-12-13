@@ -105,6 +105,8 @@ public class MessageController {
 
         String cuName = currentUser.getFirstName() + " " + currentUser.getLastName();
         String replyUrl = String.format(gweAddress + "message?to=%d", currentUser.getId());
+        String imgUrl = String.format(gweAddress + "img/logo-notext-transparent-sq-46px.png");
+        String settingsUrl = String.format(gweAddress + "edit");
         String messageContent = gweMessage.getContent().replace("\n", "<br/>");
 
         Context ctx = new Context();
@@ -117,6 +119,8 @@ public class MessageController {
         ctx.setVariable("sender", cuName);
         ctx.setVariable("message", messageContent);
         ctx.setVariable("replyUrl", replyUrl);
+        ctx.setVariable("imgUrl", imgUrl);
+        ctx.setVariable("settingsUrl", settingsUrl);
         String html = templateEngine.process("email", ctx);
 
         mailService.sendMail(mime -> {
