@@ -35,7 +35,18 @@
                                               title="Beschäftigung"></span>
                                     <span class="sr-only">Beschäftigung:</span>
                                 </td>
-                                <td style="border: none;" th:utext="${currentUser.getFullOccupation()}"></td>
+                                <td style="border: none;">
+                                    <table class="large-text">
+                                        <tbody>
+                                            <tr>
+                                                <td id="textOccupation" class="short" th:utext="${currentUser.getFullOccupation()}"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                                <td id="buttonExpandOccupationColumn" style="border:none;">
+                                    <button id="buttonExpandOccupation" class="btn btn-default btn-xs" style="margin: 0;">Anzeigen</button>
+                                </td>
                             </tr>
                             <tr class="list-group-item" style="padding: 0;">
                                 <td style="border: none;">
@@ -308,6 +319,10 @@
         }
         $(ulEvents).removeAttr('style'); //Reset the height
     });
+    $('#buttonExpandOccupation').on('click', function () {
+        document.getElementById("buttonExpandOccupationColumn").style["display"] = 'none';
+        document.getElementById("textOccupation").className = "large";
+    })
     /*]]>*/
 </script>
 </body>
