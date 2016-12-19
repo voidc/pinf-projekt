@@ -26,7 +26,7 @@
                     </tr>
                     <tr>
                         <td>Beschreibung</td>
-                        <td th:text="${event.description}">GWEEvent.description</td>
+                        <td th:utext="${event.getFullDescription()}">GWEEvent.description</td>
                     </tr>
                     <tr>
                         <td>Ort</td>

@@ -73,7 +73,7 @@
                         <label for="inputDescription" class="col-sm-2 control-label">Beschreibung</label>
                         <div class="col-sm-10">
                             <textarea id="inputDescription" class="form-control" name="description" rows="4"
-                                      required="required" style="resize: none"
+                                      required="required" style="resize: none" maxlength="1000"
                                       th:text="${event != null} ? ${event.description}"></textarea>
                         </div>
                     </div>

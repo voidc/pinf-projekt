@@ -1,6 +1,7 @@
 package de.gymwak.gwe.model;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.unbescape.html.HtmlEscape;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -25,8 +26,7 @@ public class GWEEvent implements Serializable {
     private GWEUser organizer;
 
     @NotEmpty(message = "Description is required.")
-    //@Lob (description sollte mehr al 255 Zeichen haben können)
-    @Size(max = 1000)
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     private java.sql.Timestamp time;
@@ -86,6 +86,16 @@ public class GWEEvent implements Serializable {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getShortDescription() {
+        int i = description.indexOf('\n');
+        return description.substring(0, i >= 0 ? i : description.length());
+    }
+
+    public String getFullDescription() {
+        return HtmlEscape.escapeHtml4Xml(description)
+                .replace(System.getProperty("line.separator"), "<br />");
     }
 
     public void setDescription(String description) {
