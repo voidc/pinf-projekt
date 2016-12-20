@@ -56,11 +56,10 @@
                             </div>
                             <select class="form-control selectpicker" multiple="multiple" title="Keine"
                                     role="button" name="participants" id="inputParticipants" required="required">
-                                <option th:each="user : ${users}" th:value="${user.getId()}"
-                                        th:text="|${user.firstName} ${user.lastName}|"
-                                        th:attr="data-year=|${user.getGraduationYear()}|"
-                                        th:selected="${event != null} ? ${#lists.contains(event.participants, user)} : 'false'"
-                                        th:unless="${user.equals(currentUser)}"></option>
+                                <th:block th:if="${event != null}">
+                                    <option th:each="user : ${event.participants}" th:value="${user.getId()}"
+                                            th:text="${user.fullName}" selected="selected"></option>
+                                </th:block>
                             </select>
                         </div>
                     </div>
@@ -113,46 +112,58 @@
 
 <div th:replace="fragments :: footer"></div>
 <div th:replace="fragments :: bootstrap-script"></div>
-<script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var GWE_APP = {
+        contextPath: /*[[@{/}]]*/ '',
+        currentUserId: /*[[${currentUser.id}]]*/ 0,
+        currentUserYear: /*[[${currentUser.graduationYear}]]*/ 0
+    };
+
     $(function () {
         $('#inputDate').datetimepicker({
             locale: 'de'
         });
 
         $('.year-button').click(function (e) {
-            var year = $(e.target).text();
-            $.ajax({
-                url: '/api/year/' + year
-            }).then(function (data) {
-                console.dir(data);
-
-                var inputParticipants = $('#inputParticipants');
-                inputParticipants.find('option').not(':selected').remove();
-
-                data.forEach(function (user) {
-                    inputParticipants.append($('<option></option>', {
-                        value: user.id,
-                        text: user.fullName
-                    }))
-                });
-
-                inputParticipants.selectpicker('refresh');
-            });
+            loadYear($(e.target).text());
         });
 
         $('#clearSelection').click(function () {
             $('#inputParticipants').selectpicker('deselectAll');
         })
+
+        loadYear(GWE_APP.currentUserYear)
     });
 
-    function selectYear(select, year) {
-        for (var i = document.getElementById(select).options.length; i-- > 0;) {
-            if (document.getElementById(select).options[i].dataset.year == year || year == 'all') {
-                document.getElementById(select).options[i].selected = true;
-            }
-        }
-        $('#inputParticipants').selectpicker('refresh');
+    function loadYear(year) {
+        $.ajax({
+            url: '/api/year/' + year
+        }).then(function (data) {
+            console.dir(data);
+
+            var inputParticipants = $('#inputParticipants');
+            inputParticipants.find('option').not(':selected').remove();
+
+            var selectedUsers = inputParticipants.find('option').map(function () {
+                return this.value;
+            });
+
+            data.forEach(function (user) {
+                if (user.id == GWE_APP.currentUserId ||
+                    (selectedUsers.length > 0 && selectedUsers.contains(user.id)))
+                    return;
+
+                inputParticipants.append($('<option></option>', {
+                    value: user.id,
+                    text: user.fullName
+                }))
+            });
+
+            inputParticipants.selectpicker('refresh');
+        });
     }
+    /*]]>*/
 </script>
 </body>
 
