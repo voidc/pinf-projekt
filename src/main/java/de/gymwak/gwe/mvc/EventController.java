@@ -7,14 +7,12 @@ import de.gymwak.gwe.model.GWEEventEdit;
 import de.gymwak.gwe.model.GWEUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -24,6 +22,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeSet;
 
 @Controller
@@ -59,6 +58,12 @@ public class EventController {
         return mav;
     }
 
+    @RequestMapping(value = "/api/year/{year}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<GWEUser> apiGetYear(@PathVariable int year) {
+        return userRepository.findByGraduationYear(year);
+    }
+
     @RequestMapping(value = "/event/new", method = RequestMethod.POST)
     public String createEvent(@Valid GWEEvent event,
                               @RequestParam(value = "dateString", required = true) String date, RedirectAttributes rAttr) {
@@ -80,12 +85,13 @@ public class EventController {
         }
 
         eventRepository.save(event);
+
+
         return "redirect:/event/" + event.getId();
     }
 
     @RequestMapping(value = "/event/{eventId}/delete", method = RequestMethod.POST)
-    public String deleteEvent(
-            @PathVariable long eventId) {
+    public String deleteEvent(@PathVariable long eventId) {
         GWEEvent event = (GWEEvent) eventRepository.findOne(eventId);
         if (event == null) {
             return "redirect:/error?type=noSearchResults";
@@ -102,8 +108,7 @@ public class EventController {
     }
 
     @RequestMapping(value = "/event/{eventId}", method = RequestMethod.GET)
-    public ModelAndView event(
-            @PathVariable long eventId) {
+    public ModelAndView event(@PathVariable long eventId) {
         GWEEvent event = (GWEEvent) eventRepository.findOne(eventId);
         if (event == null) {
             return new ModelAndView("redirect:/error?type=noSearchResults");
@@ -129,8 +134,7 @@ public class EventController {
     }
 
     @RequestMapping(value = "/event/{eventId}/edit", method = RequestMethod.GET)
-    public ModelAndView getEdit(
-            @PathVariable int eventId) {
+    public ModelAndView getEdit(@PathVariable int eventId) {
         GWEEvent event = (GWEEvent) eventRepository.findOne((long) eventId);
         if (event == null) {
             return new ModelAndView("redirect:/error?type=noSearchResults");

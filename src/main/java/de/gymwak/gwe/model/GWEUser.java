@@ -1,5 +1,8 @@
 package de.gymwak.gwe.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.unbescape.html.HtmlEscape;
@@ -22,9 +25,11 @@ public class GWEUser implements Serializable {
     @Email(message = "Please provide a valid email address.")
     @NotEmpty(message = "Email is required.")
     @Column(unique = true, nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String email;
 
     @NotEmpty(message = "Password is required.")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @NotEmpty(message = "First name is required.")
@@ -34,6 +39,7 @@ public class GWEUser implements Serializable {
     private String lastName;
 
     @NotNull(message = "Graduation type is required.")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private GraduationType graduationType;
 
     @Min(1940)
@@ -41,16 +47,22 @@ public class GWEUser implements Serializable {
 
     @NotEmpty(message = "Occupation is required.")
     @Column(columnDefinition = "TEXT")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String occupation;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private int disciplines;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String resetToken;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Timestamp resetTokenIssued;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private boolean activated;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String activationToken;
 
     public GWEUser() {
