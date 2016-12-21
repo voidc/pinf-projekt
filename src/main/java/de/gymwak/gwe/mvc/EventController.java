@@ -58,14 +58,25 @@ public class EventController {
 
     @RequestMapping(value = "/event/new", method = RequestMethod.POST)
     public String createEvent(@Valid GWEEvent event,
-                              @RequestParam(value = "dateString", required = true) String date, RedirectAttributes rAttr) {
+                              @RequestParam(value = "dateString", required = true) String date,
+                              RedirectAttributes rAttr) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        GWEUser currentUser = userRepository.findByEmail(auth.getName());
+
+        if (!currentUser.isActivated() || event.getOrganizer() != currentUser) {
+            rAttr.addFlashAttribute("event", event);
+            rAttr.addFlashAttribute("date", date);
+            return "redirect:/event/new?error";
+        }
+
         Timestamp stamp = null;
         try {
             stamp = new Timestamp(new SimpleDateFormat("dd.MM.yyyy HH:mm").parse(date).getTime());
         } catch (ParseException e) {
         }
 
-        if (stamp.getTime() <= System.currentTimeMillis()) {
+        if (stamp == null || stamp.getTime() <= System.currentTimeMillis()) {
             rAttr.addFlashAttribute("event", event);
             rAttr.addFlashAttribute("date", date);
             return "redirect:/event/new?error=timePast";
@@ -78,8 +89,6 @@ public class EventController {
         }
 
         eventRepository.save(event);
-
-
         return "redirect:/event/" + event.getId();
     }
 
