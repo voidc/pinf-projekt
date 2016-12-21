@@ -5,7 +5,6 @@ import org.unbescape.html.HtmlEscape;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
@@ -18,7 +17,6 @@ public class GWEEvent implements Serializable {
     private Long id;
 
     @NotEmpty(message = "Name is required.")
-    @Column(unique = true, nullable = false)
     private String name;
 
     @NotNull()
