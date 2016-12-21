@@ -40,8 +40,7 @@ public class SecurityConfig
     }
 
     @Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth, UserDetailsService service,
-                                PasswordEncoder encoder) throws Exception {
+    public void configureGlobal(AuthenticationManagerBuilder auth, UserDetailsService service, PasswordEncoder encoder) throws Exception {
         auth.userDetailsService(service).passwordEncoder(encoder);
     }
 
