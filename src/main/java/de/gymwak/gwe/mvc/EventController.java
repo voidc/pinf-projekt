@@ -45,15 +45,7 @@ public class EventController {
     @RequestMapping(value = "/event/new", method = RequestMethod.GET)
     public ModelAndView newEvent() {
         ModelAndView mav = new ModelAndView("newevent");
-        Sort sort = new Sort("lastName", "firstName", "graduationYear", "graduationType", "occupation", "disciplines",
-                "id");
-        Iterable<GWEUser> allUsers = userRepository.findAll(sort);
-        mav.addObject("users", allUsers);
-
-        TreeSet<Integer> years = new TreeSet<Integer>();
-        for (GWEUser user : allUsers) {
-            years.add(user.getGraduationYear());
-        }
+        List<Integer> years = userRepository.findDistinctGraduationYears();
         mav.addObject("years", years);
         return mav;
     }
@@ -80,6 +72,7 @@ public class EventController {
         }
 
         event.setTime(stamp);
+
         if (event.hasParticipant(event.getOrganizer())) {
             event.getParticipants().remove(event.getOrganizer());
         }
