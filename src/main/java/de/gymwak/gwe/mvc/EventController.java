@@ -6,7 +6,6 @@ import de.gymwak.gwe.model.GWEEvent;
 import de.gymwak.gwe.model.GWEEventEdit;
 import de.gymwak.gwe.model.GWEUser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.core.Authentication;
@@ -23,7 +22,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.TreeSet;
 
 @Controller
 @EnableAsync
@@ -125,13 +123,13 @@ public class EventController {
                 new SimpleDateFormat("dd.MM.yyyy HH:mm").format(new Date(event.getTime().getTime())));
         mav.addObject("participant", event.hasParticipant(currentUser) || event.getOrganizer().equals(currentUser));
 
-        String participants = "";
+        StringBuilder participants = new StringBuilder();
         Iterator<GWEUser> i = event.getParticipants().iterator();
         while (i.hasNext()) {
             GWEUser user = i.next();
-            participants = participants + user.getFirstName() + " " + user.getLastName() + (i.hasNext() ? ", " : "");
+            participants.append(user.getFullName()).append(i.hasNext() ? ", " : "");
         }
-        mav.addObject("participants", participants);
+        mav.addObject("participants", participants.toString());
         return mav;
     }
 
@@ -151,20 +149,12 @@ public class EventController {
 
         ModelAndView mav = new ModelAndView("editevent");
 
-        Sort sort = new Sort("lastName", "firstName", "graduationYear", "graduationType", "occupation", "disciplines",
-                "id");
-        Iterable<GWEUser> allUsers = userRepository.findAll(sort);
-        mav.addObject("allUsers", allUsers);
-
-        TreeSet<Integer> years = new TreeSet<Integer>();
-        for (GWEUser user : allUsers) {
-            years.add(user.getGraduationYear());
-        }
+        List<Integer> years = userRepository.findDistinctGraduationYears();
         mav.addObject("years", years);
 
         mav.addObject("event", event);
-        mav.addObject("dateString",
-                new SimpleDateFormat("dd.MM.yyyy HH:mm").format(new Date(event.getTime().getTime())));
+        Date date = new Date(event.getTime().getTime());
+        mav.addObject("dateString", new SimpleDateFormat("dd.MM.yyyy HH:mm").format(date));
         return mav;
     }
 
@@ -183,7 +173,7 @@ public class EventController {
             return new ModelAndView("redirect:/error?type=noSearchResults");
         }
 
-        if (stamp.getTime() <= System.currentTimeMillis()) {
+        if (stamp == null || stamp.getTime() <= System.currentTimeMillis()) {
             ModelAndView mav = new ModelAndView("redirect:/event/" + eventId + "/edit?error=timePast");
             mav.addObject("event", event);
             mav.addObject("newDate", date);
@@ -195,7 +185,7 @@ public class EventController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         GWEUser currentUser = userRepository.findByEmail(auth.getName());
 
-        if (!event.getOrganizer().equals(currentUser)) {
+        if (!event.getOrganizer().equals(currentUser) || !currentUser.isActivated()) {
             return new ModelAndView("redirect:/event/" + event.getId());
         }
         if (edit.hasParticipant(edit.getOrganizer())) {

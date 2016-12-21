@@ -71,39 +71,24 @@
                     </div>
                     <div class="form-group">
                         <label for="inputParticipants" class="col-sm-2 control-label">Teilnehmer</label>
-                        <div class="col-sm-10">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-default" style="margin-bottom: 0px;"
-                                        onclick="clearSelection('inputParticipants')">
-                                    <span class="fa fa-times" aria-hidden="true"></span> Auswahl löschen
-                                </button>
-                            </div>
-                            <div class="btn-group">
-                                <button class="btn btn-default dropdown-toggle" type="button" id="selectGraduationYear"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
-                                        style="margin-bottom: 0px;">
-                                    <span class="fa fa-graduation-cap" aria-hidden="true"></span> Jahrgang auswählen
-                                    <span class="fa fa-caret-down" aria-hidden="true"></span>
-                                </button>
-                                <ul class="dropdown-menu dropdown-scroll">
-                                    <li>
-                                        <a href="javascript:void(0)" onclick="selectYear('inputParticipants','all')">Alle</a>
-                                    </li>
-                                    <li th:each="y : ${years}">
-                                        <a href="javascript:void(0)"
-                                           th:onclick="|selectYear('inputParticipants', '${y}')|" th:text="${y}"></a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <select style="height: 160px; margin-top: 8px;" class="form-control" multiple="multiple"
-                                    name="participants" id="inputParticipants" required="required">
-                                <option th:each="user : ${allUsers}" th:value="${user.getId()}"
-                                        th:text="|${user.firstName} ${user.lastName}|"
-                                        th:attr="data-year=|${user.getGraduationYear()}|"
-                                        th:selected="${event != null} ? ${#lists.contains(event.participants, user)} : 'false'"
-                                        th:unless="${user.equals(currentUser)}"></option>
+                        <div class="col-sm-2">
+                            <select class="form-control selectpicker" id="selectGraduationYear">
+                                <option th:each="y : ${years}" th:text="${y}" data-icon="fa fa-graduation-cap"
+                                        th:selected="${y == currentUser.graduationYear}">
+                                </option>
                             </select>
-                            <span class="help-block">Mit der Steuerung-Taste kannst du mehrere Teilnehmer auswählen.</span>
+                        </div>
+                        <div class="col-sm-6">
+                            <select class="form-control selectpicker" multiple="multiple" title="Keine"
+                                    name="participants" id="inputParticipants" required="required">
+                                <option th:each="user : ${event.participants}" th:value="${user.getId()}"
+                                        th:text="${user.fullName}" selected="selected"></option>
+                            </select>
+                        </div>
+                        <div class="btn-group col-sm-2">
+                            <button type="button" class="btn btn-default" id="clearSelection">
+                                <span class="fa fa-times" aria-hidden="true"></span> Auswahl löschen
+                            </button>
                         </div>
                     </div>
                     <div class="form-group">
@@ -124,8 +109,13 @@
                     <div th:class="|form-group ${newDate != null ? 'has-danger' : (event.isOver() ? 'has-warning' : '')}|">
                         <label for="inputDate" class="col-sm-2 control-label">Datum</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="inputDate" name="dateString" required="required"
-                                   th:value="${newDate != null} ? ${newDate} : ${dateString}"/>
+                            <div class="input-group date" id="inputDate">
+                                <input type="text" class="form-control" name="dateString" required="required"
+                                       th:value="${newDate != null} ? ${newDate} : ${dateString}"/>
+                                <span class="input-group-addon">
+                                    <span class="fa fa-calendar" aria-hidden="true"></span>
+                                </span>
+                            </div>
                             <span class="help-block" th:if="${event.isOver()}">Veranstaltung bereits vorbei.</span>
                         </div>
                     </div>
@@ -133,9 +123,7 @@
                 <div class="panel-footer">
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                            <button type="button"
-                                    th:onclick="${event.isOver()} ? |javascript:verifyTimeChange('${dateString}', 'inputDate')| : |document.forms['modifyEventData'].submit()|"
-                                    class="btn btn-success">Speichern
+                            <button type="button" id="submitButton" class="btn btn-success">Speichern
                             </button>
                             <a href="javascript:history.back()" class="btn btn-default">Abbrechen</a>
                         </div>
@@ -149,34 +137,68 @@
 
 <div th:replace="fragments :: footer"></div>
 <div th:replace="fragments :: bootstrap-script"></div>
-<script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var GWE_APP = {
+        contextPath: /*[[@{/}]]*/ '',
+        currentUserId: /*[[${currentUser.id}]]*/ 0,
+        currentUserYear: /*[[${currentUser.graduationYear}]]*/ 0,
+        dateString: /*[[${dateString}]]*/ '',
+        eventIsOver: /*[[${event.isOver()}]]*/ false
+    };
+
     $(function () {
         $('#inputDate').datetimepicker({
             locale: 'de'
         });
-    });
-    function changeValue(id, value) {
-        document.getElementById(id).value = value;
-    }
-    function verifyTimeChange(timeString, inputName) {
-        if (timeString != document.getElementById(inputName).value) {
-            $('#time-modal').modal('show');
-        } else {
-            document.forms['modifyEventData'].submit();
-        }
-    }
-    function clearSelection(select) {
-        for (var i = document.getElementById(select).options.length; i-- > 0;) {
-            document.getElementById(select).options[i].selected = false;
-        }
-    }
-    function selectYear(select, year) {
-        for (var i = document.getElementById(select).options.length; i-- > 0;) {
-            if (document.getElementById(select).options[i].dataset.year == year || year == 'all') {
-                document.getElementById(select).options[i].selected = true;
+
+        $('#selectGraduationYear').change(function (e) {
+            var year = $(e.target).find('option:selected').text();
+            loadYear(year);
+        });
+
+        $('#clearSelection').click(function () {
+            $('#inputParticipants').selectpicker('deselectAll');
+        });
+
+        $('#submitButton').click(function (e) {
+            if (GWE_APP.eventIsOver && GWE_APP.dateString != $('#inputDate').val()) {
+                $('#time-modal').modal('show');
+            } else {
+                $('#modifyEventData').submit()
             }
-        }
+        });
+
+        loadYear(GWE_APP.currentUserYear)
+    });
+
+    function loadYear(year) {
+        $.ajax({
+            url: '/api/year/' + year
+        }).then(function (data) {
+
+            var inputParticipants = $('#inputParticipants');
+            inputParticipants.find('option').not(':selected').remove();
+
+            var selectedUsers = inputParticipants.find('option').map(function () {
+                return Number(this.value);
+            }).get();
+
+            data.forEach(function (user) {
+                if (user.id == GWE_APP.currentUserId ||
+                    (selectedUsers.length > 0 && selectedUsers.indexOf(user.id) != -1))
+                    return;
+
+                inputParticipants.append($('<option></option>', {
+                    value: user.id,
+                    text: user.fullName
+                }))
+            });
+
+            inputParticipants.selectpicker('refresh');
+        });
     }
+    /*]]>*/
 </script>
 </body>
 
