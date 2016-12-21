@@ -11,10 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.TreeSet;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 @Controller
 @RequestMapping("/search")
@@ -61,14 +60,8 @@ public class SearchController {
             }
         }
 
-        Iterable<GWEUser> allUsers = userRepository.findAll(s);
-
-        TreeSet<Integer> years = new TreeSet<Integer>();
-        for (GWEUser user : allUsers) {
-            years.add(user.getGraduationYear());
-        }
-
-        Stream<GWEUser> users = StreamSupport.stream(allUsers.spliterator(), false);
+        Stream<GWEUser> users = userRepository.streamAllSorted(s);
+        List<Integer> years = userRepository.findDistinctGraduationYears();
 
         if (disc != null && !disc.isEmpty()) {
             try {

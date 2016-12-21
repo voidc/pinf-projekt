@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 public interface GWERepository extends PagingAndSortingRepository<GWEUser, Long> {
     GWEUser findByEmail(String email);
@@ -16,6 +17,9 @@ public interface GWERepository extends PagingAndSortingRepository<GWEUser, Long>
 
     @Query("select distinct u.graduationYear from GWEUser u order by u.graduationYear")
     List<Integer> findDistinctGraduationYears();
+
+    @Query("select u from GWEUser u")
+    Stream<GWEUser> streamAllSorted(Sort sort);
 
     GWEUser findByActivationToken(String token);
 
