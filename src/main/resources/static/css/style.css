@@ -96,6 +96,8 @@ body {
 }
 
 .footer {
+    position: absolute;
+    width: 100%;
     display: table-row;
     vertical-align: middle;
     box-sizing: border-box;
@@ -168,6 +170,14 @@ body {
     background-color: #cdcdcd;
 }
 
+.footer-left {
+    float: left;
+}
+
+.footer-right {
+    float: right;
+}
+
 .panel {
     border-radius: 0px;
 }
@@ -178,10 +188,21 @@ body {
 }
 
 .panel-signin {
-    max-width: 330px;
+    width: 330px;
     padding: 15px;
-    margin: 0 auto;
+    margin: 0px auto 50px;
     background: inherit;
+    box-shadow: none;
+}
+
+.panel-badge {
+    width: 330px;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    margin: 0 auto 10px;
+    padding: 0px 15px; color: #ffffff;
+    text-align: center;
+    background: rgba(80,80,80,0.75);
     box-shadow: none;
 }
 
@@ -239,6 +260,24 @@ body {
     background-color: #eeeeee;
 }
 
+.large-text {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 0;
+}
+
+.large-text td.short {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.large-text td.large {
+    overflow-wrap: break-word;
+}
+
 .dropdown-menu > li > button {
     width: 100%;
     text-align: left;
@@ -288,6 +327,13 @@ body {
     display: none;
 }
 
+.background-login {
+    position: absolute;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
 @media all {
     .logo,
     .logo-login {
@@ -307,7 +353,7 @@ body {
     .page-header {
         padding-bottom: 9px;
         margin: 0 0 0;
-        border-bottom: 1px solid #eee;
+        border: none;
     }
 }
 
@@ -331,7 +377,7 @@ body {
     .page-header {
         padding-bottom: 9px;
         margin: 40px 0 20px;
-        border-bottom: 1px solid #eee;
+        border: none;
     }
 }
 
@@ -346,5 +392,31 @@ body {
 
     .dropdown-menu .divider {
         margin-left: 10px;
+    }
+}
+
+@media all and (max-width: 600px) {
+    .footer-left {
+        margin-bottom: 0!important;
+        float: none!important;
+        text-align: center;
+    }
+
+    .footer-left:after {
+        content: '';
+        display: inline-block;
+        width: 100%;
+    }
+
+    .footer-right {
+        margin-top: 0!important;
+        float: none!important;
+        text-align: justify;
+    }
+
+    .footer-right:after {
+        content: '';
+        display: inline-block;
+        width: 100%;
     }
 }
