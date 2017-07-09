@@ -66,7 +66,7 @@
     <div th:if="${currentUser} and ${banner != null}" class="alert fade in"
          th:classappend="'alert-' + ${banner.color.desc} + (${banner.dismissible} ? ' alert-dismissible' : '')"
          role="alert">
-        <button th:if="${banner.dismissible}" id="bannerClose" type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <button th:if="${banner.dismissible}" id="closeBanner" type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
         <span th:utext="${banner.getFormattedContent()}"></span>
@@ -205,9 +205,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
     <!-- requires jQuery, therefore down here -->
     <script type="text/javascript">
-        $("#bannerClose").click(function(){
+        $("#closeBanner").click(function(){
             $.ajax({
-                url : 'admin/bannerClose',
+                url : 'admin/closeBanner',
                 method : 'GET',
                 async : true,
                 complete : function(data) {

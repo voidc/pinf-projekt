@@ -5,6 +5,39 @@
 
 <body>
 
+<div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="Löschung bestätigen">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Neue E-Mail</h4>
+            </div>
+            <div class="modal-body">
+                <p>Das Löschen eines Nutzers kann <b>nicht</b> rückgängig gemacht werden. Bitte überprüfen Sie Ihre Eingaben
+                    und fahren Sie nur fort, wenn Sie sich absolut sicher sind, dass der Nutzer aus dem System entfernt werden soll.</p>
+                <div>
+                    <b class="col-xs-3">Vorname</b><span id="delete-modal-firstName">Vorname</span>
+                </div>
+                <div>
+                    <b class="col-xs-3">Nachname</b><span id="delete-modal-lastName">Nachname</span>
+                </div>
+                <div>
+                    <b class="col-xs-3">Abschlussjahr</b><span id="delete-modal-gradYear">0</span>
+                </div>
+                <br />
+                <p>Möchten Sie fortfahren?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+                <button type="submit" onclick="javascript:document.forms['deleteUser'].submit();"
+                        class="btn btn-danger">Nutzer löschen
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="content-wrap">
     <div class="container">
         <div th:replace="fragments :: header"></div>
@@ -114,8 +147,65 @@
                 <div class="panel-footer">
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                            <button name="update" type="submit" class="btn btn-warning">Banner aktualisieren</button>
-                            <button name="delete" type="submit" class="btn btn-danger" formnovalidate="formnovalidate">Banner entfernen</button>
+                            <button name="updateBanner" type="submit" class="btn btn-warning">Banner aktualisieren</button>
+                            <button name="deleteBanner" type="submit" class="btn btn-danger" formnovalidate="formnovalidate">Banner entfernen</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="seperator"></div>
+            <form class="form-horizontal form-signup" id="deleteUser" th:action="@{/admin}" method="post">
+                <div class="panel-body">
+                    <h4>Nutzer löschen</h4>
+                    <div class="seperator"></div>
+                    <div class="alert alert-danger alert-dismissible fade in"
+                         th:if="${(param.delete != null) and (param.delete[0] == 'error')}" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <strong>Nutzer konnte nicht gelöscht werden. Die Eingaben ergaben keinen Treffer.</strong>
+                    </div>
+                    <div class="alert alert-success alert-dismissible fade in"
+                         th:if="${(param.delete != null) and (param.delete[0] == 'success')}" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <strong>Nutzer wurde gelöscht.</strong>
+                    </div>
+                    <p>Diese Funktion sollte nur verwendet werden, wenn kein Zweifel besteht, dass der Nutzer keinen
+                        Zugang zur Seite haben darf oder ausdrücklich die Löschung seiner Daten veranlasst hat (siehe
+                        <a th:href="@{/impressum#datenschutz}">Datenschutz</a>). Die Löschung eines Nutzers kann nicht
+                        rückgängig gemacht werden.</p>
+                    <p>Durch das Löschen werden alle Informationen und alle durch den Nutzer erstellten Veranstaltungen
+                        gelöscht.</p>
+                    <div class="form-group">
+                        <label for="firstName" class="col-sm-4 control-label">Vorname</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="firstName" id="firstName" placeholder="Vorname"
+                                   class="form-control" required="required"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="firstName" class="col-sm-4 control-label">Nachname</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="lastName" id="lastName" placeholder="Nachname"
+                                   class="form-control" required="required"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="firstName" class="col-sm-4 control-label">Abbschlussjahr</label>
+                        <div class="col-sm-4">
+                            <input type="number" name="gradYear" id="gradYear" placeholder="Abschlussjahr"
+                                   class="form-control" required="required"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button onclick="javascript:confirmDelete();"
+                                    type="button" class="btn btn-danger">Nutzer löschen</button>
+                            <input type="hidden" name="deleteUser" />
                         </div>
                     </div>
                 </div>
@@ -127,13 +217,25 @@
 <div th:replace="fragments :: footer"></div>
 <div th:replace="fragments :: bootstrap-script"></div>
 <script type="text/javascript">
+    // <![CDATA[
+    function confirmDelete() {
+        var firstName =  $('#firstName').val();
+        var lastName =  $('#lastName').val();
+        var gradYear =  $('#gradYear').val();
+        if (firstName != '' && lastName != '' && gradYear != '') {
+            $('#delete-modal').modal('show');
+            $('#delete-modal-firstName').text(firstName);
+            $('#delete-modal-lastName').text(lastName);
+            $('#delete-modal-gradYear').text(gradYear);
+        }
+    }
     $(document).ready(function() {
         document.getElementById('inputBannerTextRemaining').textContent = document.getElementById('inputBannerText').getAttribute('maxlength');
     });
     function countBannerText(textarea) {
         document.getElementById('inputBannerTextRemaining').textContent = (textarea.getAttribute('maxlength') - textarea.value.length);
     }
-    $("#delete").click(function(){
+    $("#delete").click(function() {
         $.ajax({
             url : 'admin/removeBanner',
             method : 'GET',
@@ -143,6 +245,7 @@
             }
         });
     });
+    // ]]>
 </script>
 </body>
 
