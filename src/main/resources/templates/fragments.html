@@ -2,21 +2,21 @@
 <html lang="de" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head th:fragment="head (title)">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta charset="UTF-8" />
     <title th:text="${title}">Title</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
     <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css"/>
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css" />
     <!-- Font Awesome Symbols -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
     <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css"/>
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" />
     <!-- Für Test Zwecke -->
     <!-- link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flat-ui/2.2.2/css/flat-ui.min.css" /-->
-    <link rel="stylesheet" th:href="@{/css/style.css}"/>
-    <link rel="icon" th:href="@{/img/favicon.png}" type="image/png"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="icon" th:href="@{/img/favicon.png}" type="image/png" />
     <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 
@@ -63,6 +63,15 @@
         </div>
     </div>
 
+    <div th:if="${currentUser} and ${banner != null}" class="alert fade in"
+         th:classappend="'alert-' + ${banner.color.desc} + (${banner.dismissible} ? ' alert-dismissible' : '')"
+         role="alert">
+        <button th:if="${banner.dismissible}" id="bannerClose" type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <span th:utext="${banner.content}"></span>
+    </div>
+
     <div class="alert alert-info" role="alert" th:if="${status}">
         <p th:text="${status}">Status</p>
     </div>
@@ -80,11 +89,11 @@
             </button>
             <div class="navbar-left navbar-brand">
                 <a th:href="@{/}">
-                    <img title="Gymnasium Waldkraiburg" th:src="@{/img/logo-notext-transparent-sq-46px.png}"/>
+                    <img title="Gymnasium Waldkraiburg" th:src="@{/img/logo-notext-transparent-sq-46px.png}" />
                 </a>
             </div>
             <div class="pull-left navbar-heading navbar-height">
-                <h5>Ehemalige<br/>
+                <h5>Ehemalige<br />
                     <small>des Gymnasiums Waldkraiburg</small>
                 </h5>
             </div>
@@ -92,6 +101,12 @@
 
         <div class="collapse navbar-collapse" id="navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
+                <li th:if="${currentUser.admin}">
+                    <a th:href="@{/admin}">
+                        <span style="font-size: 1.2em; color: green;" class="fa fa-key" aria-hidden="true" aria-label="Admin"
+                              title="Admin"></span>
+                    </a>
+                </li>
                 <li>
                     <a th:href="@{/overview}">
                         <span style="font-size: 1.34em;" class="fa fa-home" aria-hidden="true" aria-label="Übersicht"
@@ -126,7 +141,7 @@
             </ul>
             <form class="navbar-form navbar-right" role="search" th:action="@{/search}" method="get">
                 <div class="input-group" role="group">
-                    <input class="form-control" type="search" name="q" placeholder="Nutzersuche..."/>
+                    <input class="form-control" type="search" name="q" placeholder="Nutzersuche..." />
                     <span class="input-group-btn">
                             <button type="submit" class="btn btn-default"><span class="fa fa-search"
                                                                                 aria-hidden="true"></span></button>
@@ -139,18 +154,18 @@
 
 <div class="page-header row" th:fragment="header-default">
     <div class="logo">
-        <a th:href="@{/}"><img title="Gymnasium Waldkraiburg" th:src="@{/img/logo-transparent-sq-120px.png}"/></a>
+        <a th:href="@{/}"><img title="Gymnasium Waldkraiburg" th:src="@{/img/logo-transparent-sq-120px.png}" /></a>
     </div>
-    <h1 class="logo-text col-md-10">Ehemalige<br/>
+    <h1 class="logo-text col-md-10">Ehemalige<br />
         <small>des Gymnasiums Waldkraiburg</small>
     </h1>
 </div>
 
 <div class="page-header row" th:fragment="header-login">
     <div class="col-md-offset-3 logo-login col-md-2">
-        <a th:href="@{/}"><img title="Gymnasium Waldkraiburg" th:src="@{/img/logo-transparent-sq-120px.png}"/></a>
+        <a th:href="@{/}"><img title="Gymnasium Waldkraiburg" th:src="@{/img/logo-transparent-sq-120px.png}" /></a>
     </div>
-    <h1 class="logo-text col-md-7">Ehemalige<br/>
+    <h1 class="logo-text col-md-7">Ehemalige<br />
         <small style="color: #333;">des Gymnasiums Waldkraiburg</small>
     </h1>
 </div>
@@ -179,7 +194,7 @@
 </footer>
 <!-- END Footer -->
 
-<!-- Bootstrap JS -->
+<!-- Bootstrap JS Fragments-Script -->
 <th:block th:fragment="bootstrap-script">
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
@@ -188,6 +203,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment-with-locales.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/js/bootstrap-datetimepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
+    <!-- requires jQuery, therefore down here -->
+    <script type="text/javascript">
+        $("#bannerClose").click(function(){
+            $.ajax({
+                url : 'admin/bannerClose',
+                method : 'GET',
+                async : true,
+                complete : function(data) {
+                    console.log(data.responseText);
+                }
+            });
+        });
+    </script>
 </th:block>
 <!-- END Bootstrap JS -->
 </body>

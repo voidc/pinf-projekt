@@ -88,10 +88,7 @@
                             </label>
                         </div>
                     </div>
-                    <div class="panel-body" id="no-events" style="display: none;">
-                        <p class="text-center lead text-muted" style="margin-top: 5%;">Keine Veranstaltungen</p>
-                    </div>
-                    <ul class="list-group list-scroll" id="events">
+                    <ul class="list-group list-scroll" id="events" style="margin-bottom: 0px;">
                         <li th:each="event : ${events}"
                             th:class="|list-group-item link ${event.isOver() ? 'event-overtime' : ''}|"
                             th:onclick="|window.location='@{/event/{id}(id=${event.id})}'|"
@@ -155,6 +152,9 @@
                             </table>
                         </li>
                     </ul>
+                    <div class="panel-body" id="no-events" style="display: block; margin-bottom: 20px;">
+                        <p class="text-center lead text-muted" style="margin-top: 5%;">Keine Veranstaltungen</p>
+                    </div>
                     <!-- END Veranstaltungen -->
                 </div>
                 <div class="col-sm-6">

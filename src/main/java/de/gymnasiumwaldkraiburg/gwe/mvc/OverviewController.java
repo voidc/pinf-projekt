@@ -2,6 +2,7 @@ package de.gymnasiumwaldkraiburg.gwe.mvc;
 
 import de.gymnasiumwaldkraiburg.gwe.data.GWEEventRepository;
 import de.gymnasiumwaldkraiburg.gwe.data.GWERepository;
+import de.gymnasiumwaldkraiburg.gwe.model.GWEEvent;
 import de.gymnasiumwaldkraiburg.gwe.model.GWEUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -11,6 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 @Controller
 public class OverviewController {
@@ -40,7 +44,11 @@ public class OverviewController {
                 .findByGraduationYearAndGraduationTypeAndIdNot(currentUser.getGraduationYear(),
                         currentUser.getGraduationType(), currentUser.getId(), sort));
 
-        mav.addObject("events", eventRepository.findAll());
+        Stream<GWEEvent> events = StreamSupport.stream(eventRepository.findAll().spliterator(), false)
+                .filter(e -> e.hasParticipant(currentUser) || e.getOrganizer().equals(currentUser));
+
+        mav.addObject("events", (Iterable<GWEEvent>) events::iterator);
+        mav.addObject("admin", currentUser.isAdmin());
         return mav;
     }
 }

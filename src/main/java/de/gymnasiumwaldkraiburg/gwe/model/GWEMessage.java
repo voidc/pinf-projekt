@@ -15,6 +15,8 @@ public class GWEMessage implements Serializable {
     @NotEmpty(message = "Text is required.")
     private String content;
 
+    private String subject = "";
+
     public GWEMessage() {
     }
 
@@ -52,6 +54,14 @@ public class GWEMessage implements Serializable {
 
     public void setRecipientsYear(int recipientsGraduationYear) {
         this.recipientsYear = recipientsGraduationYear;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
     private static final long serialVersionUID = -7772217675815839488L;

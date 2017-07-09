@@ -2,7 +2,7 @@
 <html lang="de" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <style>
         /*!
          * Bootstrap v3.3.7 (http://getbootstrap.com)
@@ -121,30 +121,37 @@
             background-color: #fff;
             border-color: #ccc;
         }
+
+
     </style>
 </head>
 
-<body style="display: table; width: 100%; background-color: #eee;">
-    <div style="font-family: Helvetica,Arial,sans-serif; font-size: 14px; line-height: 1.42857143; color: #333; margin-left: auto; margin-right: auto; padding-left: 10px; padding-right: 10px;">
-        <div class="navbar navbar-default no-border-radius" th:fragment="navbar">
-            <div class="container-fluid">
-                <div class="navbar-header navbar-height">
-                    <div class="navbar-left navbar-brand">
-                        <img style="width: 46px; height: 46px;" title="Gymnasium Waldkraiburg" th:src="${imgUrl}"/>
-                    </div>
-                    <div class="pull-left navbar-heading navbar-height">
-                        <h5 style="font-size: 14px; margin-top: 10px; margin-bottom: 10px; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; box-sizing: border-box;">Ehemalige<br/>
-                            <small style="font-weight: 400; line-height: 1; color: #777; box-sizing: border-box;">des Gymnasiums Waldkraiburg</small>
-                        </h5>
-                    </div>
+<body style="display: table; background-color: #eee;">
+<div style="font-family: Helvetica,Arial,sans-serif; font-size: 14px; line-height: 1.42857143; color: #333; margin-left: auto; margin-right: auto; padding-left: 10px; padding-right: 10px;">
+    <div class="navbar navbar-default no-border-radius" th:fragment="navbar">
+        <div class="container-fluid">
+            <div class="navbar-header navbar-height">
+                <div class="navbar-left navbar-brand">
+                    <img style="width: 46px; height: 46px;" title="Gymnasium Waldkraiburg" th:src="${imgUrl}" />
+                </div>
+                <div class="pull-left navbar-heading navbar-height">
+                    <h5 style="font-size: 14px; margin-top: 10px; margin-bottom: 10px; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; box-sizing: border-box;">
+                        Ehemalige<br />
+                        <small style="font-weight: 400; line-height: 1; color: #777; box-sizing: border-box;">des
+                            Gymnasiums Waldkraiburg
+                        </small>
+                    </h5>
                 </div>
             </div>
         </div>
-        <div style="box-sizing: border-box; display: block; margin-top: 40px; margin-bottom: 40px; padding: 8px; background-color: #ffffff;">
+    </div>
+    <div style="box-sizing: border-box; display: block; margin-top: 40px; margin-bottom: 40px; padding: 8px; background-color: #ffffff;">
+        <div th:if="${usermail == true}">
             <p>
                 Hallo<span th:if="${recipient != null}"> <i th:text="${recipient}">Recipient</i></span>,
-                <br/>
-                <i th:text="${sender}">Sender</i> hat <span th:text="${recipientYear == true} ? 'Ihrem Jahrgang' : 'Ihnen'">Ihnen</span>
+                <br />
+                <i th:text="${sender}">Sender</i> hat
+                <span th:text="${recipientYear == true} ? 'Ihrem Jahrgang' : 'Ihnen'">Ihnen</span>
                 über das Ehemaligen-Portal des Gymnsiums Waldkraiburg <span
                     th:text="${event != null} ? 'in Bezug auf deine Teilnahme an der Veranstaltung ' + ${event.name} : ''"></span>
                 eine Nachricht gesendet:
@@ -157,19 +164,32 @@
             </p>
             <a class="btn btn-default" th:href="${replyUrl}">Antworten</a>
         </div>
-        <p style="text-align: center; margin-bottom: 0;">
-            <small>
-                &copy; Gymnasium Waldkraiburg
-            </small>
-        </p>
-        <!--
-        <p style="text-align: center; margin-top: 0;">
-            <small>
-                Sie können dem Erhalt dieser Nachrichten jederzeit widersprechen, indem Sie Ihren Account auf <a th:href="${settingsUrl}">hier</a> löschen.
-            </small>
-        </p>
-        -->
+        <div th:unless="${usermail == true}">
+            <p th:text="${message}">
+                Es scheint, es sei ein Fehler in unserer E-Mail-Verarbeitung aufgetreten, der bewirkt hat, dass Sie diese automatisch
+                generierte E-Mail erhalten haben.
+                <br />
+                Dafür möchten wir uns entschuldigen.
+                <br />
+                <br />
+                Damit Sie in Zukunft nicht mehr unnötige E-Mails erhalten, bitten wir Sie, dies
+                <a th:href="${feedbackUrl}">hier</a> zu melden. Vielen Dank.
+            </p>
+        </div>
     </div>
+    <p style="text-align: center; margin-bottom: 0;">
+        <small>
+            &copy; Gymnasium Waldkraiburg
+        </small>
+    </p>
+    <!--
+    <p style="text-align: center; margin-top: 0;">
+        <small>
+            Sie können dem Erhalt dieser Nachrichten jederzeit widersprechen, indem Sie Ihren Account auf <a th:href="${settingsUrl}">hier</a> löschen.
+        </small>
+    </p>
+    -->
+</div>
 </body>
 
 </html>

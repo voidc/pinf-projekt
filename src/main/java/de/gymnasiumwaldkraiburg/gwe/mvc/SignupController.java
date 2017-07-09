@@ -75,6 +75,8 @@ public class SignupController {
 
         user.setPassword(encoder.encode(user.getPassword()));
         user.setActivated(false);
+        user.setAdmin(false);
+        user.setBannerDismissed(false);
         user = userRepository.save(user);
 
         mailService.sendActivationMail(user);

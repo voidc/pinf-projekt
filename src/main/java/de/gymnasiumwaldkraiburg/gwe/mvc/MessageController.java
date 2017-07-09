@@ -20,7 +20,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -68,8 +70,8 @@ public class MessageController {
     }
 
     @RequestMapping(value = "/send", method = RequestMethod.POST)
-    public String sendMessage(
-            @Valid GWEMessage gweMessage) {
+    public String sendMessage(HttpServletRequest request,
+                                  @Valid GWEMessage gweMessage) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         GWEUser currentUser = userRepository.findByEmail(auth.getName());
 
@@ -89,6 +91,11 @@ public class MessageController {
         GWEEvent event = null;
         String recipientSalutation;
         boolean recipientYear = false;
+        boolean usermail = true;
+
+        String cuName = currentUser.getFirstName() + " " + currentUser.getLastName();
+        String subject = "Nachricht von " + cuName;
+
         if (gweMessage.getRecipientId() != -1) {
             GWEUser recipientUser = userRepository.findOne(gweMessage.getRecipientId());
             recipients = Collections.singletonList(recipientUser);
@@ -97,17 +104,27 @@ public class MessageController {
             recipients = userRepository.findByGraduationYear(gweMessage.getRecipientsYear());
             recipientSalutation = "Schüler";
             recipientYear = true;
-        } else {
+        } else if (gweMessage.getEventId() != -1) {
             event = (GWEEvent) eventRepository.findOne(gweMessage.getEventId());
             recipients = event.getParticipants();
             recipientSalutation = null;
+        } else {
+            recipients = new ArrayList<>();
+            userRepository.findAll().forEach(recipients::add);
+            recipientSalutation = null;
+            usermail = false;
+
+            if (gweMessage.getSubject() != null && gweMessage.getSubject().length() > 0) {
+                subject = gweMessage.getSubject();
+            }
         }
 
-        String cuName = currentUser.getFirstName() + " " + currentUser.getLastName();
         String replyUrl = String.format(gweAddress + "message?to=%d", currentUser.getId());
         String imgUrl = String.format(gweAddress + "img/logo-notext-transparent-sq-46px.png");
         String settingsUrl = String.format(gweAddress + "edit");
+        String feedbackUrl = String.format(gweAddress + "impressum#feedback");
         String messageContent = gweMessage.getContent().replace("\n", "<br/>");
+        String finalSubject = subject;
 
         Context ctx = new Context();
 
@@ -115,20 +132,24 @@ public class MessageController {
             ctx.setVariable("recipient", recipientSalutation);
             ctx.setVariable("event", event);
         }
+        ctx.setVariable("usermail", usermail);
         ctx.setVariable("recipientYear", recipientYear);
         ctx.setVariable("sender", cuName);
         ctx.setVariable("message", messageContent);
         ctx.setVariable("replyUrl", replyUrl);
         ctx.setVariable("imgUrl", imgUrl);
         ctx.setVariable("settingsUrl", settingsUrl);
+        ctx.setVariable("feedbackUrl", feedbackUrl);
         String html = templateEngine.process("email", ctx);
 
         mailService.sendMail(mime -> {
             MimeMessageHelper mail = new MimeMessageHelper(mime, true, "UTF-8");
-            mail.setSubject("Nachricht von " + cuName);
+            mail.setSubject(finalSubject);
             mail.setFrom(adminMail, "GWE");
-            for (GWEUser r : recipients) {
-                mail.addTo(r.getEmail());
+            if (recipients != null) {
+                for (GWEUser r : recipients) {
+                    mail.addTo(r.getEmail());
+                }
             }
             mail.setText(html, true);
         });
@@ -139,6 +160,8 @@ public class MessageController {
             return "redirect:/search?year=" + gweMessage.getRecipientsYear();
         } else if (gweMessage.getEventId() != -1) {
             return "redirect:/event/" + gweMessage.getEventId();
+        } else if (usermail == false) {
+            return "redirect:" + request.getHeader("Referer") + "?email=success";
         } else {
             return "redirect:/search";
         }

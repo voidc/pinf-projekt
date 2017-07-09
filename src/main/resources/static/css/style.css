@@ -114,6 +114,12 @@ body {
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
+.alert-default {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+
 .alert-caution {
     border-color: #FFAC00;
     padding: 0;
@@ -382,6 +388,10 @@ body {
 }
 
 @media (max-width: 768px) {
+    .navbar-nav>li>a {
+        text
+    }
+
     .navbar-nav .open .dropdown-menu {
         background-color: #f7f7f7;
     }

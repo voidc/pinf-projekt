@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="de" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: head ('Admin')"></head>
+
+<body>
+
+<div class="content-wrap">
+    <div class="container">
+        <div th:replace="fragments :: header"></div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">Admin</div>
+            <form class="form-horizontal" th:action="@{/send}" method="post">
+                <div id="user-settings" class="panel-body">
+                    <div class="alert alert-danger alert-dismissible fade in"
+                         th:if="${(param.error != null) and (param.error[0] == '') and (param.action == null)}"
+                         role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <strong>Senden fehlgeschlagen</strong>
+                    </div>
+                    <div class="alert alert-success alert-dismissible fade in"
+                         th:if="${(param.email != null) and (param.email[0] == 'success')}" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <strong>E-Mail wurde gesendet</strong>
+                    </div>
+                    <h4>E-Mail an alle Nutzer</h4>
+                    <div class="seperator"></div>
+                    <div class="form-group">
+                        <label for="inputSubject" class="col-sm-2 control-label">Betreff</label>
+                        <div class="col-sm-10">
+                            <input id="inputSubject" class="form-control" name="subject" rows="10"
+                                   required="required" style="resize: none" value="[GWE] " />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail" class="col-sm-2 control-label">Nachricht</label>
+                        <div class="col-sm-10">
+                            <textarea id="inputEmail" class="form-control" name="content" rows="10"
+                                      required="required" style="resize: none"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-success" th:if="${currentUser.activated}">Senden
+                            </button>
+                            <a href="javascript:void(0)" class="btn btn-success" role="button"
+                               th:unless="${currentUser.activated}"
+                               tabindex="0" data-toggle="popover" data-trigger="focus"
+                               data-content="Aktivierung hierfür erforderlich!">
+                                Senden
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="seperator"></div>
+            <form class="form-horizontal form-signup" id="banner" th:action="@{/admin}" method="post">
+                <div class="panel-body">
+                    <h4>Banner</h4>
+                    <div class="seperator"></div>
+                    <p>Das Banner ist für alle Nutzer auf jeder Seite oben sichtbar. Es kann nur ein Banner gleichzeitig
+                        existieren, um die Seite übersichtlich zu halten.</p>
+                    <div th:if="${banner != null}">
+                        <p>Derzeitige Darstellung:</p>
+                        <div class="alert fade in"
+                             th:classappend="'alert-' + ${color} + (${dismissible} ? ' alert-dismissible' : '')"
+                             role="alert">
+                            <button th:if="${dismissible}" type="button" class="close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <span th:utext="${content}"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputBannerText" class="col-sm-2 control-label">Bannertext</label>
+                        <div class="col-sm-10">
+                            <textarea id="inputBannerText" class="form-control" name="content" rows="5"
+                                      required="required" maxlength="500"
+                                      onkeyup="countBannerText(this)" style="resize: none"
+                                      th:utext="${content != null} ? ${content}"></textarea>
+                            <p class="help-block"><span id="inputBannerTextRemaining">500</span> Zeichen verbleibend.
+                            <br />
+                            Es kann auch HTML-Formatierung verwendet werden.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="color" class="col-sm-2 control-label">Farbe</label>
+                        <div id="color" class="col-sm-4 btn-group" data-toggle="buttons" required="true">
+                            <label th:each="c : ${colors}" class="btn"
+                                   th:classappend="(${color != null and c.desc == color} ? 'active ' : (${color == null and c.desc == 'default'} ? 'active ' : '')) + 'btn-' + ${c.desc}"
+                                   style="width: 38px; height: 34px;">
+                                <input style="position: relative" type="radio" name="color" th:id="${c.desc}" th:value="${c.name()}" autocomplete="off"
+                                       th:checked="${color != null and c.desc == color} ? checked : (${c.desc == 'default'} ? checked)" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label class="col-sm-offset-2">
+                                <input name="dismissible" type="checkbox"
+                                       th:checked="${dismissible == null} ? checked : (${dismissible} ? checked)" /> Banner lässt sich schließen
+                            </label>
+                            <p class="col-sm-offset-2 help-block" style="padding-left: 20px;">Banner sollten sich in der Regel schließen lassen,
+                                damit sie nicht auf Dauer stören</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button name="update" type="submit" class="btn btn-warning">Banner aktualisieren</button>
+                            <button name="delete" type="submit" class="btn btn-danger" formnovalidate="formnovalidate">Banner entfernen</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments :: footer"></div>
+<div th:replace="fragments :: bootstrap-script"></div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        document.getElementById('inputBannerTextRemaining').textContent = document.getElementById('inputBannerText').getAttribute('maxlength');
+    });
+    function countBannerText(textarea) {
+        document.getElementById('inputBannerTextRemaining').textContent = (textarea.getAttribute('maxlength') - textarea.value.length);
+    }
+    $("#delete").click(function(){
+        $.ajax({
+            url : 'admin/removeBanner',
+            method : 'GET',
+            async : false,
+            complete : function(data) {
+                console.log(data.responseText);
+            }
+        });
+    });
+</script>
+</body>
+
+</html>

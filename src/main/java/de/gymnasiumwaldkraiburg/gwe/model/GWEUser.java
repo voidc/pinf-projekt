@@ -63,6 +63,12 @@ public class GWEUser implements Serializable {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String activationToken;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private boolean admin;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private boolean bannerDismissed;
+
     public GWEUser() {
     }
 
@@ -77,6 +83,8 @@ public class GWEUser implements Serializable {
         this.occupation = user.occupation;
         this.disciplines = user.disciplines;
         this.activated = user.activated;
+        this.admin = user.admin;
+        this.bannerDismissed = user.bannerDismissed;
     }
 
     public void applyUserEdit(GWEUserEdit edit) {
@@ -232,6 +240,14 @@ public class GWEUser implements Serializable {
     public void setActivationToken(String activationToken) {
         this.activationToken = activationToken;
     }
+
+    public boolean isAdmin() { return admin; }
+
+    public void setAdmin(boolean admin) { this.admin = admin; }
+
+    public boolean isBannerDismissed() { return bannerDismissed; }
+
+    public void setBannerDismissed(boolean bannerDismissed) { this.bannerDismissed = bannerDismissed; }
 
     @Override
     public boolean equals(Object obj) {
