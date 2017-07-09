@@ -69,7 +69,7 @@
         <button th:if="${banner.dismissible}" id="bannerClose" type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
-        <span th:utext="${banner.content}"></span>
+        <span th:utext="${banner.getFormattedContent()}"></span>
     </div>
 
     <div class="alert alert-info" role="alert" th:if="${status}">

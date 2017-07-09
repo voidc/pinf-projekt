@@ -47,6 +47,10 @@ public class GWEBanner implements Serializable {
         return content;
     }
 
+    public String getFormattedContent() {
+        return getContent().replace("\n", "<br />");
+    }
+
     public void setContent(String content) {
         this.content = content;
     }

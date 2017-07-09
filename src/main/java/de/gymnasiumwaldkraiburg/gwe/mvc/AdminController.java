@@ -38,9 +38,7 @@ public class AdminController {
             if (bannerRepository.count() > 0) {
                 GWEBanner banner = bannerRepository.findAll().iterator().next();
 
-                mav.addObject("content", banner.getContent().replace("\n", "<br />"));
-                mav.addObject("color", banner.getColor().desc);
-                mav.addObject("dismissible", banner.isDismissible());
+                mav.addObject("sampleBanner", banner);
             }
 
             return mav;

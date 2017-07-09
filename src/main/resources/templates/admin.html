@@ -66,15 +66,15 @@
                     <div class="seperator"></div>
                     <p>Das Banner ist für alle Nutzer auf jeder Seite oben sichtbar. Es kann nur ein Banner gleichzeitig
                         existieren, um die Seite übersichtlich zu halten.</p>
-                    <div th:if="${banner != null}">
+                    <div th:if="${sampleBanner != null}">
                         <p>Derzeitige Darstellung:</p>
                         <div class="alert fade in"
-                             th:classappend="'alert-' + ${color} + (${dismissible} ? ' alert-dismissible' : '')"
+                             th:classappend="'alert-' + ${sampleBanner.color.desc} + (${sampleBanner.dismissible} ? ' alert-dismissible' : '')"
                              role="alert">
-                            <button th:if="${dismissible}" type="button" class="close">
+                            <button th:if="${sampleBanner.dismissible}" type="button" class="close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <span th:utext="${content}"></span>
+                            <span th:utext="${sampleBanner.getFormattedContent()}"></span>
                         </div>
                     </div>
                     <div class="form-group">
