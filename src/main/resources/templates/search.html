@@ -92,21 +92,27 @@
                     <h4 class="list-group-item-heading" th:text="${user.getFullName()}">Benutzer</h4>
                     <ul class="list-group-item-text list-unstyled">
                         <li>
-                            <span class="fa fa-graduation-cap text-muted" aria-hidden="true"
-                                  title="Abschlussjahr"></span>
-                            <span class="sr-only">Abschlussjahr:</span>
-                            <span th:text="| ${user.graduationYear}|">year</span>
-                            <span class="text-muted" th:text="| (${user.graduationType.desc})|">gradType</span>
+                            <div>
+                                <span class="fa fa-graduation-cap text-muted" aria-hidden="true"
+                                      title="Abschlussjahr"></span>
+                                <span class="sr-only">Abschlussjahr:</span>
+                                <span th:text="| ${user.graduationYear}|">year</span>
+                                <span class="text-muted" th:text="| (${user.graduationType.desc})|">gradType</span>
+                            </div>
                         </li>
                         <li>
-                            <span class="fa fa-briefcase text-muted" aria-hidden="true" title="Beschäftigung"></span>
-                            <span class="sr-only">Beschäftigung:</span>
-                            <span th:text="| ${user.getShortOccupation()}|">occu</span>
+                            <div>
+                                <span class="fa fa-briefcase text-muted" aria-hidden="true" title="Beschäftigung"></span>
+                                <span class="sr-only">Beschäftigung:</span>
+                                <span class="short" th:text="| ${user.getShortOccupation()}|">occu</span>
+                            </div>
                         </li>
                         <li>
-                            <span class="fa fa-book text-muted" aria-hidden="true" title="Fachgebiete"></span>
-                            <span class="sr-only">Fachgebiet:</span>
-                            <span th:text="| ${user.getDisciplinesAsString()}">occu</span>
+                            <div>
+                                <span class="fa fa-book text-muted" aria-hidden="true" title="Fachgebiete"></span>
+                                <span class="sr-only">Fachgebiet:</span>
+                                <span th:text="| ${user.getDisciplinesAsString()}">occu</span>
+                            </div>
                         </li>
                     </ul>
                 </a>

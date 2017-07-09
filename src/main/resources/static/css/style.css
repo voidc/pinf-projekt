@@ -62,8 +62,15 @@ body {
     background-color: #f5f5f5
 }
 
+.list-group-item-text > li > div {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .list-group-item-text > li > .fa, .list-group-item-text > p > .fa,
-.list-group-item-text > tbody > tr > .fa, .list-group-item-text > tbody > tr > td > .fa {
+.list-group-item-text > tbody > tr > .fa, .list-group-item-text > tbody > tr > td > .fa,
+ .list-group-item-text > li > div > .fa {
     width: 20px;
     padding-right: 5px;
     text-align: center;
@@ -274,14 +281,16 @@ body {
     border: 0;
 }
 
-.large-text td.short {
+.large-text td.short, .large-text p.short {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-height: 95px;
 }
 
 .large-text td.large {
     overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 .dropdown-menu > li > button {

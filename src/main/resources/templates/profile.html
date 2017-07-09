@@ -26,9 +26,11 @@
                                                                                                   th:text="| (${user.graduationType.desc})|">GWEUser.graduationType</span>
                     </td>
                 </tr>
-                <tr>
+                <tr class="large-text">
                     <td>Beschäftigung</td>
-                    <td th:text="${user.occupation}">GWEUser.occupation</td>
+                    <td class="large">
+                        <p class="large" th:utext="${user.getFullOccupation()}">GWEUser.occupation</p>
+                    </td>
                 </tr>
             </table>
             <div class="panel-footer">

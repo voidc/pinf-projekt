@@ -39,7 +39,9 @@
                                     <table class="large-text">
                                         <tbody>
                                             <tr>
-                                                <td id="textOccupation" class="short" th:utext="${currentUser.getFullOccupation()}"></td>
+                                                <td id="containerOccupation" class="short">
+                                                    <p id="textOccupation" class="short" th:utext="${currentUser.getFullOccupation()}"></p>
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -322,6 +324,7 @@
     $('#buttonExpandOccupation').on('click', function () {
         document.getElementById("buttonExpandOccupationColumn").style["display"] = 'none';
         document.getElementById("textOccupation").className = "large";
+        document.getElementById("containerOccupation").className = "large";
     })
     /*]]>*/
 </script>
