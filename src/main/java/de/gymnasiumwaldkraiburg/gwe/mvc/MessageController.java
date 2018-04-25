@@ -62,12 +62,7 @@ public class MessageController {
             GWEEvent event = (GWEEvent) eventRepository.findOne(eventId);
             mav.addObject("event", event);
         } else {
-            try{
             long recipientId = Long.parseLong(to);
-            }
-            catch (NumberFormatException nfe) {
-                System.out.println("NumberFormatException: " + nfe.getMessage());
-            }
             GWEUser recipient = userRepository.findOne(recipientId);
             mav.addObject("recipient", recipient);
         }
