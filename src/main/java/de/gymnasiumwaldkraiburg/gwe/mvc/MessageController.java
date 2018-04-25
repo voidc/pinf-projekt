@@ -1,4 +1,4 @@
-﻿package de.gymnasiumwaldkraiburg.gwe.mvc;
+package de.gymnasiumwaldkraiburg.gwe.mvc;
 
 import de.gymnasiumwaldkraiburg.gwe.data.GWEEventRepository;
 import de.gymnasiumwaldkraiburg.gwe.data.GWERepository;
@@ -166,5 +166,4 @@ public class MessageController {
             return "redirect:/search";
         }
     }
-
 }
