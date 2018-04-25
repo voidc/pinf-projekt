@@ -1,4 +1,4 @@
-package de.gymnasiumwaldkraiburg.gwe.mvc;
+﻿package de.gymnasiumwaldkraiburg.gwe.mvc;
 
 import de.gymnasiumwaldkraiburg.gwe.data.GWEEventRepository;
 import de.gymnasiumwaldkraiburg.gwe.data.GWERepository;
@@ -61,8 +61,13 @@ public class MessageController {
             long eventId = Long.parseLong(to.substring(5));
             GWEEvent event = (GWEEvent) eventRepository.findOne(eventId);
             mav.addObject("event", event);
-        } else {
+        } else{
+	try{
             long recipientId = Long.parseLong(to);
+	}
+	catch (NumberFormatException nfe){
+		System.out.println("Nuber Format Exception: "+nfe.getMessage());
+	}
             GWEUser recipient = userRepository.findOne(recipientId);
             mav.addObject("recipient", recipient);
         }
