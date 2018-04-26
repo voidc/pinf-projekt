@@ -31,6 +31,7 @@ import java.util.List;
 public class MessageController {
     private GWERepository userRepository;
     private GWEEventRepository eventRepository;
+    private GWEEvent event;
     private GWEUser currentUser, recipient, recipientUser;
     private AsyncMailService mailService;
     private TemplateEngine templateEngine;
