@@ -58,9 +58,14 @@ public class MessageController {
         if (to.startsWith("year")) {
             mav.addObject("year", to.substring(4));
         } else if (to.startsWith("event")) {
-            long eventId = Long.parseLong(to.substring(5));
-            GWEEvent event = (GWEEvent) eventRepository.findOne(eventId);
-            mav.addObject("event", event);
+            try{ 
+            long recipientId = Long.parseLong(to); 
+            GWEUser recipient = userRepository.findOne(recipientId); 
+            mav.addObject("recipient", recipient); 
+            } 
+            catch (NumberFormatException nfe) { 
+                System.out.println("NumberFormatException: " + nfe.getMessage()); 
+            }             
         } else {
             long recipientId = Long.parseLong(to);
             GWEUser recipient = userRepository.findOne(recipientId);
