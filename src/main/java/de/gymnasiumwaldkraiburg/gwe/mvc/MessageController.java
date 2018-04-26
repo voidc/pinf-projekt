@@ -107,7 +107,7 @@ public class MessageController {
             recipientSalutation = recipientUser.getFirstName() + " " + recipientUser.getLastName();
         } else if (gweMessage.getRecipientsYear() != -1) {
             recipients = userRepository.findByGraduationYear(gweMessage.getRecipientsYear());
-            recipientSalutation = "Schüler";
+            recipientSalutation = recipientUser.getFirstName();
             recipientYear = true;
         } else if (gweMessage.getEventId() != -1) {
             event = (GWEEvent) eventRepository.findOne(gweMessage.getEventId());
