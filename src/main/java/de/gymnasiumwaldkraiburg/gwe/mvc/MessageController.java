@@ -59,14 +59,9 @@ public class MessageController {
         if (to.startsWith("year")) {
             mav.addObject("year", to.substring(4));
         } else if (to.startsWith("event")) {
-            try{ 
             long recipientId = Long.parseLong(to); 
             recipient = userRepository.findOne(recipientId); 
-            mav.addObject("recipient", recipient); 
-            } 
-            catch (NumberFormatException nfe) { 
-                System.out.println("NumberFormatException: " + nfe.getMessage()); 
-            }             
+            mav.addObject("recipient", recipient);              
         } else {
             long recipientId = Long.parseLong(to);
             recipient = userRepository.findOne(recipientId);
