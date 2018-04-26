@@ -31,6 +31,7 @@ import java.util.List;
 public class MessageController {
     private GWERepository userRepository;
     private GWEEventRepository eventRepository;
+    private GWEUser currentUser, recipient, recipientUser;
     private AsyncMailService mailService;
     private TemplateEngine templateEngine;
 
@@ -60,7 +61,7 @@ public class MessageController {
         } else if (to.startsWith("event")) {
             try{ 
             long recipientId = Long.parseLong(to); 
-            GWEUser recipient = userRepository.findOne(recipientId); 
+            recipient = userRepository.findOne(recipientId); 
             mav.addObject("recipient", recipient); 
             } 
             catch (NumberFormatException nfe) { 
@@ -68,7 +69,7 @@ public class MessageController {
             }             
         } else {
             long recipientId = Long.parseLong(to);
-            GWEUser recipient = userRepository.findOne(recipientId);
+            recipient = userRepository.findOne(recipientId);
             mav.addObject("recipient", recipient);
         }
         return mav;
@@ -78,7 +79,7 @@ public class MessageController {
     public String sendMessage(HttpServletRequest request,
                                   @Valid GWEMessage gweMessage) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        GWEUser currentUser = userRepository.findByEmail(auth.getName());
+        currentUser = userRepository.findByEmail(auth.getName());
 
         if (!currentUser.isActivated()) {
             if (gweMessage.getRecipientId() != -1) {
@@ -102,7 +103,7 @@ public class MessageController {
         String subject = "Nachricht von " + cuName;
 
         if (gweMessage.getRecipientId() != -1) {
-            GWEUser recipientUser = userRepository.findOne(gweMessage.getRecipientId());
+            recipientUser = userRepository.findOne(gweMessage.getRecipientId());
             recipients = Collections.singletonList(recipientUser);
             recipientSalutation = recipientUser.getFirstName() + " " + recipientUser.getLastName();
         } else if (gweMessage.getRecipientsYear() != -1) {
