@@ -134,7 +134,7 @@ public class GWEEvent implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        return ((obj != null) && (obj instanceof GWEEvent) && (((GWEEvent) obj).id == this.id);
+        return ((obj != null) && (obj instanceof GWEEvent) && (((GWEEvent) obj).id == this.id));
     }
 
     private static final long serialVersionUID = -3514681042696071509L;
