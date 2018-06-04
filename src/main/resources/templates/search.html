@@ -14,12 +14,14 @@
             </div>
             <form class="panel-body" role="search" th:action="@{/search}" method="get">
                 <div class="input-group" role="group">
-                    <input class="form-control" type="search" name="q" placeholder="Nutzersuche..."
+                    <input class="form-control" type="search" name="q" placeholder="Nutzersuche...(Lupe für alle)"
                            th:value="${query}"/>
                     <span class="input-group-btn">
-                            <button type="submit" class="btn btn-default"><span class="fa fa-search"
-                                                                                aria-hidden="true"></span></button>
-                        </span>
+                            <button type="submit" class="btn btn-default">
+                                <span class="fa fa-search" aria-hidden="true">
+                                </span>
+                            </button>
+                    </span>
                 </div>
             </form>
             <ul class="nav nav-pills">
